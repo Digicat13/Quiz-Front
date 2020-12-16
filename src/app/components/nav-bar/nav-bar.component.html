@@ -1,0 +1,25 @@
+<nav class="mat-elevation-z6">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <a routerLink="home-page" class="mat-raised-button">
+        <span class="mat-button-wrapper">Tests</span>
+      </a>
+      <a routerLink="" class="mat-raised-button">
+        <span class="mat-button-wrapper">Create test</span>
+      </a>
+      <a routerLink="" class="mat-raised-button">
+        <span class="mat-button-wrapper">Edit test</span>
+      </a>
+      <span class="spacer"></span>
+      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</nav>
