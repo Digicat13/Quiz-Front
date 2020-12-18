@@ -1,0 +1,19 @@
+<form [formGroup]="createTestForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Test name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Set test time limit</mat-label>
+    <input matInput formControlName="testTimeLimit" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Set question time limit</mat-label>
+    <input matInput formControlName="questionTimeLimit" />
+  </mat-form-field>
+</form>
+<a routerLink="add-question" mat-raised-button color="primary">Go to questions</a>

@@ -1,0 +1,29 @@
+mat-form-field {
+  width: 100%;
+}
+
+.question-form {
+  padding: 2%;
+  margin: 3%;
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+.answers {
+  display: flex;
+  flex-wrap: wrap;
+
+  .answer-form {
+    margin: 5vh 1vw;
+  }
+}
+
+mat-checkbox {
+  font-size: 80%;
+}
+
+.delete-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
