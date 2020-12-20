@@ -1,6 +1,6 @@
 <form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
   <div formArrayName="questions">
-    <div *ngFor="let q of questions; let i = index" class="question-form">
+    <div *ngFor="let q of questions.groups; let i = index" class="question-form">
       <div>
         <form [formGroupName]="i">
           <p>{{i+'.'}}</p>
@@ -13,7 +13,7 @@
           </div>
           <mat-form-field>
             <mat-label>Question</mat-label>
-            <input matInput formControlName="questionText" />
+            <input matInput formControlName="i.questionText" />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Hint</mat-label>
@@ -21,9 +21,9 @@
           </mat-form-field>
 
           <div class="answers">
-            <div *ngFor="let answer of q['answers']" class="answer-form">
+            <div *ngFor="let answer of q['answers']; let z=index;" class="answer-form">
               <mat-card>
-                <form [formGroup]="addAnswerForm">
+                <form [formGroupName]="z">
                   <div class="delete-button-wrapper">
                     <button mat-icon-button class="delete-button" type="button">
                       <mat-icon (click)="onDeleteAnswer(q, answer)" color="warn"

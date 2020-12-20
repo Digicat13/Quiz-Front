@@ -11,13 +11,32 @@ import { MessageDialogComponent } from '../message-dialog/message-dialog.compone
   styleUrls: ['./add-question.component.scss'],
 })
 export class AddQuestionComponent implements OnInit {
-  questions: IQuestion[] = [
-    {
-      questionText: '',
-      hintText: '',
-      answers: [{ answerText: '', isCorrect: false }],
-    },
-  ];
+  // questions: IQuestion[] = [
+  //   {
+  //     questionText: '',
+  //     hintText: '',
+  //     answers: [{ answerText: '', isCorrect: false }],
+  //   },
+  // ];
+
+  get questions(): FormArray { return this.questionsForm.get('questions') as FormArray; }
+
+
+  
+  questionsForm = new FormGroup({
+    question: new FormArray([
+      new FormGroup({
+        questionText: new FormControl(),
+        hint: new FormControl(),
+        answers: new FormArray([
+          new FormGroup({
+            answerText: new FormControl(),
+            isCorrect: new FormControl(),
+          }),
+        ]),
+      }),
+    ]),
+  });
 
   constructor(public dialog: MatDialog) {}
 
