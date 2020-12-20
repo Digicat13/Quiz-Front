@@ -1,56 +1,60 @@
-<div *ngFor="let question of questions" class="question-form">
-  <div>
-    <form [formGroup]="addQuestionForm">
-      <div class="delete-button-wrapper">
-        <button mat-icon-button type="button">
-          <mat-icon (click)="DeleteQuestion(question)" color="warn"
-            >cancel</mat-icon
-          >
-        </button>
-      </div>
-      <mat-form-field>
-        <mat-label>Question</mat-label>
-        <input matInput formControlName="questionText" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Hint</mat-label>
-        <input matInput formControlName="hint" />
-      </mat-form-field>
-
-      <div class="answers">
-        <div *ngFor="let answer of question['answers']" class="answer-form">
-          <mat-card>
-            <form [formGroup]="addAnswerForm">
-              <div class="delete-button-wrapper">
-                <button mat-icon-button class="delete-button" type="button">
-                  <mat-icon
-                    (click)="DeleteAnswer(question, answer)"
-                    color="warn"
-                    >cancel</mat-icon
-                  >
-                </button>
-              </div>
-              <mat-form-field>
-                <mat-label>Answer</mat-label>
-                <input matInput formControlName="answerText" />
-              </mat-form-field>
-              <mat-checkbox formControlName="isCorrect"
-                >Is correct</mat-checkbox
+<form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="questions">
+    <div *ngFor="let q of questions; let i = index" class="question-form">
+      <div>
+        <form [formGroupName]="i">
+          <p>{{i+'.'}}</p>
+          <div class="delete-button-wrapper">
+            <button mat-icon-button type="button">
+              <mat-icon (click)="onDeleteQuestion(q)" color="warn"
+                >cancel</mat-icon
               >
-            </form>
-          </mat-card>
-        </div>
-      </div>
+            </button>
+          </div>
+          <mat-form-field>
+            <mat-label>Question</mat-label>
+            <input matInput formControlName="questionText" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Hint</mat-label>
+            <input matInput formControlName="hint" />
+          </mat-form-field>
 
-      <button (click)="AddAnswer(question)" mat-raised-button color="primary">
-        <span>+ answ</span>
-      </button>
-    </form>
+          <div class="answers">
+            <div *ngFor="let answer of q['answers']" class="answer-form">
+              <mat-card>
+                <form [formGroup]="addAnswerForm">
+                  <div class="delete-button-wrapper">
+                    <button mat-icon-button class="delete-button" type="button">
+                      <mat-icon (click)="onDeleteAnswer(q, answer)" color="warn"
+                        >cancel</mat-icon
+                      >
+                    </button>
+                  </div>
+                  <mat-form-field>
+                    <mat-label>Answer</mat-label>
+                    <input matInput formControlName="answerText" />
+                  </mat-form-field>
+                  <mat-checkbox formControlName="isCorrect"
+                    >Is correct</mat-checkbox
+                  >
+                </form>
+              </mat-card>
+            </div>
+          </div>
+          <button (click)="onAddAnswer(q)" mat-raised-button color="primary">
+            <span>+ answ</span>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-<button (click)="AddQuestion()" mat-raised-button color="primary">
-  <span>+ question</span>
-</button>
-<button (click)="AddQuestion()" mat-raised-button color="primary">
-  <span>+ question</span>
-</button>
+  <div class="add-button-wrapper">
+    <button (click)="onAddQuestion()" mat-raised-button color="primary">
+      <span>+ q</span>
+    </button>
+    <button (click)="onSubmit()" mat-raised-button color="primary">
+      <span>Next</span>
+    </button>
+  </div>
+</form>

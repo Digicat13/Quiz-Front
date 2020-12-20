@@ -41,7 +41,7 @@ export class AddQuestionComponent implements OnInit {
     });
   }
 
-  AddQuestion(): void {
+  onAddQuestion(): void {
     this.questions.push({
       questionText: '',
       hintText: '',
@@ -49,11 +49,11 @@ export class AddQuestionComponent implements OnInit {
     });
   }
 
-  AddAnswer(question: IQuestion): void {
+  onAddAnswer(question: IQuestion): void {
     question.answers.push({ answerText: '', isCorrect: false });
   }
 
-  DeleteAnswer(question: IQuestion, answer: IAnswer): void {
+  onDeleteAnswer(question: IQuestion, answer: IAnswer): void {
     if (question.answers.length === 1) {
       this.openDialog();
       return;
@@ -66,7 +66,7 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  DeleteQuestion(question: IQuestion): void {
+  onDeleteQuestion(question: IQuestion): void {
     if (this.questions.length === 1) {
       this.openDialog();
       return;
@@ -77,5 +77,22 @@ export class AddQuestionComponent implements OnInit {
     } else {
       alert('Filed to delete question');
     }
+  }
+
+  onSubmit(): void {
+    const questions: IQuestion[] = [];
+    for (let i = 0; i < this.questions.length; i++) {
+      questions.push({
+        questionText: this.addQuestionForm.get('questionText').value,
+        hintText: this.addQuestionForm.get('hint').value,
+        answers: this.addQuestionForm.get('answers').value,
+        //         id?: string;
+        // testId?: string;
+        // questionText: string;
+        // hintText?: string;
+        // answers: Array<IAnswer>;
+      });
+    }
+    console.log(this.questions);
   }
 }
