@@ -34,13 +34,13 @@ export class CreateTestPageComponent implements OnInit {
 
   onStepOne(test: ITest, stepper: MatStepper): void {
     this.test = test;
-    console.log(this.test);
     stepper.next();
   }
 
   onStepTwo(questions: IQuestion[], stepper: MatStepper): void {
     this.test.questions = questions;
-    console.log(this.test);
     stepper.next();
   }
+
+  onSubmit(): void {}
 }

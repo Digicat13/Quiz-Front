@@ -17,7 +17,7 @@
     <div>
       <app-test-overview [test]="test"></app-test-overview>
       <button matStepperPrevious mat-raised-button color="primary">Back</button>
-      <button (click)="stepper.reset()" mat-raised-button color="primary">Reset</button>
+      <button (click)="onSubmit()" mat-raised-button color="primary">Submit</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
