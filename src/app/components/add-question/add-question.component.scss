@@ -22,15 +22,15 @@ mat-checkbox {
   font-size: 80%;
 }
 
-.delete-button-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .add-button-wrapper {
+  display: inline;
   margin: 3%;
   button + button {
     margin-left: 3%;
   }
+}
+
+.card-header{
+  display: flex;
+  justify-content: space-between;
 }

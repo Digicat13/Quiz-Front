@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
+import { ITest } from 'src/app/models/test';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 
 @Component({
@@ -11,44 +11,18 @@ import { MessageDialogComponent } from '../message-dialog/message-dialog.compone
   styleUrls: ['./add-question.component.scss'],
 })
 export class AddQuestionComponent implements OnInit {
-  // questions: IQuestion[] = [
-  //   {
-  //     questionText: '',
-  //     hintText: '',
-  //     answers: [{ answerText: '', isCorrect: false }],
-  //   },
-  // ];
+  @Input() test: ITest;
+  @Output() questionsSubmit = new EventEmitter<ITest>();
 
-  get questions(): FormArray { return this.questionsForm.get('questions') as FormArray; }
-
-
-  
-  questionsForm = new FormGroup({
-    question: new FormArray([
-      new FormGroup({
-        questionText: new FormControl(),
-        hint: new FormControl(),
-        answers: new FormArray([
-          new FormGroup({
-            answerText: new FormControl(),
-            isCorrect: new FormControl(),
-          }),
-        ]),
-      }),
-    ]),
-  });
+  questions: IQuestion[] = [
+    {
+      questionText: '',
+      hintText: '',
+      answers: [{ answerText: '', isCorrect: false }],
+    },
+  ];
 
   constructor(public dialog: MatDialog) {}
-
-  addQuestionForm = new FormGroup({
-    questionText: new FormControl(),
-    hint: new FormControl(),
-  });
-
-  addAnswerForm = new FormGroup({
-    answerText: new FormControl(),
-    isCorrect: new FormControl(),
-  });
 
   ngOnInit(): void {}
 
@@ -99,19 +73,14 @@ export class AddQuestionComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const questions: IQuestion[] = [];
-    for (let i = 0; i < this.questions.length; i++) {
-      questions.push({
-        questionText: this.addQuestionForm.get('questionText').value,
-        hintText: this.addQuestionForm.get('hint').value,
-        answers: this.addQuestionForm.get('answers').value,
-        //         id?: string;
-        // testId?: string;
-        // questionText: string;
-        // hintText?: string;
-        // answers: Array<IAnswer>;
-      });
-    }
+    this.questions.forEach((q) => {
+      if (q.hintText.trim() === '') {
+        delete q.hintText;
+      }
+    });
+
+    this.test.questions = this.questions;
+    this.questionsSubmit.emit(this.test);
     console.log(this.questions);
   }
 }

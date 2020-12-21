@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ITest } from 'src/app/models/test';
 
 @Component({
   selector: 'app-create-test',
@@ -7,6 +8,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./create-test.component.scss'],
 })
 export class CreateTestComponent implements OnInit {
+  @Input() test: ITest;
+
   constructor() {}
 
   createTestForm = new FormGroup({

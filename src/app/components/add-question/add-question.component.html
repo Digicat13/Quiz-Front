@@ -1,60 +1,63 @@
-<form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
-  <div formArrayName="questions">
-    <div *ngFor="let q of questions.groups; let i = index" class="question-form">
-      <div>
-        <form [formGroupName]="i">
-          <p>{{i+'.'}}</p>
-          <div class="delete-button-wrapper">
-            <button mat-icon-button type="button">
-              <mat-icon (click)="onDeleteQuestion(q)" color="warn"
-                >cancel</mat-icon
-              >
-            </button>
-          </div>
-          <mat-form-field>
-            <mat-label>Question</mat-label>
-            <input matInput formControlName="i.questionText" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Hint</mat-label>
-            <input matInput formControlName="hint" />
-          </mat-form-field>
-
-          <div class="answers">
-            <div *ngFor="let answer of q['answers']; let z=index;" class="answer-form">
-              <mat-card>
-                <form [formGroupName]="z">
-                  <div class="delete-button-wrapper">
-                    <button mat-icon-button class="delete-button" type="button">
-                      <mat-icon (click)="onDeleteAnswer(q, answer)" color="warn"
-                        >cancel</mat-icon
-                      >
-                    </button>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Answer</mat-label>
-                    <input matInput formControlName="answerText" />
-                  </mat-form-field>
-                  <mat-checkbox formControlName="isCorrect"
-                    >Is correct</mat-checkbox
-                  >
-                </form>
-              </mat-card>
-            </div>
-          </div>
-          <button (click)="onAddAnswer(q)" mat-raised-button color="primary">
-            <span>+ answ</span>
-          </button>
-        </form>
+<div *ngFor="let question of questions; let i = index" class="question-form">
+  <div>
+    <div>
+      <div class="card-header">
+        <p>{{ i + 1 + "." }}</p>
+        <button mat-icon-button type="button">
+          <mat-icon (click)="onDeleteQuestion(question)" color="warn"
+            >cancel</mat-icon
+          >
+        </button>
       </div>
+      <mat-form-field>
+        <mat-label>Question</mat-label>
+        <input matInput [(ngModel)]="question['questionText']" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Hint</mat-label>
+        <input matInput [(ngModel)]="question['hintText']" />
+      </mat-form-field>
+
+      <div class="answers">
+        <div
+          *ngFor="let answer of question['answers']; let z = index"
+          class="answer-form"
+        >
+          <mat-card>
+            <div>
+              <div class="card-header">
+                <p>{{ z + 1 + "." }}</p>
+                <button mat-icon-button class="delete-button" type="button">
+                  <mat-icon
+                    (click)="onDeleteAnswer(question, answer)"
+                    color="warn"
+                    >cancel</mat-icon
+                  >
+                </button>
+              </div>
+              <mat-form-field>
+                <mat-label>Answer</mat-label>
+                <input matInput [(ngModel)]="answer['answerText']" />
+              </mat-form-field>
+              <mat-checkbox [(ngModel)]="answer['isCorrect']"
+                >Is correct</mat-checkbox
+              >
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <button (click)="onAddAnswer(question)" mat-raised-button color="primary">
+        <span>Add answer</span>
+      </button>
     </div>
   </div>
-  <div class="add-button-wrapper">
-    <button (click)="onAddQuestion()" mat-raised-button color="primary">
-      <span>+ q</span>
-    </button>
-    <button (click)="onSubmit()" mat-raised-button color="primary">
-      <span>Next</span>
-    </button>
-  </div>
-</form>
+</div>
+
+<div class="add-button-wrapper">
+  <button (click)="onAddQuestion()" mat-raised-button color="primary">
+    <span>Add question</span>
+  </button>
+  <button type="submit" (click)="onSubmit()" mat-raised-button color="primary">
+    <span>Submit</span>
+  </button>
+</div>

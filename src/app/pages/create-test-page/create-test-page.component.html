@@ -1,0 +1,28 @@
+<mat-horizontal-stepper linear #stepper>
+  <mat-step [completed]="isCompleted" [editable]="true">
+    <ng-template matStepLabel>Fill out test properties</ng-template>
+    <div>
+      <app-create-test [test]="test"></app-create-test>
+      <button matStepperNext mat-raised-button color="primary">
+        Next
+      </button>
+    </div>
+  </mat-step>
+  <mat-step [completed]="isCompleted" [editable]="true">
+    <ng-template matStepLabel>Add some question</ng-template>
+    <div>
+      <app-add-question [test]="test"></app-add-question>
+      <button matStepperPrevious mat-raised-button color="primary">Back</button>
+      <button matStepperNext mat-raised-button color="primary">Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Test overview</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <app-test-overview [test]="test"></app-test-overview>
+      <button matStepperPrevious mat-raised-button color="primary">Back</button>
+      <button (click)="stepper.reset()" mat-raised-button color="primary">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
