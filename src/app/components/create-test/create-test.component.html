@@ -1,18 +1,35 @@
 <form [formGroup]="createTestForm">
-  <mat-form-field appearance="outline">
-    <mat-label>Test name</mat-label>
-    <input matInput formControlName="name" />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Set test time limit</mat-label>
-    <input matInput formControlName="testTimeLimit" />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Set question time limit</mat-label>
-    <input matInput formControlName="questionTimeLimit" />
-  </mat-form-field>
+  <div class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Test name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="time-input">
+      <mat-label>Set test time limit</mat-label>
+      <input
+        matInput
+        type="number"
+        step="0.5"
+        formControlName="testTimeLimit"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="time-input">
+      <mat-label>Set question time limit</mat-label>
+      <input matInput type="number" formControlName="questionTimeLimit" />
+    </mat-form-field>
+  </div>
+  <div class="add-button-wrapper">
+    <button
+      type="submit"
+      (click)="onSubmit()"
+      mat-raised-button
+      color="primary"
+    >
+      <span>Next</span>
+    </button>
+  </div>
 </form>

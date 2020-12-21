@@ -1,1 +1,14 @@
-<p>test-overview works!</p>
+<div class="form">
+  <p>{{ test.name }}</p>
+  <p>{{ test.description }}</p>
+  <p>{{ test.testTimeLimit }}</p>
+  <p>{{ test.questionTimeLimit }}</p>
+  <div *ngFor="let question of test.questions">
+    <p>{{ question.questionText }}</p>
+    <p>{{ question.hintText }}</p>
+    <div *ngFor="let answer of question.answers">
+      <p>{{ answer.answerText }}</p>
+      <p>{{ answer.isCorrect }}</p>
+    </div>
+  </div>
+</div>

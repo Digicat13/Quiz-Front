@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
-import { ITest } from 'src/app/models/test';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 
 @Component({
@@ -11,8 +10,7 @@ import { MessageDialogComponent } from '../message-dialog/message-dialog.compone
   styleUrls: ['./add-question.component.scss'],
 })
 export class AddQuestionComponent implements OnInit {
-  @Input() test: ITest;
-  @Output() questionsSubmit = new EventEmitter<ITest>();
+  @Output() stepTwoSubmit = new EventEmitter<IQuestion[]>();
 
   questions: IQuestion[] = [
     {
@@ -74,13 +72,11 @@ export class AddQuestionComponent implements OnInit {
 
   onSubmit(): void {
     this.questions.forEach((q) => {
-      if (q.hintText.trim() === '') {
+      if (q?.hintText?.trim() === '') {
         delete q.hintText;
       }
     });
 
-    this.test.questions = this.questions;
-    this.questionsSubmit.emit(this.test);
-    console.log(this.questions);
+    this.stepTwoSubmit.emit(this.questions);
   }
 }
