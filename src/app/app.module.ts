@@ -25,6 +25,8 @@ import { AddQuestionComponent } from './components/add-question/add-question.com
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { TestOverviewComponent } from './components/test-overview/test-overview.component';
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
+import { LoginFormComponent } from './pages/login-page/login-form/login-form.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -51,6 +53,8 @@ const MaterialComponents = [
     MessageDialogComponent,
     TestOverviewComponent,
     CreateTestPageComponent,
+    LoginPageComponent,
+    LoginFormComponent,
   ],
   imports: [
     BrowserModule,
