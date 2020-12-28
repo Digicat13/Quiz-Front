@@ -1,0 +1,13 @@
+@import "~@angular/material/theming";
+$palette: mat-palette($mat-green);
+
+.form {
+  padding: 2%;
+  margin: 3%;
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+mat-checkbox {
+  font-size: smaller;
+}
