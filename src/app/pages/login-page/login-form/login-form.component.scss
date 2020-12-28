@@ -1,3 +1,5 @@
+@import "~@angular/material/theming";
+$warn-background: #ffe3e6;
 $login-background: #f6f2fc;
 $login-border: #e9e1f5;
 
@@ -29,16 +31,16 @@ $login-border: #e9e1f5;
 .wrapper {
   display: flex;
   justify-content: center;
-  justify-self: center;
+  align-items: flex-end;
   height: 100%;
   width: 100%;
   .main {
-    height: 55%;
+    height: 90%;
     width: 50%;
     display: flex;
     flex-direction: column;
 
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -50,5 +52,17 @@ $login-border: #e9e1f5;
 @media only screen and (max-width: 380px) {
   .sign-form {
     width: 240px;
+  }
+}
+
+.error-div {
+  background-color: $warn-background;
+  border-radius: 5px;
+  padding: 3px 25px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-size: smaller;
   }
 }
