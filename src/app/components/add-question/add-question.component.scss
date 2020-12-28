@@ -1,3 +1,5 @@
+@import "../../../styles.variables.scss";
+
 mat-form-field {
   width: 100%;
 }
@@ -34,3 +36,10 @@ mat-checkbox {
   display: flex;
   justify-content: space-between;
 }
+
+button:not(.mat-icon-button):hover {
+  color: inherit;
+  background-color: $amber;
+}  
+
+

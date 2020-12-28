@@ -1,7 +1,4 @@
-@import "~@angular/material/theming";
-$warn-background: #ffe3e6;
-$login-background: #f6f2fc;
-$login-border: #e9e1f5;
+@import "../../../../styles.variables.scss";
 
 .sign-form {
   width: 360px;

@@ -1,5 +1,4 @@
-@import "~@angular/material/theming";
-$palette: mat-palette($mat-amber);
+@import "../../../styles.variables.scss";
 
 nav {
   .spacer {
@@ -14,6 +13,6 @@ nav {
   button:hover,
   button:focus {
     color: inherit;
-    background-color: mat-color($palette);
+    background-color: $amber;
   }
 }
