@@ -40,27 +40,19 @@ export class AuthenticationService {
   }
 
   refreshToken(): Observable<IUser> {
-    return this.http
-      .post(
-        `${environment.apiUrl}/account/refresh`,
-        {}
-      )
-      .pipe(
-        map((user: IUser) => {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          this.startRefreshTokenTimer();
-          return user;
-        })
-      );
+    return this.http.post(`${environment.apiUrl}/account/refresh`, {}).pipe(
+      map((user: IUser) => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        this.startRefreshTokenTimer();
+        return user;
+      })
+    );
   }
 
   logout(): void {
     this.http
-      .post<any>(
-        `${environment.apiUrl}/account/signout`,
-        {}
-      )
+      .post<any>(`${environment.apiUrl}/account/signout`, {})
       .subscribe();
     localStorage.removeItem('currentUser');
     this.stopRefreshTokenTimer();
@@ -68,7 +60,7 @@ export class AuthenticationService {
     this.router.navigate(['/login-page']);
   }
 
-  private startRefreshTokenTimer() {
+  private startRefreshTokenTimer(): void {
     const jwtToken = JSON.parse(
       atob(this.currentUserValue.token.split('.')[1])
     );
@@ -80,7 +72,7 @@ export class AuthenticationService {
     );
   }
 
-  private stopRefreshTokenTimer() {
+  private stopRefreshTokenTimer(): void {
     clearTimeout(this.refreshTokenTimeout);
   }
 }

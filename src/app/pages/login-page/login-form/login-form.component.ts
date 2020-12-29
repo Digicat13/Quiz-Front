@@ -45,16 +45,16 @@ export class LoginFormComponent implements OnInit {
     this.authenticationService
       .login(this.form.username.value, this.form.password.value)
       .pipe(first())
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: () => {
           this.router.navigate([this.returnUrl]);
         },
-        (error) => {
-          if (error.status === 401) {
+        error: (error) => {
+          {
             this.error = error;
           }
-        }
-      );
+        },
+      });
   }
 
   closeError(): void {
