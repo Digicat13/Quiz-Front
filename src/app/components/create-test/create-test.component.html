@@ -1,33 +1,85 @@
 <form [formGroup]="createTestForm">
   <div class="form">
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Test name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
-    <mat-radio-group class="time-radio">
-      <mat-radio-button value="1" checked>No time limit</mat-radio-button>
-      <mat-radio-button value="2">Test time limit</mat-radio-button>
-      <mat-radio-button value="3">Question time limit</mat-radio-button>
+    <mat-radio-group formControlName="timeOption" class="time-radio">
+      <mat-radio-button checked>No time limit</mat-radio-button>
+      <mat-radio-button #radTestTime value="testTime"
+        >Test time limit</mat-radio-button
+      >
+      <mat-radio-button #radQuestionTime value="questionTime"
+        >Question time limit</mat-radio-button
+      >
     </mat-radio-group>
-    <div class="time-field">
+    <div
+      class="time-field"
+      *ngIf="radTestTime.checked"
+      formGroupName="testTimeLimit"
+    >
       <mat-form-field>
-        <input matInput type="number" formControlName="testTimeLimit" />
+        <input formControlName="hours" matInput type="number" />
         <span matSuffix>h</span>
       </mat-form-field>
       <span>:</span>
       <mat-form-field>
-        <input matInput type="number" formControlName="testTimeLimit" />
+        <input formControlName="minutes" matInput type="number" />
         <span matSuffix>m</span>
       </mat-form-field>
     </div>
-    <mat-form-field appearance="outline" class="time-input">
-      <mat-label>Set question time limit</mat-label>
-      <input matInput type="number" formControlName="questionTimeLimit" />
-    </mat-form-field>
+    <div
+      class="time-field"
+      *ngIf="radQuestionTime.checked"
+      formGroupName="questionTimeLimit"
+    >
+      <mat-form-field>
+        <input formControlName="minutes" matInput type="number" />
+        <span matSuffix>m</span>
+      </mat-form-field>
+      <span>:</span>
+      <mat-form-field>
+        <input formControlName="seconds" matInput type="number" />
+        <span matSuffix>s</span>
+      </mat-form-field>
+    </div>
+    <div class="error-div">
+      <div
+        *ngIf="
+          createTestForm?.controls?.testTimeLimit?.get('hours')?.errors?.pattern
+        "
+      >
+        <p>Hours must be in range from 0 to 9.</p>
+      </div>
+      <div
+        *ngIf="
+          createTestForm?.controls?.testTimeLimit?.get('minutes')?.errors
+            ?.pattern
+        "
+      >
+        <p>Minutes must be in range from 0 to 59.</p>
+      </div>
+      <div
+        *ngIf="
+          createTestForm?.controls?.questionTimeLimit?.get('minutes')?.errors
+            ?.pattern
+        "
+      >
+        <p>Minutes must be in range from 0 to 99.</p>
+      </div>
+      <div
+        *ngIf="
+          createTestForm?.controls?.questionTimeLimit?.get('seconds')?.errors
+            ?.pattern
+        "
+      >
+        <p>Seconds must be in range from 0 to 59.</p>
+      </div>
+    </div>
   </div>
   <div class="add-button-wrapper">
     <button

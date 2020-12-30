@@ -10,13 +10,20 @@
       <a routerLink="" class="mat-raised-button">
         <span class="mat-button-wrapper">Edit test</span>
       </a>
-      <div *ngIf="user">
-        <span>
-          {{ user.username }}
-        </span>
-        <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary" class="menu-btn">
-          <mat-icon>menu</mat-icon>
-        </button>
+      <div *ngIf="user" class="left-menu-wrapper">
+        <div>
+          <span>
+            {{ user.username }}
+          </span>
+          <button
+            mat-mini-fab
+            [matMenuTriggerFor]="menu"
+            color="primary"
+            class="menu-btn"
+          >
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
@@ -24,7 +31,7 @@
           </button>
         </mat-menu>
       </div>
-      <div *ngIf="!user">
+      <div *ngIf="!user" class="left-menu-wrapper">
         <a routerLink="login-page" class="mat-button">Sign in</a>
       </div>
     </mat-toolbar-row>

@@ -2,13 +2,17 @@
 
 mat-form-field {
   display: block;
+  // max-width: 500px;
+}
+
+form {
   max-width: 500px;
 }
 
 .form {
-  padding: 2%;
+  padding: 20px;
   margin: 3%;
-  border: 2px solid black;
+  border: 2px solid $primary;
   border-radius: 6px;
 }
 
@@ -50,4 +54,11 @@ input[type="number"] {
 button:hover {
   color: inherit;
   background-color: $amber;
+}
+
+.error-div {
+  p {
+    font-size: small;
+    color: $warn;
+  }
 }

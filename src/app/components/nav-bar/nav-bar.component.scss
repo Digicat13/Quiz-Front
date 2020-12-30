@@ -12,7 +12,10 @@ nav {
     color: inherit;
     background-color: $amber;
   }
-  .menu-btn {
+  .left-menu-wrapper {
     margin-left: auto;
+    span {
+      font-size: smaller;
+    }
   }
 }
