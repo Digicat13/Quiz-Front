@@ -1,4 +1,10 @@
- button {
-    margin-left: 3%;
-  }
-  
+@import "../../../styles.variables.scss";
+
+button {
+  margin-left: 3%;
+}
+
+button:not(.mat-icon-button):hover {
+  color: inherit;
+  background-color: $amber;
+}

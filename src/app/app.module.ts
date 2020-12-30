@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +29,9 @@ import { CreateTestPageComponent } from './pages/create-test-page/create-test-pa
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
 import { LoginFormComponent } from './pages/login-page/login-form/login-form.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { appInitializer } from './helpers/app.initializer';
+import { AuthenticationService } from './services/authentication.service';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 const MaterialComponents = [
   MatCardModule,
@@ -69,7 +72,14 @@ const MaterialComponents = [
     FormsModule,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [AuthenticationService],
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
