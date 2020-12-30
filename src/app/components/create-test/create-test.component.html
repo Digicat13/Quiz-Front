@@ -8,15 +8,22 @@
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="time-input">
-      <mat-label>Set test time limit</mat-label>
-      <input
-        matInput
-        type="number"
-        step="0.5"
-        formControlName="testTimeLimit"
-      />
-    </mat-form-field>
+    <mat-radio-group class="time-radio">
+      <mat-radio-button value="1" checked>No time limit</mat-radio-button>
+      <mat-radio-button value="2">Test time limit</mat-radio-button>
+      <mat-radio-button value="3">Question time limit</mat-radio-button>
+    </mat-radio-group>
+    <div class="time-field">
+      <mat-form-field>
+        <input matInput type="number" formControlName="testTimeLimit" />
+        <span matSuffix>h</span>
+      </mat-form-field>
+      <span>:</span>
+      <mat-form-field>
+        <input matInput type="number" formControlName="testTimeLimit" />
+        <span matSuffix>m</span>
+      </mat-form-field>
+    </div>
     <mat-form-field appearance="outline" class="time-input">
       <mat-label>Set question time limit</mat-label>
       <input matInput type="number" formControlName="questionTimeLimit" />

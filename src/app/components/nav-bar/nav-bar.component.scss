@@ -2,9 +2,6 @@
 $palette: mat-palette($mat-amber);
 
 nav {
-  .spacer {
-    flex: 1 1 auto;
-  }
   a,
   button {
     margin: 1vw;
@@ -15,5 +12,8 @@ nav {
   button:focus {
     color: inherit;
     background-color: mat-color($palette);
+  }
+  .menu-btn {
+    margin-left: auto;
   }
 }
