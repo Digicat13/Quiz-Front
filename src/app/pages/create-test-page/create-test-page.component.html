@@ -1,23 +1,41 @@
 <mat-horizontal-stepper linear #stepper>
-  <mat-step [completed]="isCompleted" [editable]="true">
+  <mat-step>
     <ng-template matStepLabel>Fill out test properties</ng-template>
     <div>
-      <app-create-test (stepOneSubmit)="onStepOne($event, stepper)"></app-create-test>
+      <app-create-test
+        (stepOneSubmit)="onStepOne($event, stepper)"
+      ></app-create-test>
     </div>
   </mat-step>
-  <mat-step [completed]="isCompleted" [editable]="true">
+  <mat-step>
     <ng-template matStepLabel>Add some question</ng-template>
     <div>
-      <app-add-question (stepTwoSubmit)="onStepTwo($event, stepper)"></app-add-question>
-      <button matStepperPrevious mat-raised-button color="primary">Back</button>
+      <app-add-question
+        (stepTwoSubmit)="onStepTwo($event, stepper)"
+      ></app-add-question>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="returnStepOne(stepper)"
+      >
+        Back
+      </button>
     </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Test overview</ng-template>
     <div>
       <app-test-overview [test]="test"></app-test-overview>
-      <button matStepperPrevious mat-raised-button color="primary">Back</button>
-      <button (click)="onSubmit()" mat-raised-button color="primary">Submit</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="returnStepTwo(stepper)"
+      >
+        Back
+      </button>
+      <button (click)="onSubmit()" mat-raised-button color="primary">
+        Submit
+      </button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

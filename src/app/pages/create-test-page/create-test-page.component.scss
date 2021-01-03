@@ -8,3 +8,7 @@ button:not(.mat-icon-button):hover {
   color: inherit;
   background-color: $amber;
 }
+
+.mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
