@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
@@ -10,19 +9,7 @@ import { ITest } from 'src/app/models/test';
   styleUrls: ['./create-test-page.component.scss'],
 })
 export class CreateTestPageComponent implements OnInit {
-  test: ITest = {
-    name: '',
-    description: '',
-    testTimeLimit: { hours: 0, minutes: 0 },
-    questionTimeLimit: { hours: 0, minutes: 0 },
-    questions: [
-      {
-        questionText: '',
-        hintText: '',
-        answers: [{ answerText: '', isCorrect: false }],
-      },
-    ],
-  };
+  test: ITest;
 
   constructor() {}
 

@@ -1,12 +1,16 @@
 @import "../../../styles.variables.scss";
+$margin-left: 15px;
 
 .form {
-  padding: 2%;
-  margin: 3%;
+  padding: 15px;
   border: 2px solid $primary;
   border-radius: 6px;
 }
 
 mat-checkbox {
   font-size: smaller;
+}
+
+.main-wrapper {
+  margin: $margin-left;
 }

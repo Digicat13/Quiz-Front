@@ -1,14 +1,23 @@
 @import "../../../styles.variables.scss";
+$left-margin: 15px;
 
 mat-form-field {
   width: 100%;
 }
 
 .question-form {
-  padding: 2%;
-  margin: 3%;
+  padding: 15px;
+  margin: $left-margin;
   border: 2px solid $primary;
   border-radius: 6px;
+}
+
+form {
+  display: inline;
+}
+
+.error-border {
+  border: 2px solid $warn;
 }
 
 .answers {
@@ -26,13 +35,13 @@ mat-checkbox {
 
 .bottom-buttons {
   display: inline;
-  margin-left: 3%;
+  margin-left: $left-margin;
   button + button {
-    margin-left: 3%;
+    margin-left: $left-margin;
   }
 }
 
-.card-header{
+.card-header {
   display: flex;
   justify-content: space-between;
 }
@@ -40,6 +49,11 @@ mat-checkbox {
 button:not(.mat-icon-button):hover {
   color: inherit;
   background-color: $amber;
-}  
+}
 
-
+.error-div {
+  p {
+    font-size: small;
+    color: $warn;
+  }
+}

@@ -1,24 +1,33 @@
-<p>{{ test.name }}</p>
-<p>{{ test.description }}</p>
-<p>{{ test.testTimeLimit }}</p>
-<p>{{ test.questionTimeLimit }}</p>
-<div *ngFor="let question of test.questions; let i = index">
-  <div class="form">
-    <span>{{ i + ". " }}</span>
-    <span>{{ question.questionText }}</span>
-    <p *ngIf="question.hintText !== undefined">
-      <small>{{ question.hintText }}</small>
-    </p>
-    <p></p>
-    <div *ngFor="let answer of question.answers; let z = index">
-      <span>{{ z + "). " }}</span>
-      <mat-checkbox
-        [ngModel]="answer['isCorrect']"
-        [checked]="answer.isCorrect"
-        [ngClass]="{ correct: answer.isCorrect }"
-        onclick="return false;"
-        >{{ answer.answerText }}</mat-checkbox
-      >
+<div class="main-wrapper">
+  <p><strong>Name: </strong>{{ test?.name }}</p>
+  <p><strong>Description: </strong>{{ test?.description }}</p>
+  <p *ngIf="test?.testTimeLimit">
+    <strong>Time limit: </strong>{{ test?.testTimeLimit?.hours + "h" }}
+    {{ test?.testTimeLimit?.minutes + "m" }}
+  </p>
+  <p *ngIf="test?.questionTimeLimit">
+    <strong>Question time limit: </strong
+    >{{ test?.questionTimeLimit?.minutes + "m" }}
+    {{ test?.questionTimeLimit?.seconds + "s" }}
+  </p>
+  <div *ngFor="let question of test?.questions; let i = index">
+    <div class="form">
+      <span>{{ i + 1 + ". " }}</span>
+      <span>{{ question.questionText }}</span>
+      <p *ngIf="question?.hintText">
+        <small>{{ question.hintText }}</small>
+      </p>
+      <p></p>
+      <div *ngFor="let answer of question?.answers; let z = index">
+        <span>{{ z + 1 + "). " }}</span>
+        <mat-checkbox
+          [ngModel]="answer['isCorrect']"
+          [checked]="answer.isCorrect"
+          [ngClass]="{ correct: answer.isCorrect }"
+          onclick="return false;"
+          >{{ answer.answerText }}</mat-checkbox
+        >
+      </div>
     </div>
   </div>
 </div>
