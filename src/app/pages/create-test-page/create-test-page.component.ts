@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
+import { TestService } from 'src/app/services/test.service';
 
 @Component({
   selector: 'app-create-test-page',
@@ -11,7 +12,7 @@ import { ITest } from 'src/app/models/test';
 export class CreateTestPageComponent implements OnInit {
   test: ITest;
 
-  constructor() {}
+  constructor(private testService: TestService) {}
 
   ngOnInit(): void {}
 
@@ -33,5 +34,15 @@ export class CreateTestPageComponent implements OnInit {
     stepper.previous();
   }
 
-  onSubmit(): void {}
+  onSubmit(test: ITest): void {
+    console.log(test);
+    this.testService.createTest(test).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

@@ -29,9 +29,7 @@ export class AddQuestionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(MessageDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   onAddQuestion(): void {
@@ -74,12 +72,12 @@ export class AddQuestionComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     console.log(form);
+    console.log(this.questions);
     if (form.invalid) {
       return;
     }
 
     this.validateAnswers();
-    console.log(this.noCorrectAnswerError);
     if (this.noCorrectAnswerError.size > 0) {
       return;
     }
@@ -90,7 +88,6 @@ export class AddQuestionComponent implements OnInit {
       }
     });
 
-    console.log(form);
     this.stepTwoSubmit.emit(this.questions);
   }
 

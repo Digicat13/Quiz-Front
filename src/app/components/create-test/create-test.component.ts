@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { ITest } from 'src/app/models/test';
 
 @Component({
@@ -39,10 +40,10 @@ export class CreateTestComponent implements OnInit {
       const hours = +this.createTestForm.get('testTimeLimit.hours').value;
       const minutes = +this.createTestForm.get('testTimeLimit.minutes').value;
       if (hours || minutes) {
-        test.testTimeLimit = {
-          hours: hours ? hours : 0,
-          minutes: minutes ? minutes : 0,
-        };
+        test.testTimeLimit = moment()
+          .hours(hours ? hours : 0)
+          .minutes(minutes ? minutes : 0)
+          .seconds(0);
       } else {
         return;
       }
@@ -52,10 +53,10 @@ export class CreateTestComponent implements OnInit {
       const seconds = +this.createTestForm.get('questionTimeLimit.seconds')
         .value;
       if (minutes || seconds) {
-        test.questionTimeLimit = {
-          minutes: minutes ? minutes : 0,
-          seconds: seconds ? seconds : 0,
-        };
+        test.questionTimeLimit = moment()
+          .hours(0)
+          .minutes(minutes ? minutes : 0)
+          .seconds(seconds ? seconds : 0);
       } else {
         return;
       }
