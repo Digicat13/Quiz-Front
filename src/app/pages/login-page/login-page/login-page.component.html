@@ -1,1 +1,4 @@
-<app-login-form></app-login-form>
+<app-login-form (loading)="onLoading($event)"></app-login-form>
+<div *ngIf="isLoading">
+  <app-loader></app-loader>
+</div>
