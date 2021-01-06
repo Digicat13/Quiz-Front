@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ITest } from 'src/app/models/test';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-test-overview',

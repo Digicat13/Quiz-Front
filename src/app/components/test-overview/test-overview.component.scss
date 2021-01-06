@@ -1,10 +1,11 @@
 @import "../../../styles.variables.scss";
 $margin-left: 15px;
 
-.form {
+.question-card {
   padding: 15px;
   border: 2px solid $primary;
   border-radius: 6px;
+  margin: 15px 0;
 }
 
 mat-checkbox {

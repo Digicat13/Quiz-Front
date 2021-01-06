@@ -32,6 +32,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { appInitializer } from './helpers/app.initializer';
 import { AuthenticationService } from './services/authentication.service';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -61,6 +62,7 @@ const MaterialComponents = [
     CreateTestPageComponent,
     LoginPageComponent,
     LoginFormComponent,
+    ViewTestPageComponent,
   ],
   imports: [
     BrowserModule,

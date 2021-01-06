@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 
@@ -8,7 +9,7 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['./test-table.component.scss'],
 })
 export class TestTableComponent implements OnInit {
-  constructor(private testService: TestService) {}
+  constructor(private testService: TestService, private router: Router) {}
   tests: Array<ITest> = [];
 
   ngOnInit(): void {
