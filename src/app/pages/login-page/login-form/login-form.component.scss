@@ -46,9 +46,3 @@ $login-border: #e9e1f5;
 ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
   padding: 0.7em 0px !important;
 }
-
-@media only screen and (max-width: 380px) {
-  .sign-form {
-    width: 240px;
-  }
-}
