@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { IUser } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -46,7 +47,7 @@ export class LoginFormComponent implements OnInit {
       .login(this.form.username.value, this.form.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        (user: IUser) => {
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
