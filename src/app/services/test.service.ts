@@ -47,4 +47,8 @@ export class TestService {
       })
     );
   }
+
+  deleteTest(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/test/${id}`);
+  }
 }

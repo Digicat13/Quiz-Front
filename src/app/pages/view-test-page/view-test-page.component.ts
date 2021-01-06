@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
@@ -9,19 +9,21 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['./view-test-page.component.scss'],
 })
 export class ViewTestPageComponent implements OnInit {
-  test: ITest;
+  @Input() test: ITest;
+  @Input() testId: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private testService: TestService
   ) {}
 
   ngOnInit(): void {
-    let testId: string;
-    this.activatedRoute.paramMap.subscribe((params) => {
-      testId = params.get('id');
-    });
-    this.testService.getTest(testId).subscribe(
-      (test) => {
+    if (this.testId === null) {
+      this.activatedRoute.paramMap.subscribe((params) => {
+        this.testId = params.get('id');
+      });
+    }
+    this.testService.getTest(this.testId).subscribe(
+      (test: ITest) => {
         this.test = test;
       },
       (error) => {
