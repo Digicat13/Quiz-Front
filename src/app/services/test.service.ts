@@ -51,4 +51,16 @@ export class TestService {
   deleteTest(id: string): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/test/${id}`);
   }
+
+  editTest(test: ITest): Observable<ITest> {
+    return this.http.put(`${environment.apiUrl}/test/${test.id}`, test);
+  }
+
+  deleteAnswer(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/answer/${id}`);
+  }
+
+  deleteQuestion(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/question/${id}`);
+  }
 }

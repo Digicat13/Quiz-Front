@@ -1,7 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import * as moment from 'moment';
 import { ITest } from 'src/app/models/test';
+import { TestService } from 'src/app/services/test.service';
 
 @Component({
   selector: 'app-create-test',
@@ -10,9 +16,10 @@ import { ITest } from 'src/app/models/test';
 })
 export class CreateTestComponent implements OnInit {
   @Output() stepOneSubmit = new EventEmitter<ITest>();
-
+  @Input() testId: string;
   test: ITest;
-  constructor() {}
+
+  constructor(private testService: TestService) {}
 
   createTestForm = new FormGroup({
     name: new FormControl(null, [Validators.required]),
@@ -28,7 +35,34 @@ export class CreateTestComponent implements OnInit {
     }),
   });
 
-  ngOnInit(): void {}
+  get name(): AbstractControl {
+    return this.createTestForm.get('name');
+  }
+  get description(): AbstractControl {
+    return this.createTestForm.get('description');
+  }
+  get timeOption(): AbstractControl {
+    return this.createTestForm.get('timeOption');
+  }
+  get testTimeLimit(): AbstractControl {
+    return this.createTestForm.get('testTimeLimit');
+  }
+  get questionTimeLimit(): AbstractControl {
+    return this.createTestForm.get('questionTimeLimit');
+  }
+
+  async ngOnInit(): Promise<void> {
+    if (this.testId) {
+      await this.getTest(this.testId).then((test: ITest) => {
+        this.test = test;
+      });
+      this.setFormValues();
+    }
+  }
+
+  getTest(testId: string): Promise<ITest> {
+    return this.testService.getTest(testId).toPromise();
+  }
 
   onSubmit(): void {
     if (this.createTestForm.invalid) {
@@ -36,9 +70,9 @@ export class CreateTestComponent implements OnInit {
     }
     const test: ITest = {};
 
-    if (this.createTestForm.get('timeOption').value === 'testTime') {
-      const hours = +this.createTestForm.get('testTimeLimit.hours').value;
-      const minutes = +this.createTestForm.get('testTimeLimit.minutes').value;
+    if (this.timeOption.value === 'testTime') {
+      const hours = +this.testTimeLimit.get('hours').value;
+      const minutes = +this.testTimeLimit.get('minutes').value;
       if (hours || minutes) {
         test.testTimeLimit = moment()
           .hours(hours ? hours : 0)
@@ -47,11 +81,9 @@ export class CreateTestComponent implements OnInit {
       } else {
         return;
       }
-    } else if (this.createTestForm.get('timeOption').value === 'questionTime') {
-      const minutes = +this.createTestForm.get('questionTimeLimit.minutes')
-        .value;
-      const seconds = +this.createTestForm.get('questionTimeLimit.seconds')
-        .value;
+    } else if (this.timeOption.value === 'questionTime') {
+      const minutes = +this.questionTimeLimit.get('minutes').value;
+      const seconds = +this.questionTimeLimit.get('seconds').value;
       if (minutes || seconds) {
         test.questionTimeLimit = moment()
           .hours(0)
@@ -62,10 +94,34 @@ export class CreateTestComponent implements OnInit {
       }
     }
 
-    test.name = this.createTestForm.get('name').value;
-    test.description = this.createTestForm.get('description').value;
+    test.name = this.name.value;
+    test.description = this.description.value;
 
     this.test = test;
     this.stepOneSubmit.emit(this.test);
+  }
+
+  setFormValues(): void {
+    if (this.test) {
+      this.name.setValue(this.test.name);
+      this.description.setValue(this.test.description);
+      if (this.test.testTimeLimit) {
+        this.timeOption.setValue('testTime');
+        this.testTimeLimit
+          .get('hours')
+          .setValue(this.test.testTimeLimit.hours());
+        this.testTimeLimit
+          .get('minutes')
+          .setValue(this.test.testTimeLimit.minutes());
+      } else if (this.test.questionTimeLimit) {
+        this.timeOption.setValue('questionTime');
+        this.questionTimeLimit
+          .get('minutes')
+          .setValue(this.test.questionTimeLimit.minutes());
+        this.questionTimeLimit
+          .get('seconds')
+          .setValue(this.test.questionTimeLimit.seconds());
+      }
+    }
   }
 }

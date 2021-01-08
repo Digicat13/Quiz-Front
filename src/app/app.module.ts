@@ -36,6 +36,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -69,6 +70,7 @@ const MaterialComponents = [
     LoginFormComponent,
     ViewTestPageComponent,
     LoaderComponent,
+    EditTestPageComponent,
   ],
   imports: [
     BrowserModule,

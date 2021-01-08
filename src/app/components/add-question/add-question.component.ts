@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
+import { ITest } from 'src/app/models/test';
+import { TestService } from 'src/app/services/test.service';
 import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
@@ -12,7 +14,9 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
 })
 export class AddQuestionComponent implements OnInit {
   @Output() stepTwoSubmit = new EventEmitter<IQuestion[]>();
-
+  @Output() questionDelete = new EventEmitter<string>();
+  @Output() answerDelete = new EventEmitter<string>();
+  @Input() testId: string;
   questions: IQuestion[] = [
     {
       questionText: '',
@@ -22,9 +26,19 @@ export class AddQuestionComponent implements OnInit {
   ];
   noCorrectAnswerError: Map<number, boolean> = new Map();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private testService: TestService) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    if (this.testId) {
+      await this.getTest(this.testId).then((test: ITest) => {
+        this.questions = test.questions;
+      });
+    }
+  }
+
+  getTest(testId: string): Promise<ITest> {
+    return this.testService.getTest(testId).toPromise();
+  }
 
   openDialog(header: string, message: string): void {
     const dialogRef = this.dialog.open(MessageDialogComponent);
@@ -56,6 +70,7 @@ export class AddQuestionComponent implements OnInit {
     const answerIndex = question.answers.indexOf(answer);
     if (answerIndex !== -1) {
       question.answers.splice(answerIndex, 1);
+      this.answerDelete.emit(answer?.id);
     } else {
       alert('Failed to delete answer');
     }
@@ -72,6 +87,7 @@ export class AddQuestionComponent implements OnInit {
     const questionIndex = this.questions.indexOf(question);
     if (questionIndex !== -1) {
       this.questions.splice(questionIndex, 1);
+      this.questionDelete.emit(question?.id);
     } else {
       alert('Failed to delete question');
     }
