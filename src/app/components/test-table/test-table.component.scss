@@ -5,6 +5,8 @@
   .card {
     padding: 2vh 3vw;
     margin: 3vw 3vh;
+    background-color: $primary-background;
+    border: 1px solid $form-border;
     mat-card-actions {
       margin-bottom: 1vh;
     }

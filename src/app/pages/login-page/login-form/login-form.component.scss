@@ -7,9 +7,9 @@
     text-align: center;
   }
   form {
-    border: 1px solid $login-border;
+    border: 1px solid $form-border;
     border-radius: 5px;
-    background-color: $login-background;
+    background-color: $primary-background;
     padding: 10% 7%;
 
     mat-form-field {
