@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ITest } from 'src/app/models/test';
-import { TestService } from 'src/app/services/test-service';
+import { TestService } from 'src/app/services/test.service';
 
 @Component({
   selector: 'app-test-table',
