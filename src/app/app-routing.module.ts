@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddQuestionComponent } from './components/add-question/add-question.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
+import { CreateTestingPageComponent } from './pages/create-testing-page/create-testing-page.component';
 import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'test/edit/:id',
     component: EditTestPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'create-testing/:testId',
+    component: CreateTestingPageComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '' },

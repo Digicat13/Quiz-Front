@@ -17,6 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -37,6 +39,8 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.component';
+import { CreateTestingPageComponent } from './pages/create-testing-page/create-testing-page.component';
+import { CreateTestingComponent } from './components/create-testing/create-testing.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -52,6 +56,8 @@ const MaterialComponents = [
   MatStepperModule,
   MatRadioModule,
   MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({
@@ -71,6 +77,8 @@ const MaterialComponents = [
     ViewTestPageComponent,
     LoaderComponent,
     EditTestPageComponent,
+    CreateTestingPageComponent,
+    CreateTestingComponent,
   ],
   imports: [
     BrowserModule,
