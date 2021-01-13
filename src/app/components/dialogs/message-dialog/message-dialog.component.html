@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>Something went wrong...</h2>
+<h2 *ngIf="header" mat-dialog-title>{{ header }}</h2>
 <mat-dialog-content class="mat-typography">
-  <h3>Cannot perfom this action</h3>
-  <p>Something went wrong</p>
+  <h3 *ngIf="message">{{ message }}</h3>
+  <p *ngIf="hint">{{ hint }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>

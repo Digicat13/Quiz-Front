@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
-import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
+import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
   selector: 'app-add-question',
@@ -26,9 +26,10 @@ export class AddQuestionComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openDialog(): void {
+  openDialog(header: string, message: string): void {
     const dialogRef = this.dialog.open(MessageDialogComponent);
-
+    dialogRef.componentInstance.header = header;
+    dialogRef.componentInstance.message = message;
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
@@ -46,7 +47,10 @@ export class AddQuestionComponent implements OnInit {
 
   onDeleteAnswer(question: IQuestion, answer: IAnswer): void {
     if (question.answers.length === 1) {
-      this.openDialog();
+      this.openDialog(
+        'Cant perfom this action',
+        'You need to have at least one answer'
+      );
       return;
     }
     const answerIndex = question.answers.indexOf(answer);
@@ -59,7 +63,10 @@ export class AddQuestionComponent implements OnInit {
 
   onDeleteQuestion(question: IQuestion): void {
     if (this.questions.length === 1) {
-      this.openDialog();
+      this.openDialog(
+        'Cant perfom this action',
+        'You need to have at least one question'
+      );
       return;
     }
     const questionIndex = this.questions.indexOf(question);

@@ -7,11 +7,11 @@
   </p>
   <p *ngIf="test?.questionTimeLimit">
     <strong>Question time limit: </strong
-    >{{ test?.questionTimeLimit?.minutes() + "m" }}
+    >{{ test?.questionTimeLimit?.minute() + "m" }}
     {{ test?.questionTimeLimit?.seconds() + "s" }}
   </p>
   <div *ngFor="let question of test?.questions; let i = index">
-    <div class="form">
+    <div class="question-card">
       <span>{{ i + 1 + ". " }}</span>
       <span>{{ question.questionText }}</span>
       <p *ngIf="question?.hintText">

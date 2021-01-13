@@ -5,6 +5,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
+import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'create-test',
     component: CreateTestPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test/:id',
+    component: ViewTestPageComponent,
     canActivate: [AuthGuard],
   },
 

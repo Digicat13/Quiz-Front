@@ -10,6 +10,15 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary">CREATE TESTING</button>
+      <a [routerLink]="['test', test.id]" class="mat-raised-button">
+        <span class="mat-button-wrapper">VIEW</span>
+      </a>
+      <a routerLink="" class="mat-raised-button">
+        <span class="mat-button-wrapper">EDIT</span>
+      </a>
+      <button mat-raised-button (click)="onDeleteTest(test.id)" class="delete-button">
+        DELETE
+      </button>
     </mat-card-actions>
   </mat-card>
 </section>

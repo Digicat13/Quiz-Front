@@ -23,7 +23,8 @@ import { TestTableComponent } from './components/test-table/test-table.component
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CreateTestComponent } from './components/create-test/create-test.component';
 import { AddQuestionComponent } from './components/add-question/add-question.component';
-import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
+import { MessageDialogComponent } from './components/dialogs/message-dialog/message-dialog.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { TestOverviewComponent } from './components/test-overview/test-overview.component';
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
@@ -32,6 +33,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { appInitializer } from './helpers/app.initializer';
 import { AuthenticationService } from './services/authentication.service';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -57,10 +59,12 @@ const MaterialComponents = [
     CreateTestComponent,
     AddQuestionComponent,
     MessageDialogComponent,
+    ConfirmDialogComponent,
     TestOverviewComponent,
     CreateTestPageComponent,
     LoginPageComponent,
     LoginFormComponent,
+    ViewTestPageComponent,
   ],
   imports: [
     BrowserModule,
