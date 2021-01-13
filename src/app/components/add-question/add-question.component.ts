@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
@@ -19,6 +20,7 @@ export class AddQuestionComponent implements OnInit {
       answers: [{ answerText: '', isCorrect: false }],
     },
   ];
+  noCorrectAnswerError: Map<number, boolean> = new Map();
 
   constructor(public dialog: MatDialog) {}
 
@@ -28,7 +30,6 @@ export class AddQuestionComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -53,7 +54,7 @@ export class AddQuestionComponent implements OnInit {
     if (answerIndex !== -1) {
       question.answers.splice(answerIndex, 1);
     } else {
-      alert('Filed to delete answer');
+      alert('Failed to delete answer');
     }
   }
 
@@ -66,11 +67,20 @@ export class AddQuestionComponent implements OnInit {
     if (questionIndex !== -1) {
       this.questions.splice(questionIndex, 1);
     } else {
-      alert('Filed to delete question');
+      alert('Failed to delete question');
     }
   }
 
-  onSubmit(): void {
+  onSubmit(form: NgForm): void {
+    if (form.invalid) {
+      return;
+    }
+
+    this.validateAnswers();
+    if (this.noCorrectAnswerError.size > 0) {
+      return;
+    }
+
     this.questions.forEach((q) => {
       if (q?.hintText?.trim() === '') {
         delete q.hintText;
@@ -78,5 +88,24 @@ export class AddQuestionComponent implements OnInit {
     });
 
     this.stepTwoSubmit.emit(this.questions);
+  }
+
+  clearAnswerError(): void {
+    this.noCorrectAnswerError = new Map();
+  }
+
+  validateAnswers(): void {
+    this.noCorrectAnswerError = new Map();
+    this.questions.forEach((q, qIndex) => {
+      let correct = false;
+      q.answers.forEach((answer) => {
+        if (answer.isCorrect) {
+          correct = true;
+        }
+      });
+      if (!correct) {
+        this.noCorrectAnswerError.set(qIndex, true);
+      }
+    });
   }
 }

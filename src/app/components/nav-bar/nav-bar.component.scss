@@ -1,9 +1,6 @@
 @import "../../../styles.variables.scss";
 
 nav {
-  .spacer {
-    flex: 1 1 auto;
-  }
   a,
   button {
     margin: 1vw;
@@ -14,5 +11,11 @@ nav {
   button:focus {
     color: inherit;
     background-color: $amber;
+  }
+  .left-menu-wrapper {
+    margin-left: auto;
+    span {
+      font-size: smaller;
+    }
   }
 }

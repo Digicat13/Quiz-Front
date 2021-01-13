@@ -1,10 +1,15 @@
 @import "../../../styles.variables.scss";
+$margin-left: 15px;
 
 button {
-  margin-left: 3%;
+  margin-left: $margin-left;
 }
 
 button:not(.mat-icon-button):hover {
   color: inherit;
   background-color: $amber;
+}
+
+.mat-horizontal-stepper-header {
+  pointer-events: none !important;
 }

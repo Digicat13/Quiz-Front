@@ -2,20 +2,62 @@
 
 mat-form-field {
   display: block;
-  width: 50%;
+}
+
+form {
+  max-width: 500px;
 }
 
 .form {
-  padding: 2%;
-  margin: 3%;
-  border: 2px solid black;
+  padding: 15px;
+  margin: 15px;
+  border: 2px solid $primary;
   border-radius: 6px;
 }
 
 button {
   margin-left: 3%;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.time-field {
+  display: flex;
+  align-items: center;
+  mat-form-field {
+    max-width: 70px;
+    width: 100%;
+  }
+  span {
+    margin: 5px;
+  }
+}
+
+.time-radio {
+  display: flex;
+  flex-direction: column;
+  mat-radio-button {
+    margin: 5px 0;
+  }
+}
+
 button:hover {
   color: inherit;
   background-color: $amber;
+}
+
+.error-div {
+  p {
+    font-size: small;
+    color: $warn;
+  }
 }

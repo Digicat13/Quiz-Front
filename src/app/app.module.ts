@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -44,6 +45,7 @@ const MaterialComponents = [
   MatCheckboxModule,
   MatDialogModule,
   MatStepperModule,
+  MatRadioModule,
 ];
 
 @NgModule({

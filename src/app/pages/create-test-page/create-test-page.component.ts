@@ -1,6 +1,4 @@
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
@@ -11,22 +9,7 @@ import { ITest } from 'src/app/models/test';
   styleUrls: ['./create-test-page.component.scss'],
 })
 export class CreateTestPageComponent implements OnInit {
-  isEditable = false;
-  isCompleted = true;
-
-  test: ITest = {
-    name: '',
-    description: '',
-    testTimeLimit: { hours: 0, minutes: 0 },
-    questionTimeLimit: { hours: 0, minutes: 0 },
-    questions: [
-      {
-        questionText: '',
-        hintText: '',
-        answers: [{ answerText: '', isCorrect: false }],
-      },
-    ],
-  };
+  test: ITest;
 
   constructor() {}
 
@@ -40,6 +23,14 @@ export class CreateTestPageComponent implements OnInit {
   onStepTwo(questions: IQuestion[], stepper: MatStepper): void {
     this.test.questions = questions;
     stepper.next();
+  }
+
+  returnStepOne(stepper: MatStepper): void {
+    stepper.previous();
+  }
+
+  returnStepTwo(stepper: MatStepper): void {
+    stepper.previous();
   }
 
   onSubmit(): void {}
