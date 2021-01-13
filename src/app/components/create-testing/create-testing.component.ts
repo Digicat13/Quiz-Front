@@ -20,7 +20,7 @@ export class CreateTestingComponent {
     allowedStartTime: new FormControl(null),
     allowedEndDate: new FormControl(null),
     allowedEndTime: new FormControl(null),
-    numberOfRuns: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    numberOfRuns: new FormControl(null),
   });
 
   get form(): FormGroup {
@@ -28,6 +28,9 @@ export class CreateTestingComponent {
   }
 
   onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
     const testing: ITesting = {};
 
     if (this.form.get('intervieweeName').value) {

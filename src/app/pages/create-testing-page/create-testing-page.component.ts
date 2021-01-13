@@ -46,16 +46,11 @@ export class CreateTestingPageComponent implements OnInit {
     );
   }
 
-  onSubmit(testing: ITesting, inputUrl: HTMLInputElement): void {
+  onSubmit(testing: ITesting): void {
     testing.testId = this.testId;
     this.testingService.createTesting(testing).subscribe(
       (result: ITesting) => {
-        const testingUrl = `${environment.apiUrl}/quizz/${result.id}`;
-        inputUrl.value = testingUrl;
-        this.copyToClipboard(inputUrl);
-        this.openMessageDialog(
-          `Your testing Url: ${testingUrl} copied to clipboard`
-        );
+        this.openMessageDialog(`Successfully created!`);
         this.router.navigate(['/testing', result.id]);
       },
       (error) => {
@@ -68,12 +63,5 @@ export class CreateTestingPageComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent);
     dialogRef.componentInstance.message = message;
     dialogRef.afterClosed().subscribe();
-  }
-
-  copyToClipboard(inputUrl: HTMLInputElement): void {
-    inputUrl.type = 'text';
-    inputUrl.select();
-    document.execCommand('copy');
-    inputUrl.type = 'hidden';
   }
 }
