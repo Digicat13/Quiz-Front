@@ -32,7 +32,7 @@ import { TestOverviewComponent } from './components/test-overview/test-overview.
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
 import { LoginFormComponent } from './pages/login-page/login-form/login-form.component';
-import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { AppHttpInterceptor } from './helpers/app.http.interceptor';
 import { appInitializer } from './helpers/app.initializer';
 import { AuthenticationService } from './services/authentication.service';
 import { ErrorInterceptor } from './helpers/error.interceptor';
@@ -100,7 +100,7 @@ const MaterialComponents = [
       multi: true,
       deps: [AuthenticationService],
     },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
