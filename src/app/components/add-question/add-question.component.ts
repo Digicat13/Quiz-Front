@@ -29,8 +29,7 @@ export class AddQuestionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(MessageDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   onAddQuestion(): void {
