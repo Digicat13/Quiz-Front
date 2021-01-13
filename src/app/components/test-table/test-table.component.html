@@ -13,7 +13,7 @@
       <a [routerLink]="['test', test.id]" class="mat-raised-button">
         <span class="mat-button-wrapper">VIEW</span>
       </a>
-      <a routerLink="" class="mat-raised-button">
+      <a [routerLink]="['test/edit', test.id]" class="mat-raised-button">
         <span class="mat-button-wrapper">EDIT</span>
       </a>
       <button mat-raised-button (click)="onDeleteTest(test.id)" class="delete-button">
