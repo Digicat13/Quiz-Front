@@ -5,4 +5,7 @@
     Test
   </p>
 </div>
-<app-create-testing></app-create-testing>
+<app-create-testing
+  (testingSubmit)="onSubmit($event, inputUrl)"
+></app-create-testing>
+<input type="hidden" value="" #inputUrl />

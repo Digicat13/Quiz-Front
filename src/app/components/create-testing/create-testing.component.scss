@@ -25,6 +25,13 @@ button:hover {
   background-color: $amber;
 }
 
-.date {
+.datetime-input {
+  display: flex;
+  flex-wrap: wrap;
+  .date {
     max-width: 200px;
+  }
+  .time {
+    max-width: 200px;
+  }
 }

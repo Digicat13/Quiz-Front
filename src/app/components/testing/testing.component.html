@@ -1,0 +1,31 @@
+<div class="cards">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title> Quizz: {{ testName }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <strong>Quizz Url: </strong>
+        {{ getTestingUrl() }}
+      </p>
+
+      <p>
+        <strong>Interviewee: </strong>
+        {{ intervieweeName() }}
+      </p>
+
+      <p>
+        <strong>Number of left attempts: </strong>
+        {{ numberOfRuns() }}
+      </p>
+      <p>
+        <strong>Start date: </strong>
+        {{ allowedStartDate() }}
+      </p>
+      <p>
+        <strong>End date: </strong>
+        {{ allowedEndDate() }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

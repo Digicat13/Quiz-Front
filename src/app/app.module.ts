@@ -41,6 +41,8 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.component';
 import { CreateTestingPageComponent } from './pages/create-testing-page/create-testing-page.component';
 import { CreateTestingComponent } from './components/create-testing/create-testing.component';
+import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing-page.component';
+import { TestingComponent } from './components/testing/testing.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -79,6 +81,8 @@ const MaterialComponents = [
     EditTestPageComponent,
     CreateTestingPageComponent,
     CreateTestingComponent,
+    ViewTestingPageComponent,
+    TestingComponent,
   ],
   imports: [
     BrowserModule,

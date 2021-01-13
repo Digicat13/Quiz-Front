@@ -8,16 +8,12 @@ import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.com
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
+import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', component: LoginPageComponent },
   { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
-  {
-    path: 'add-question',
-    component: AddQuestionComponent,
-    canActivate: [AuthGuard],
-  },
   {
     path: 'create-test',
     component: CreateTestPageComponent,
@@ -36,6 +32,16 @@ const routes: Routes = [
   {
     path: 'create-testing/:testId',
     component: CreateTestingPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'testing',
+    component: ViewTestingPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'testing/:id',
+    component: ViewTestingPageComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '' },

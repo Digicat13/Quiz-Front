@@ -10,33 +10,49 @@
       <input matInput formControlName="numberOfRuns" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="date">
-      <mat-label>Choose start date</mat-label>
-      <input
-        matInput
-        formControlName="allowedStartDate"
-        [matDatepicker]="dateStart"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="dateStart"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #dateStart></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="date">
-      <mat-label>Choose end date</mat-label>
-      <input
-        matInput
-        formControlName="allowedEndDate"
-        [matDatepicker]="dateEnd"
-      />
-      <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
-      <mat-datepicker #dateEnd></mat-datepicker>
-    </mat-form-field>
+    <div class="datetime-input">
+      <mat-form-field appearance="fill" class="date">
+        <mat-label>Choose start date</mat-label>
+        <input
+          formControlName="allowedStartDate"
+          matInput
+          [matDatepicker]="dateStart"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="dateStart"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dateStart></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="time">
+        <mat-label>Choose start time</mat-label>
+        <input formControlName="allowedStartTime" matInput type="time" />
+      </mat-form-field>
+    </div>
+
+    <div class="datetime-input">
+      <mat-form-field appearance="fill" class="date">
+        <mat-label>Choose end date</mat-label>
+        <input
+          matInput
+          formControlName="allowedEndDate"
+          [matDatepicker]="dateEnd"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="dateEnd"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dateEnd></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="time">
+        <mat-label>Choose end time</mat-label>
+        <input formControlName="allowedEndTime" matInput type="time" />
+      </mat-form-field>
+    </div>
   </div>
 </form>
 <button type="submit" (click)="onSubmit()" mat-raised-button color="primary">
-  <span>Submit</span>
+  <span>Create</span>
 </button>
 <button type="button" [routerLink]="['test']" mat-raised-button color="primary">
   <span>Cancel</span>

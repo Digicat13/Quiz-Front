@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
 import { ITest } from 'src/app/models/test';
+import { ITesting } from 'src/app/models/testing';
 import { TestService } from 'src/app/services/test.service';
+import { TestingService } from 'src/app/services/testing.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-testing-page',
@@ -14,7 +19,10 @@ export class CreateTestingPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private testService: TestService
+    private testService: TestService,
+    private testingService: TestingService,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -36,5 +44,36 @@ export class CreateTestingPageComponent implements OnInit {
         console.log('Failed to retrieve test');
       }
     );
+  }
+
+  onSubmit(testing: ITesting, inputUrl: HTMLInputElement): void {
+    testing.testId = this.testId;
+    this.testingService.createTesting(testing).subscribe(
+      (result: ITesting) => {
+        const testingUrl = `${environment.apiUrl}/quizz/${result.id}`;
+        inputUrl.value = testingUrl;
+        this.copyToClipboard(inputUrl);
+        this.openMessageDialog(
+          `Your testing Url: ${testingUrl} copied to clipboard`
+        );
+        this.router.navigate(['/testing', result.id]);
+      },
+      (error) => {
+        this.openMessageDialog('Failed to create testing');
+      }
+    );
+  }
+
+  openMessageDialog(message: string): void {
+    const dialogRef = this.dialog.open(MessageDialogComponent);
+    dialogRef.componentInstance.message = message;
+    dialogRef.afterClosed().subscribe();
+  }
+
+  copyToClipboard(inputUrl: HTMLInputElement): void {
+    inputUrl.type = 'text';
+    inputUrl.select();
+    document.execCommand('copy');
+    inputUrl.type = 'hidden';
   }
 }

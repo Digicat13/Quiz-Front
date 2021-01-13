@@ -1,8 +1,8 @@
 export interface ITesting {
   id?: string;
-  testId: string;
+  testId?: string;
   intervieweeName?: string;
   allowedStartDate?: Date;
   allowedEndDate?: Date;
-  numberOfRuns: number;
+  numberOfRuns?: number;
 }

@@ -1,66 +1,28 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ITest } from '../models/test';
+import { ITesting } from '../models/testing';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TestService {
+export class TestingService {
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<ITest[]> {
-    return this.http.get<ITest[]>(`${environment.apiUrl}/test`).pipe(
-      map((data: ITest[]) => {
-        const tests = data;
-        tests.forEach((test) => {
-          if (test.questionTimeLimit !== null) {
-            test.questionTimeLimit = moment(test.questionTimeLimit, 'HH:mm:ss');
-          }
-          if (test.testTimeLimit !== null) {
-            test.testTimeLimit = moment(test.testTimeLimit, 'HH:mm:ss');
-          }
-        });
-        return tests;
-      })
-    );
+  getAll(): Observable<ITesting[]> {
+    return this.http.get<ITesting[]>(`${environment.apiUrl}/testing`);
   }
 
-  createTest(test: ITest): Observable<ITest> {
-    return this.http.post(`${environment.apiUrl}/test`, test);
+  getTesting(id: string): Observable<ITesting> {
+    return this.http.get<ITesting>(`${environment.apiUrl}/testing/${id}`);
   }
 
-  getTest(id: string): Observable<ITest> {
-    return this.http.get(`${environment.apiUrl}/test/${id}`).pipe(
-      map((data: ITest) => {
-        const test = data;
-        if (test.questionTimeLimit !== null) {
-          test.questionTimeLimit = moment(test.questionTimeLimit, 'HH:mm:ss');
-        }
-        if (test.testTimeLimit !== null) {
-          test.testTimeLimit = moment(test.testTimeLimit, 'HH:mm:ss');
-        }
-        return test;
-      })
-    );
+  createTesting(testing: ITesting): Observable<ITesting> {
+    return this.http.post(`${environment.apiUrl}/testing`, testing);
   }
 
-  deleteTest(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/test/${id}`);
-  }
-
-  editTest(test: ITest): Observable<ITest> {
-    return this.http.put(`${environment.apiUrl}/test/${test.id}`, test);
-  }
-
-  deleteAnswer(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/answer/${id}`);
-  }
-
-  deleteQuestion(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/question/${id}`);
+  getTestingUrl(testingId: string): string {
+    return `${environment.apiUrl}/quizz/${testingId}`;
   }
 }
