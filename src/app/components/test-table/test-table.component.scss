@@ -1,17 +1,18 @@
-@import "~@angular/material/theming";
-$palette: mat-palette($mat-amber);
+@import "../../../styles.variables.scss";
 
 .cards {
   width: 100%;
   .card {
     padding: 2vh 3vw;
     margin: 3vw 3vh;
+    background-color: $primary-background;
+    border: 1px solid $form-border;
     mat-card-actions {
       margin-bottom: 1vh;
     }
     button:hover {
       color: inherit;
-      background-color: mat-color($palette);
+      background-color: $amber;
     }
   }
 }
