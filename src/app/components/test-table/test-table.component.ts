@@ -12,12 +12,13 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
   styleUrls: ['./test-table.component.scss'],
 })
 export class TestTableComponent implements OnInit {
+  tests: Array<ITest> = [];
+
   constructor(
     private testService: TestService,
     private router: Router,
     public dialog: MatDialog
   ) {}
-  tests: Array<ITest> = [];
 
   ngOnInit(): void {
     this.getTests();

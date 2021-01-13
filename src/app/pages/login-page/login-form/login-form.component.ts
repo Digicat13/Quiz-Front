@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { identifierModuleUrl } from '@angular/compiler';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -10,6 +11,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
+  @Output() loading = new EventEmitter<boolean>();
   returnUrl: string;
   error: { message: string; status: number };
 
@@ -41,15 +43,18 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
+    this.loading.emit(true);
     this.authenticationService
       .login(this.form.username.value, this.form.password.value)
       .pipe(first())
       .subscribe({
         next: () => {
+          this.loading.emit(false);
           this.router.navigate([this.returnUrl]);
         },
         error: (error) => {
           {
+            this.loading.emit(false);
             this.error = error;
           }
         },

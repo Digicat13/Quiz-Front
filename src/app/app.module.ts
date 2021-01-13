@@ -16,6 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -34,6 +35,7 @@ import { appInitializer } from './helpers/app.initializer';
 import { AuthenticationService } from './services/authentication.service';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -48,6 +50,7 @@ const MaterialComponents = [
   MatDialogModule,
   MatStepperModule,
   MatRadioModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({
@@ -65,6 +68,7 @@ const MaterialComponents = [
     LoginPageComponent,
     LoginFormComponent,
     ViewTestPageComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
