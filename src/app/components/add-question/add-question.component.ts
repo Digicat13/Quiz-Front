@@ -71,8 +71,6 @@ export class AddQuestionComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(form);
-    console.log(this.questions);
     if (form.invalid) {
       return;
     }

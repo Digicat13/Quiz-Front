@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(private authenticatinService: AuthenticationService) {
     this.authenticatinService.currentUser.subscribe(
-      (x) => (this.currentUser = x)
+      (user: IUser) => (this.currentUser = user)
     );
     moment.fn.toJSON = function(): any {
       return this.format('HH:mm:ss');

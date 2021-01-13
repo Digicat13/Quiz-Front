@@ -7,9 +7,9 @@
     text-align: center;
   }
   form {
-    border: 1px solid $login-border;
+    border: 1px solid $form-border;
     border-radius: 5px;
-    background-color: $login-background;
+    background-color: $primary-background;
     padding: 10% 7%;
 
     mat-form-field {
@@ -46,11 +46,6 @@
   padding: 0.7em 0px !important;
 }
 
-@media only screen and (max-width: 380px) {
-  .sign-form {
-    width: 240px;
-  }
-}
 
 .error-div {
   background-color: $warn-background;
