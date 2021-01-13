@@ -11,15 +11,23 @@
         <span class="mat-button-wrapper">Edit test</span>
       </a>
       <span class="spacer"></span>
-      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Logout</span>
+      <div *ngIf="user">
+        <span>
+          {{ user.username }}
+        </span>
+        <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+          <mat-icon>menu</mat-icon>
         </button>
-      </mat-menu>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div *ngIf="!user">
+        <a routerLink="login-page" class="mat-button">Sign in</a>
+      </div>
     </mat-toolbar-row>
   </mat-toolbar>
 </nav>
