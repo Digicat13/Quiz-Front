@@ -66,7 +66,7 @@ export class TestingComponent implements OnInit {
   }
 
   copyUrlToClipboard(inputUrl: HTMLInputElement): void {
-    const testingUrl = `${environment.apiUrl}/quizz/${this.testing.id}`;
+    const testingUrl = this.getTestingUrl();
     inputUrl.value = testingUrl;
     inputUrl.type = 'text';
     inputUrl.select();
