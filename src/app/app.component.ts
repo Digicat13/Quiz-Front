@@ -13,7 +13,7 @@ export class AppComponent {
 
   constructor(private authenticatinService: AuthenticationService) {
     this.authenticatinService.currentUser.subscribe(
-      (x) => (this.currentUser = x)
+      (user: IUser) => (this.currentUser = user)
     );
   }
 }
