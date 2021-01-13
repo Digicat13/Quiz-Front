@@ -3,23 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ITesting } from '../models/testing';
+import { TestingControllerService } from './api.controller.services/testing.controller.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestingService {
-  constructor(private http: HttpClient) {}
+  constructor(private testingControllerService: TestingControllerService) {}
 
   getAll(): Observable<ITesting[]> {
-    return this.http.get<ITesting[]>(`${environment.apiUrl}/testing`);
+    return this.testingControllerService.get();
   }
 
   getTesting(id: string): Observable<ITesting> {
-    return this.http.get<ITesting>(`${environment.apiUrl}/testing/${id}`);
+    return this.testingControllerService.getById(id);
   }
 
   createTesting(testing: ITesting): Observable<ITesting> {
-    return this.http.post(`${environment.apiUrl}/testing`, testing);
+    return this.testingControllerService.post(testing);
   }
 
   getTestingUrl(testingId: string): string {

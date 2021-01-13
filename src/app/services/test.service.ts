@@ -1,19 +1,24 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { ITest } from '../models/test';
+import { AnswerControllerService } from './api.controller.services/answer.controller.service';
+import { QuestionControllerService } from './api.controller.services/question.controller.service';
+import { TestControllerService } from './api.controller.services/test.controller.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private testControllerService: TestControllerService,
+    private answerControllerService: AnswerControllerService,
+    private questionControllerService: QuestionControllerService
+  ) {}
 
   getAll(): Observable<ITest[]> {
-    return this.http.get<ITest[]>(`${environment.apiUrl}/test`).pipe(
+    return this.testControllerService.get().pipe(
       map((data: ITest[]) => {
         const tests = data;
         tests.forEach((test) => {
@@ -30,11 +35,11 @@ export class TestService {
   }
 
   createTest(test: ITest): Observable<ITest> {
-    return this.http.post(`${environment.apiUrl}/test`, test);
+    return this.testControllerService.post(test);
   }
 
   getTest(id: string): Observable<ITest> {
-    return this.http.get(`${environment.apiUrl}/test/${id}`).pipe(
+    return this.testControllerService.getById(id).pipe(
       map((data: ITest) => {
         const test = data;
         if (test.questionTimeLimit !== null) {
@@ -49,18 +54,18 @@ export class TestService {
   }
 
   deleteTest(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/test/${id}`);
+    return this.testControllerService.delete(id);
   }
 
   editTest(test: ITest): Observable<ITest> {
-    return this.http.put(`${environment.apiUrl}/test/${test.id}`, test);
+    return this.testControllerService.put(test);
   }
 
   deleteAnswer(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/answer/${id}`);
+    return this.answerControllerService.delete(id);
   }
 
   deleteQuestion(id: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/question/${id}`);
+    return this.questionControllerService.delete(id);
   }
 }

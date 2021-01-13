@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { IUser } from '../models/user';
+import { AccountControllerService } from './api.controller.services/account.controller.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,10 @@ export class AuthenticationService {
   public currentUser: Observable<IUser>;
   private refreshTokenTimeout;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private accountControllerService: AccountControllerService
+  ) {
     this.currentUserSubject = new BehaviorSubject<IUser>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
@@ -27,20 +31,18 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string): Observable<IUser> {
-    return this.http
-      .post(`${environment.apiUrl}/account/signin`, { username, password })
-      .pipe(
-        map((user: IUser) => {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          this.startRefreshTokenTimer();
-          return user;
-        })
-      );
+    return this.accountControllerService.signin({ username, password }).pipe(
+      map((user: IUser) => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        this.startRefreshTokenTimer();
+        return user;
+      })
+    );
   }
 
   refreshToken(): Observable<IUser> {
-    return this.http.post(`${environment.apiUrl}/account/refresh`, {}).pipe(
+    return this.accountControllerService.refresh({}).pipe(
       map((user: IUser) => {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
@@ -51,9 +53,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    this.http
-      .post<any>(`${environment.apiUrl}/account/signout`, {})
-      .subscribe();
+    this.accountControllerService.signout({}).subscribe();
     localStorage.removeItem('currentUser');
     this.stopRefreshTokenTimer();
     this.currentUserSubject.next(null);
