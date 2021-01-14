@@ -1,7 +1,7 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
@@ -26,26 +26,26 @@ export class EditTestPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testId = params.get('id');
     });
   }
 
-  onStepOne(test: ITest, stepper: MatStepper): void {
+  onTestPropertiesSubmit(test: ITest, stepper: MatStepper): void {
     this.test = test;
     stepper.next();
   }
 
-  onStepTwo(questions: IQuestion[], stepper: MatStepper): void {
+  onQuestionsSubmit(questions: IQuestion[], stepper: MatStepper): void {
     this.test.questions = questions;
     stepper.next();
   }
 
-  returnStepOne(stepper: MatStepper): void {
+  goToTestProperties(stepper: MatStepper): void {
     stepper.previous();
   }
 
-  returnStepTwo(stepper: MatStepper): void {
+  goToQuestions(stepper: MatStepper): void {
     stepper.previous();
   }
 
@@ -58,29 +58,27 @@ export class EditTestPageComponent implements OnInit {
   }
 
   onSubmit(test: ITest): void {
-    console.log(test);
     test.id = this.testId;
     this.testService.editTest(test).subscribe(
-      (result: ITest) => {
-        console.log(result);
+      () => {
+        this.openMessageDialog('Successfully edited!');
       },
       (error) => {
-        console.log(error);
+        this.openMessageDialog('Failed to edit quiz!');
       }
     );
 
     if (this.answersToDelete.length > 0) {
-      this.answersToDelete.forEach((answer) => {
+      this.answersToDelete.forEach((answer: { id: string }) => {
         this.testService.deleteQuestion(answer.id).subscribe();
       });
     }
     if (this.questionsToDelete.length > 0) {
-      this.questionsToDelete.forEach((question) => {
+      this.questionsToDelete.forEach((question: { id: string }) => {
         this.testService.deleteQuestion(question.id).subscribe();
       });
     }
 
-    this.openMessageDialog('Successfully edited!');
     this.router.navigate(['/home-page']);
   }
 

@@ -1,5 +1,5 @@
 <div class="main-wrapper">
-  <p><strong>Name: </strong>{{ test?.name }}</p>
+  <p><strong>Quiz name: </strong>{{ test?.name }}</p>
   <p><strong>Description: </strong>{{ test?.description }}</p>
   <p *ngIf="test?.testTimeLimit">
     <strong>Time limit: </strong>{{ test?.testTimeLimit?.hours() + "h" }}

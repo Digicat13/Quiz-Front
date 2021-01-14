@@ -21,7 +21,7 @@ export class TestService {
     return this.testControllerService.get().pipe(
       map((data: ITest[]) => {
         const tests = data;
-        tests.forEach((test) => {
+        tests.forEach((test: ITest) => {
           if (test.questionTimeLimit !== null) {
             test.questionTimeLimit = moment(test.questionTimeLimit, 'HH:mm:ss');
           }

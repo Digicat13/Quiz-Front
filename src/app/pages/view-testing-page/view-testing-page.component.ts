@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITesting } from 'src/app/models/testing';
 import { TestingService } from 'src/app/services/testing.service';
 
@@ -18,7 +18,7 @@ export class ViewTestingPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
       if (!this.testingId) {
         this.getTestings();

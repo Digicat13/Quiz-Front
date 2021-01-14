@@ -23,7 +23,6 @@ export class TestingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTestName(this.testing.testId);
-    console.log(this.testing);
   }
 
   getTestName(testId): void {
@@ -66,7 +65,7 @@ export class TestingComponent implements OnInit {
   }
 
   copyUrlToClipboard(inputUrl: HTMLInputElement): void {
-    const testingUrl = `${environment.apiUrl}/quizz/${this.testing.id}`;
+    const testingUrl = this.getTestingUrl();
     inputUrl.value = testingUrl;
     inputUrl.type = 'text';
     inputUrl.select();

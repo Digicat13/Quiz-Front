@@ -13,7 +13,7 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
   styleUrls: ['./add-question.component.scss'],
 })
 export class AddQuestionComponent implements OnInit {
-  @Output() stepTwoSubmit = new EventEmitter<IQuestion[]>();
+  @Output() questionsSubmit = new EventEmitter<IQuestion[]>();
   @Output() questionDelete = new EventEmitter<string>();
   @Output() answerDelete = new EventEmitter<string>();
   @Input() testId: string;
@@ -44,7 +44,7 @@ export class AddQuestionComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent);
     dialogRef.componentInstance.header = header;
     dialogRef.componentInstance.message = message;
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result: any) => {});
   }
 
   onAddQuestion(): void {
@@ -103,13 +103,13 @@ export class AddQuestionComponent implements OnInit {
       return;
     }
 
-    this.questions.forEach((q) => {
+    this.questions.forEach((q: IQuestion) => {
       if (q?.hintText?.trim() === '') {
         delete q.hintText;
       }
     });
 
-    this.stepTwoSubmit.emit(this.questions);
+    this.questionsSubmit.emit(this.questions);
   }
 
   clearAnswerError(): void {
@@ -118,9 +118,9 @@ export class AddQuestionComponent implements OnInit {
 
   validateAnswers(): void {
     this.noCorrectAnswerError = new Map();
-    this.questions.forEach((q, qIndex) => {
+    this.questions.forEach((q: IQuestion, qIndex: number) => {
       let correct = false;
-      q.answers.forEach((answer) => {
+      q.answers.forEach((answer: IAnswer) => {
         if (answer.isCorrect) {
           correct = true;
         }
