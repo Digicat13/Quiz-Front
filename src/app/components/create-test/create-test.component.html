@@ -1,7 +1,7 @@
 <form [formGroup]="createTestForm">
   <div class="form">
     <mat-form-field>
-      <mat-label>Test name</mat-label>
+      <mat-label>Quiz name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
     <mat-form-field>
@@ -11,7 +11,7 @@
     <mat-radio-group formControlName="timeOption" class="time-radio">
       <mat-radio-button checked>No time limit</mat-radio-button>
       <mat-radio-button #radTestTime value="testTime"
-        >Test time limit</mat-radio-button
+        >Quiz time limit</mat-radio-button
       >
       <mat-radio-button #radQuestionTime value="questionTime"
         >Question time limit</mat-radio-button

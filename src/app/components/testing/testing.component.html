@@ -1,12 +1,12 @@
 <div class="cards">
   <mat-card class="card">
     <mat-card-header>
-      <mat-card-title> Quizz: {{ testName }}</mat-card-title>
+      <mat-card-title> Quiz: {{ testName }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="quizz-url">
+      <div class="quiz-url">
         <p>
-          <strong>Quizz Url: </strong>
+          <strong>Quiz Url: </strong>
           {{ getTestingUrl() }}
         </p>
         <button mat-button (click)="copyUrlToClipboard(inputUrl)">

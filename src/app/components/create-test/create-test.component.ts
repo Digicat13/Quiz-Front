@@ -15,7 +15,7 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['./create-test.component.scss'],
 })
 export class CreateTestComponent implements OnInit {
-  @Output() stepOneSubmit = new EventEmitter<ITest>();
+  @Output() testPropertiesSubmit = new EventEmitter<ITest>();
   @Input() testId: string;
   test: ITest;
 
@@ -98,7 +98,7 @@ export class CreateTestComponent implements OnInit {
     test.description = this.description.value;
 
     this.test = test;
-    this.stepOneSubmit.emit(this.test);
+    this.testPropertiesSubmit.emit(this.test);
   }
 
   setFormValues(): void {

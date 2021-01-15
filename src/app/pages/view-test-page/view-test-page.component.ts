@@ -27,7 +27,7 @@ export class ViewTestPageComponent implements OnInit {
         this.test = test;
       },
       (error) => {
-        console.log('Failed to retrieve test');
+        console.log('Failed to retrieve quiz');
       }
     );
   }

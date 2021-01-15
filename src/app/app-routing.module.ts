@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddQuestionComponent } from './components/add-question/add-question.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { CreateTestPageComponent } from './pages/create-test-page/create-test-page.component';
 import { CreateTestingPageComponent } from './pages/create-testing-page/create-testing-page.component';

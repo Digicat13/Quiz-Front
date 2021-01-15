@@ -23,7 +23,6 @@ export class TestingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTestName(this.testing.testId);
-    console.log(this.testing);
   }
 
   getTestName(testId): void {

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -24,6 +23,6 @@ export class TestingService {
   }
 
   getTestingUrl(testingId: string): string {
-    return `${environment.apiUrl}/quizz/${testingId}`;
+    return `${environment.apiUrl}/quiz/${testingId}`;
   }
 }
