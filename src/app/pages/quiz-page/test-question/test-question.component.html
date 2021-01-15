@@ -1,0 +1,23 @@
+<mat-card class="card">
+  <mat-card-header>
+    <p>{{ question?.questionText }}</p>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-selection-list [multiple]="correctAnswerCount() > 1">
+      <div mat-subhead *ngIf="question?.hintText">{{ question?.hintText }}</div>
+      <mat-list-option
+        *ngFor="let answer of question.answers; last as last"
+        checkboxPosition="before"
+        [value]="answer"
+      >
+        <div >
+          <mat-radio-button
+            *ngIf="!(correctAnswerCount() > 1)"
+          > <p>{{ answer.answerText }}</p></mat-radio-button>
+         
+        </div>
+        <mat-divider *ngIf="!last"></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>

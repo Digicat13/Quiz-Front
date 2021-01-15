@@ -1,0 +1,7 @@
+<div *ngIf="testing&&test">
+  <p>ASDASD</p>
+  <app-test-info [test]="test" [testing]="testing"></app-test-info>
+  <div *ngFor="let question of test?.questions">
+    <app-test-question [question]="question"></app-test-question>
+  </div>
+</div>

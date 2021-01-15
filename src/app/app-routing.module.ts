@@ -6,6 +6,7 @@ import { CreateTestingPageComponent } from './pages/create-testing-page/create-t
 import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
+import { QuizPageComponent } from './pages/quiz-page/quiz-page/quiz-page.component';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing-page.component';
 
@@ -42,6 +43,10 @@ const routes: Routes = [
     path: 'testing/:id',
     component: ViewTestingPageComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'quiz/:id',
+    component: QuizPageComponent,
   },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,30 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ test?.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="testing?.intervieweeName">
+      Interviewee: {{ testing?.intervieweeName }}
+    </p>
+    <mat-form-field *ngIf="!testing?.intervieweeName">
+      <mat-label>Enter your name</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <p>Left number of attempts: {{ numberOfRuns() }}</p>
+    <p *ngIf="testing?.allowedStartDate">
+      Start date: {{ allowedStartDate() }}
+    </p>
+    <p *ngIf="testing?.allowedEndDate">End date: {{ allowedEndDate() }}</p>
+    <p *ngIf="test?.testTimeLimit">
+      This quiz has time limit: {{ testTimeLimit() }}
+    </p>
+    <p *ngIf="test?.questionTimeLimit">
+      This quiz has question time limit: {{ questionTimeLimit() }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="onPressStart()">
+      START QUIZ
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -23,6 +23,6 @@ export class TestingService {
   }
 
   getTestingUrl(testingId: string): string {
-    return `${environment.apiUrl}/quiz/${testingId}`;
+    return `${environment.clientUrl}/quiz/${testingId}`;
   }
 }
