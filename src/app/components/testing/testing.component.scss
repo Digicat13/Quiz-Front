@@ -1,0 +1,33 @@
+@import "../../../styles.variables.scss";
+$margin-left: 15px;
+
+mat-checkbox {
+  font-size: smaller;
+}
+
+.cards {
+  width: 100%;
+  .card {
+    padding: 2vh 3vw;
+    margin: 3vw 3vh;
+    background-color: $primary-background;
+    border: 1px solid $form-border;
+    mat-card-actions {
+      margin-bottom: 1vh;
+      button {
+        margin: 0 8px;
+      }
+      button:hover,
+      a:hover {
+        color: inherit;
+        background-color: $amber;
+      }
+    }
+  }
+}
+.quizz-url {
+  display: flex;
+  button {
+    margin-left: 10px;
+  }
+}

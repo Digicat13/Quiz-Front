@@ -1,0 +1,48 @@
+@import "../../../styles.variables.scss";
+$margin: 15px;
+
+mat-form-field {
+  display: block;
+}
+
+form {
+  max-width: 500px;
+}
+
+.form {
+  padding: $margin;
+  margin: $margin;
+  border: 2px solid $primary;
+  border-radius: 6px;
+}
+
+button {
+  margin-left: $margin;
+}
+
+button:hover {
+  color: inherit;
+  background-color: $amber;
+}
+
+.datetime-input {
+  display: flex;
+  flex-wrap: wrap;
+  .date {
+    max-width: 200px;
+  }
+  .time {
+    max-width: 200px;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
