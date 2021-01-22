@@ -48,6 +48,8 @@ import { TestingComponent } from './components/testing/testing.component';
 import { TestInfoComponent } from './pages/quiz-page/test-info/test-info.component';
 import { QuizPageComponent } from './pages/quiz-page/quiz-page/quiz-page.component';
 import { TestQuestionComponent } from './pages/quiz-page/test-question/test-question.component';
+import { QuizHeaderComponent } from './pages/quiz-page/quiz-header/quiz-header.component';
+import { QuizPageRezultComponent } from './pages/quiz-rezult-page/quiz-page-rezult/quiz-page-rezult.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -92,6 +94,8 @@ const MaterialComponents = [
     TestInfoComponent,
     QuizPageComponent,
     TestQuestionComponent,
+    QuizHeaderComponent,
+    QuizPageRezultComponent,
   ],
   imports: [
     CommonModule,

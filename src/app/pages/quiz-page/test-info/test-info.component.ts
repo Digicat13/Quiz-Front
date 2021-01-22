@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as moment from 'moment';
 import { ITest } from 'src/app/models/test';
@@ -9,17 +10,29 @@ import { ITesting } from 'src/app/models/testing';
   templateUrl: './test-info.component.html',
   styleUrls: ['./test-info.component.scss'],
 })
-export class TestInfoComponent {
+export class TestInfoComponent implements OnInit {
   testingId: string;
   @Input() testing: ITesting;
   @Input() test: ITest;
+  @Output() pressStart = new EventEmitter();
+  submitted = false;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-  ) {
+  intervieweeInput = new FormControl(null);
+
+  constructor(private activatedRoute: ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
     });
+  }
+
+  ngOnInit(): void {
+    if (!this.testing?.intervieweeName) {
+      this.setIntervieweeValidators();
+    }
+  }
+
+  setIntervieweeValidators(): void {
+    this.intervieweeInput.setValidators([Validators.required]);
   }
 
   numberOfRuns(): string {
@@ -62,5 +75,15 @@ export class TestInfoComponent {
     );
   }
 
-  onPressStart() {}
+  onPressStart(): void {
+    this.submitted = true;
+    if (!this.testing.intervieweeName && this.intervieweeInput.invalid) {
+      return;
+    }
+    if (!this.testing.intervieweeName) {
+      const interviewee: string = this.intervieweeInput.value;
+      this.testing.intervieweeName = interviewee;
+    }
+    this.pressStart.emit(this.testing.intervieweeName);
+  }
 }

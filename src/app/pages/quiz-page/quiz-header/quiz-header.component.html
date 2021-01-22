@@ -1,0 +1,22 @@
+<div class="quiz-header">
+  <p class="header">{{ testName }}</p>
+  <mat-divider></mat-divider>
+  <div class="body">
+    <div class="progress">
+      <p>{{ questionIndex + 1 }}/{{ questionsCount }}</p>
+      <div class="time-div">
+        <div class="time quiz-duration">
+          <mat-icon color="accent">alarm</mat-icon>
+          <span>{{ duration() }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="time-div">
+      <div class="time time-limit">
+        <span *ngIf="isTimeLimited">Time left: </span>
+        <mat-icon *ngIf="isTimeLimited" color="accent">alarm</mat-icon>
+        <span *ngIf="isTimeLimited">{{ timeLeft() }}</span>
+      </div>
+    </div>
+  </div>
+</div>

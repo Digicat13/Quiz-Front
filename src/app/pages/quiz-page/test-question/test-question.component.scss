@@ -1,7 +1,7 @@
 @import "../../../../styles.variables.scss";
 
-::ng-deep .mat-card-header-text {
-  margin: 0px;
+:host ::ng-deep .mat-list-text {
+  padding: 0;
 }
 
 mat-card-header {
@@ -14,7 +14,23 @@ mat-card-header {
   border: 1px solid $form-border;
 }
 
-// mat-list-option {
-//   display: flex;
-//   flex-wrap: wrap;
-// }
+mat-selection-list {
+  outline: none;
+}
+
+.hint {
+  padding: 0 5px;
+}
+
+.item {
+  .item-radio {
+    p {
+      padding: 0 8px;
+    }
+  }
+  .item-multiple {
+    p {
+      padding: 0 16px;
+    }
+  }
+}

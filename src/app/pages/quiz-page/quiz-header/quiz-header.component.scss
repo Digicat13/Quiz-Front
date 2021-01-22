@@ -1,0 +1,31 @@
+.quiz-header {
+  margin: 3vw 3vh;
+}
+
+.header {
+  font-size: 2em;
+}
+
+.body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress {
+  margin-right: 15px;
+  display: flex;
+}
+
+.time-div {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    padding: 0 10px;
+  }
+
+  .time {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+  }
+}

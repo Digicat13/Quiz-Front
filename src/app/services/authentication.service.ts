@@ -1,10 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { environment } from 'src/environments/environment';
 import { IUser } from '../models/user';
 import { AccountControllerService } from './api.controller.services/account.controller.service';
 
@@ -14,7 +11,7 @@ import { AccountControllerService } from './api.controller.services/account.cont
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<IUser>;
   public currentUser: Observable<IUser>;
-  private refreshTokenTimeout;
+  private refreshTokenTimeout: NodeJS.Timeout;
 
   constructor(
     private router: Router,

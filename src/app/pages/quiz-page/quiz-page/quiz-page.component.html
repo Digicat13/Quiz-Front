@@ -1,7 +1,50 @@
-<div *ngIf="testing&&test">
-  <p>ASDASD</p>
-  <app-test-info [test]="test" [testing]="testing"></app-test-info>
-  <div *ngFor="let question of test?.questions">
-    <app-test-question [question]="question"></app-test-question>
+<div *ngIf="testing && test">
+  <app-test-info
+    *ngIf="currentQuestionIndex === undefined"
+    [test]="test"
+    [testing]="testing"
+    (pressStart)="startQuiz($event)"
+  ></app-test-info>
+  <div *ngIf="test && currentQuestionIndex !== undefined">
+    <app-quiz-header
+      [testName]="test?.name"
+      [questionTimeLimit]="test?.questionTimeLimit"
+      [testTimeLimit]="test?.testTimeLimit"
+      [questionIndex]="currentQuestionIndex"
+      [questionsCount]="test?.questions?.length"
+      [timeout]="timeLimitTimeout"
+      (testTimeLimitEnds)="onSubmit($event)"
+      (questionTimeLimitEnds)="nextQuestion()"
+      (getQuizDuration)="onSubmit($event)"
+      [nextQuestionEvent]="onNextQuestion.asObservable()"
+      [endQuizEvent]="onEndQuiz.asObservable()"
+    ></app-quiz-header>
+  </div>
+  <div *ngIf="test?.questions && currentQuestionIndex !== undefined">
+    <app-test-question
+      (selectAnswer)="onSelectAnswer($event)"
+      [question]="test?.questions[currentQuestionIndex]"
+    ></app-test-question>
+    <div class="control-buttons">
+      <div class="buttons-wrapper">
+        <ng-template
+          *ngIf="
+            currentQuestionIndex !== test?.questions?.length - 1;
+            then nextButton;
+            else submitButton
+          "
+        ></ng-template>
+        <ng-template #nextButton>
+          <button mat-raised-button (click)="nextQuestion()" color="primary">
+            NEXT
+          </button>
+        </ng-template>
+        <ng-template #submitButton>
+          <button mat-raised-button (click)="endQuiz()" color="primary">
+            SUBMIT
+          </button>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </div>

@@ -8,18 +8,23 @@
     </p>
     <mat-form-field *ngIf="!testing?.intervieweeName">
       <mat-label>Enter your name</mat-label>
-      <input matInput />
+      <input [formControl]="intervieweeInput" matInput />
     </mat-form-field>
+    <div class="error-div">
+      <div *ngIf="submitted && intervieweeInput?.errors?.required">
+        <p>Enter your name before starting quiz</p>
+      </div>
+    </div>
     <p>Left number of attempts: {{ numberOfRuns() }}</p>
     <p *ngIf="testing?.allowedStartDate">
       Start date: {{ allowedStartDate() }}
     </p>
     <p *ngIf="testing?.allowedEndDate">End date: {{ allowedEndDate() }}</p>
     <p *ngIf="test?.testTimeLimit">
-      This quiz has time limit: {{ testTimeLimit() }}
+      This quiz has <strong>time limit</strong>: {{ testTimeLimit() }}
     </p>
     <p *ngIf="test?.questionTimeLimit">
-      This quiz has question time limit: {{ questionTimeLimit() }}
+      This quiz has <strong>question time limit</strong>: {{ questionTimeLimit() }}
     </p>
   </mat-card-content>
   <mat-card-actions>
