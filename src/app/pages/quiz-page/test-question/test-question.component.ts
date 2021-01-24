@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+import { MatSelectionListChange } from '@angular/material/list';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
 
@@ -10,41 +17,38 @@ import { IQuestion } from 'src/app/models/question';
 })
 export class TestQuestionComponent implements OnInit {
   @Input() question: IQuestion;
-  @Output() selectAnswer = new EventEmitter<IAnswer[]>();
-  selectedAnswers: IAnswer[] = [];
-  questionForm: FormGroup;
+  // @Output() selectAnswer = new EventEmitter<IAnswer[]>();
+  // selectedAnswers: IAnswer[] = [];
+  @Input() questionForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.questionForm = this.fb.group({
-      answersArray: this.fb.array([]),
-    });
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 
-  get answersArray(): FormArray {
-    return this.questionForm.get('answersArray') as FormArray;
+  get answers(): FormArray {
+    return this.questionForm.get('answers') as FormArray;
   }
 
-  correctAnswerCount(): number {
-    const correctAnswers = this.question.answers.filter(
-      (answer: IAnswer) => answer.isCorrect === true
-    );
-    return correctAnswers.length;
-  }
+  // onAnswerSelectionChange(): void {
+  //   this.selectAnswer.emit(this.selectedAnswers);
+  // }
 
-  onAnswerSelectionChange(): void {
-    this.selectAnswer.emit(this.selectedAnswers);
-  }
-
-  onSelectAnswer(event): void {
-    console.log(event);
-  }
-
-  getAnswers(): void {
-    // this.answersArray.push(new FormControl());
-    this.question.answers.forEach((answer: IAnswer) => {
-      this.answersArray.push(new FormControl(null, []));
+  onSelectRadioListItem(selectedOption: MatSelectionListChange): void {
+    const answer = selectedOption.options[0].value.controls;
+    this.answers.controls.forEach((answerControl) => {
+      if (answerControl.get('id').value === answer?.id?.value) {
+        // console.log('true');
+        answerControl.patchValue({ selected: true });
+      } else {
+        // console.log('false');
+        answerControl.patchValue({ selected: false });
+      }
     });
+  }
+
+  onSelectMultipleListItem(selectedOption: MatSelectionListChange): void {
+    // console.log(selectedOption.options[0].value.value);
+    const isSelected: boolean = selectedOption.options[0].value.value;
+    selectedOption.options[0].value.setValue(!isSelected);
   }
 }

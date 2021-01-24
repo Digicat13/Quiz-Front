@@ -22,7 +22,9 @@
   </div>
   <div *ngIf="test?.questions && currentQuestionIndex !== undefined">
     <app-test-question
-      (selectAnswer)="onSelectAnswer($event)"
+      [questionForm]="
+        testForm.controls.questions.controls[currentQuestionIndex]
+      "
       [question]="test?.questions[currentQuestionIndex]"
     ></app-test-question>
     <div class="control-buttons">

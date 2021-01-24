@@ -1,4 +1,4 @@
-<mat-card class="card">
+<!-- <mat-card class="card">
   <mat-card-header>
     <p>{{ question?.questionText }}</p>
   </mat-card-header>
@@ -6,63 +6,174 @@
     <ng-template
       *ngIf="!(correctAnswerCount() > 1); then radioChoice; else multipleChoice"
     ></ng-template>
+
     <ng-template #multipleChoice>
-      <form [formGroup]="questionForm">
-        <mat-selection-list
-          [multiple]="correctAnswerCount() > 1"
-          (selectionChange)="onSelectAnswer($event)"
+      <mat-selection-list
+        [multiple]="correctAnswerCount() > 1"
+        (selectionChange)="onSelectAnswer($event)"
+        [(ngModel)]="selectedAnswers"
+        (ngModelChange)="onAnswerSelectionChange($event)"
+      >
+        <div mat-subhead *ngIf="question?.hintText" class="hint">
+          {{ question?.hintText }}
+        </div>
+
+        <mat-list-option
+          *ngFor="let answer of question.answers; let i = index; last as last"
+          checkboxPosition="before"
+          [value]="answer"
+          class="item"
         >
-          <div mat-subhead *ngIf="question?.hintText" class="hint">
-            {{ question?.hintText }}
+          <div class="item-multiple">
+            <p>{{ answer.answerText }}</p>
           </div>
-          <div
-            formArrayName="answersArray"
-          >
-            <mat-list-option
-            *ngFor="let answer of question.answers; let i = index; last as last"
-              checkboxPosition="before"
-              [value]="answer"
-              class="item"
-              formControlName="i"
-            >
-              <div class="item-multiple">
-                <p>{{ answer.answerText }}</p>
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-list-option>
-          </div>
-        </mat-selection-list>
-      </form>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
     </ng-template>
+
     <ng-template #radioChoice>
-      <form [formGroup]="questionForm">
-        <mat-selection-list
-          [multiple]="correctAnswerCount() > 1"
-          [(ngModel)]="selectedAnswers"
-          (ngModelChange)="onAnswerSelectionChange($event)"
-          (selectionChange)="onSelectAnswer($event)"
+      <mat-selection-list
+        [multiple]="correctAnswerCount() > 1"
+        [(ngModel)]="selectedAnswers"
+        (ngModelChange)="onAnswerSelectionChange($event)"
+        (selectionChange)="onSelectAnswer($event)"
+      >
+        <div mat-subhead *ngIf="question?.hintText">
+          {{ question?.hintText }}
+        </div>
+        <mat-list-option
+          *ngFor="let answer of question.answers; let i = index; last as last"
+          [value]="answer"
+          class="item"
         >
-          <div mat-subhead *ngIf="question?.hintText">
-            {{ question?.hintText }}
+          <div class="item-radio">
+            <mat-radio-button
+              [value]="answer"
+              [checked]="answer.id === selectedAnswers[0]?.id"
+            >
+              <p>{{ answer.answerText }}</p></mat-radio-button
+            >
           </div>
-          <mat-list-option
-            *ngFor="let answer of question.answers; let i = index; last as last"
-            [value]="answer"
-            class="item"
-            [formControl]="answersArray[i]"
-          >
+          <mat-divider *ngIf="!last"></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-template>
+  </mat-card-content>
+</mat-card> -->
+
+<mat-card class="card">
+  <mat-card-header>
+    <p>{{ question?.questionText }}</p>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="questionForm">
+      <ng-template
+        *ngIf="
+          questionForm.controls.correctAnswersCount.value == 1;
+          then radioChoice;
+          else multipleChoice
+        "
+      ></ng-template>
+      <ng-template #multipleChoice>
+        <mat-selection-list
+          [multiple]="true"
+          (selectionChange)="onSelectMultipleListItem($event)"
+        >
+          <mat-radio-group formArrayName="answers">
+            <div
+              mat-subhead
+              *ngIf="questionForm.controls?.hintText"
+              class="hint"
+            >
+              {{ question?.hintText }}
+            </div>
+            <div
+              *ngFor="
+                let answer of answers.controls;
+                let i = index;
+                last as last
+              "
+            >
+              <div [formGroupName]="i">
+                <mat-list-option
+                  checkboxPosition="before"
+                  class="item"
+                  [value]="answer.get('selected')"
+                >
+                  <div class="item-multiple">
+                    <p>
+                      {{ answer.get("answerText")?.value }}
+                    </p>
+                  </div>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-option>
+              </div>
+            </div>
+          </mat-radio-group>
+        </mat-selection-list>
+      </ng-template>
+
+      <ng-template #radioChoice>
+        <mat-selection-list
+          [multiple]="false"
+          (selectionChange)="onSelectRadioListItem($event)"
+        >
+          <mat-radio-group formArrayName="answers">
+            <div mat-subhead *ngIf="question?.hintText">
+              {{ question?.hintText }}
+            </div>
+            <div
+              *ngFor="
+                let answer of answers.controls;
+                let i = index;
+                last as last
+              "
+            >
+              <div [formGroupName]="i">
+                <mat-list-option class="item" [value]="answer">
+                  <div class="item-radio">
+                    <mat-radio-button
+                      [value]="answer.get('id').value"
+                      [checked]="answer.get('selected').value"
+                    >
+                      <p>
+                        {{ answer.get("answerText")?.value }}
+                      </p></mat-radio-button
+                    >
+                  </div>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-option>
+              </div>
+            </div>
+          </mat-radio-group>
+        </mat-selection-list>
+      </ng-template>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- <form [formGroup]="questionForm">
+  <mat-selection-list>
+    <div mat-subhead *ngIf="questionForm.controls?.hintText" class="hint">
+      {{ question?.hintText }}
+    </div>
+    <mat-radio-group formArrayName="answers">
+      <div *ngFor="let answer of answers.controls; let i = index; last as last">
+        <div [formGroupName]="i">
+          <mat-list-option class="item">
             <div class="item-radio">
-              <mat-radio-button
-                [value]="answer"
-                [checked]="answer.id === selectedAnswers[0]?.id"
-              >
-                <p>{{ answer.answerText }}</p></mat-radio-button
+              <mat-radio-button [value]="answer.get('selected').value">
+                <p>
+                  {{ answer.get("answerText")?.value }}
+                </p></mat-radio-button
               >
             </div>
             <mat-divider *ngIf="!last"></mat-divider>
           </mat-list-option>
-        </mat-selection-list>
-      </form>
-    </ng-template>
-  </mat-card-content>
-</mat-card>
+        
+        </div>
+      </div>
+    </mat-radio-group>
+  </mat-selection-list>
+</form> -->
