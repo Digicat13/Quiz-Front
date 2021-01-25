@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
 import { TestService } from 'src/app/services/test.service';
 import { TestingService } from 'src/app/services/testing.service';
-import * as lodash from 'lodash-es';
 import { ITestingResult } from 'src/app/models/testingResult';
 import { ITestingResultAnswer } from 'src/app/models/testingResultAnswer';
 import * as moment from 'moment';
@@ -38,8 +37,6 @@ export class QuizPageComponent implements OnInit {
     testTimeLimit: [],
     questionTimeLimit: [],
     questions: this.fb.array([]),
-    // answersArray: this.fb.array([]),
-    // correctAnswersCount: [0]
   });
 
   constructor(
@@ -47,7 +44,8 @@ export class QuizPageComponent implements OnInit {
     private testService: TestService,
     private testingService: TestingService,
     private testingResultService: TestingResultService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
@@ -127,9 +125,6 @@ export class QuizPageComponent implements OnInit {
   }
 
   nextQuestion(): void {
-    // this.getAnswers();
-    // this.currentQuestionSelectedAnswers = [];
-
     if (this.currentQuestionIndex !== this.test?.questions?.length - 1) {
       this.currentQuestionIndex++;
     }
@@ -137,41 +132,11 @@ export class QuizPageComponent implements OnInit {
     this.onNextQuestion.next();
   }
 
-  // getAnswers(): void {
-  //   if (this.answeredQuestions?.length === 0) {
-  //     this.initAnsweredQuestionsArray();
-  //   }
-
-  //   this.answeredQuestions[this.currentQuestionIndex].answers = [
-  //     ...this.currentQuestionSelectedAnswers,
-  //   ];
-
-  //   this.currentQuestionSelectedAnswers.forEach((answer) => {
-  //     this.testingAnswers.push({
-  //       testAnswerId: answer.id,
-  //       testQuestionId: answer.testQuestionId,
-  //     });
-  //   });
-  // }
-
-  // onSelectAnswer(selectedAnswers): void {
-  //   this.currentQuestionSelectedAnswers = lodash.cloneDeep(selectedAnswers);
-  // }
-
-  // initAnsweredQuestionsArray(): void {
-  //   this.answeredQuestions = lodash.cloneDeep(this.test.questions);
-  //   this.answeredQuestions.forEach((question) => {
-  //     question.answers = [];
-  //   });
-  // }
-
   onSubmit(quizDurationSeconds: number): void {
-    console.log(this.testForm);
-
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
     this.testingResultService.createTestingResult(testingResult).subscribe(
       (result) => {
-        console.log(result);
+        this.router.navigate(['/result', result.id]);
       },
       (error) => {
         console.log(error);
@@ -197,7 +162,6 @@ export class QuizPageComponent implements OnInit {
       moment.duration({ seconds: quizDurationSeconds }).asMilliseconds()
     );
     testingResult.selectedAnswers = new Array<ITestingResultAnswer>();
-    console.log(testingResult.selectedAnswers);
     this.testForm.value.questions.forEach((question) => {
       question.answers.forEach((answer) => {
         if (answer.selected === true) {
@@ -208,8 +172,6 @@ export class QuizPageComponent implements OnInit {
         }
       });
     });
-    console.log(testingResult.selectedAnswers);
-    console.log(testingResult);
     return testingResult;
   }
 

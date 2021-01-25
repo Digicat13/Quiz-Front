@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { IAnswer } from 'src/app/models/answer';
+import { IQuestion } from 'src/app/models/question';
 import { ITestingResult } from 'src/app/models/testingResult';
+import { ITestingResultAnswer } from 'src/app/models/testingResultAnswer';
 import { TestingResultService } from 'src/app/services/testingResult.service';
 
 @Component({
@@ -11,6 +14,9 @@ import { TestingResultService } from 'src/app/services/testingResult.service';
 export class QuizResultPageComponent implements OnInit {
   testingResultId: string;
   testingResult: ITestingResult;
+  questions: { questionId?: IQuestion; answerIds?: string[] } = {};
+  questionIds = Array<string>();
+  selectedAnswerIds: { answerId?: string; value?: boolean } = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -21,12 +27,37 @@ export class QuizResultPageComponent implements OnInit {
     });
   }
 
+  getQuestion(questionId: string): IQuestion {
+    const answer = this.testingResult.selectedAnswers.find(
+      (answerItem: ITestingResultAnswer) =>
+        answerItem.testQuestionId === questionId
+    );
+    return answer.testQuestion;
+  }
+
+  isAnswerSelected(answerId: string): boolean {
+    return this.selectedAnswerIds[answerId];
+  }
+
   async ngOnInit(): Promise<void> {
     await this.testingResultService
       .getTestingResult(this.testingResultId)
       .subscribe((result: ITestingResult) => {
         this.testingResult = result;
-        console.log(this.testingResult);
+        this.testingResult.selectedAnswers.forEach(
+          (answer: ITestingResultAnswer) => {
+            this.selectedAnswerIds[answer.testAnswerId] = true;
+            if (!this.questions[answer.testQuestionId]) {
+              this.questions[answer.testQuestionId] = new Array<string>(
+                answer.testAnswerId
+              );
+              this.questionIds.push(answer.testQuestionId);
+            } else {
+              this.questions[answer.testQuestionId].push(answer.testAnswerId);
+            }
+          }
+        );
+        console.log(this.questions);
       });
   }
 }

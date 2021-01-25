@@ -34,7 +34,6 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   private nextQuestionSubscription: Subscription;
   private endQuizSubscription: Subscription;
 
-
   constructor() {}
 
   ngOnInit(): void {
