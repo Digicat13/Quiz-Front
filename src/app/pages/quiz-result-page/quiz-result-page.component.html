@@ -1,0 +1,47 @@
+<div class="main">
+  <p class="test-name">{{ testingResult?.testName }}</p>
+  <p>
+    Your score is <strong>{{ testingResult?.score * 100 }}</strong> points!
+  </p>
+  <div
+    *ngFor="let selectedAnswer of testingResult?.selectedAnswers; last as last"
+  >
+    <mat-card class="card">
+      <mat-card-header>
+        <p>{{ selectedAnswer?.testQuestion?.questionText }}</p>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <div
+            mat-subhead
+            *ngIf="selectedAnswer?.testQuestion.hintText"
+            class="hint"
+          >
+            {{ question?.hintText }}
+          </div>
+          <div>
+            <mat-list-item
+              [ngClass]="{
+                correct: answer.isCorrect,
+                incorrect:
+                  !answer.isCorrect &&
+                  selectedAnswer?.testAnswer?.id === answer?.id
+              }"
+              *ngFor="
+                let answer of selectedAnswer?.testQuestion.answers;
+                let i = index;
+                last as last
+              "
+            >
+              <div>
+                <p>{{ answer.answerText }}</p>
+              </div>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </div>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-divider *ngIf="!last"></mat-divider>
+  </div>
+</div>

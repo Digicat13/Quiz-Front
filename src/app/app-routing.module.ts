@@ -7,6 +7,7 @@ import { EditTestPageComponent } from './pages/edit-test-page/edit-test-page.com
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page/login-page.component';
 import { QuizPageComponent } from './pages/quiz-page/quiz-page/quiz-page.component';
+import { QuizResultPageComponent } from './pages/quiz-result-page/quiz-result-page.component';
 import { ViewTestPageComponent } from './pages/view-test-page/view-test-page.component';
 import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing-page.component';
 
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'quiz/:id',
     component: QuizPageComponent,
+  },
+  {
+    path: 'result/:id',
+    component: QuizResultPageComponent,
   },
   { path: '**', redirectTo: '' },
 ];

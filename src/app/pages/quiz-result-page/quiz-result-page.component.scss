@@ -1,0 +1,23 @@
+@import "../../../styles.variables.scss";
+
+.incorrect {
+  color: white;
+  background-color: #e46a6a;
+}
+
+.correct {
+  color: white;
+  background-color: #aacd4e;
+}
+
+.main {
+  margin: 3vw 3vh;
+}
+
+.card {
+  margin: 15px 0;
+}
+
+.test-name {
+  font-size: 2em;
+}

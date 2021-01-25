@@ -166,19 +166,17 @@ export class QuizPageComponent implements OnInit {
   // }
 
   onSubmit(quizDurationSeconds: number): void {
-    // this.getAnswers();
-
     console.log(this.testForm);
 
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
-    // this.testingResultService.createTestingResult(testingResult).subscribe(
-    //   (result) => {
-    //     console.log(result);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+    this.testingResultService.createTestingResult(testingResult).subscribe(
+      (result) => {
+        console.log(result);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   startQuiz(interviewee: string): void {
