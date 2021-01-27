@@ -53,6 +53,21 @@ export class TestService {
     );
   }
 
+  getQuiz(id: string): Observable<ITest> {
+    return this.testControllerService.getQuizById(id).pipe(
+      map((data: ITest) => {
+        const test = data;
+        if (test.questionTimeLimit !== null) {
+          test.questionTimeLimit = moment(test.questionTimeLimit, 'HH:mm:ss');
+        }
+        if (test.testTimeLimit !== null) {
+          test.testTimeLimit = moment(test.testTimeLimit, 'HH:mm:ss');
+        }
+        return test;
+      })
+    );
+  }
+
   deleteTest(id: string): Observable<any> {
     return this.testControllerService.delete(id);
   }

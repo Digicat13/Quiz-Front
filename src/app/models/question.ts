@@ -6,4 +6,5 @@ export interface IQuestion {
   questionText: string;
   hintText?: string;
   answers: Array<IAnswer>;
+  correctAnswersCount?: number;
 }
