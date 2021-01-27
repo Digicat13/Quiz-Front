@@ -22,6 +22,10 @@ export class TestControllerService {
     return this.apiService.getById(this.controller, id);
   }
 
+  getQuizById(id: string): Observable<any> {
+    return this.apiService.getById(this.controller + '/quiz', id);
+  }
+
   delete(id: string): Observable<any> {
     return this.apiService.delete(this.controller, id);
   }

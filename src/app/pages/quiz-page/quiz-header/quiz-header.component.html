@@ -5,14 +5,14 @@
     <div class="progress">
       <p>{{ questionIndex + 1 }}/{{ questionsCount }}</p>
       <div class="time-div">
-        <div class="time quiz-duration">
+        <div class="time">
           <mat-icon color="accent">alarm</mat-icon>
           <span>{{ duration() }}</span>
         </div>
       </div>
     </div>
     <div class="time-div">
-      <div class="time time-limit">
+      <div class="time">
         <span *ngIf="isTimeLimited">Time left: </span>
         <mat-icon *ngIf="isTimeLimited" color="accent">alarm</mat-icon>
         <span *ngIf="isTimeLimited">{{ timeLeft() }}</span>

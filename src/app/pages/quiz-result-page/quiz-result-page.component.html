@@ -1,43 +1,17 @@
 <div class="main">
   <p class="test-name">{{ testingResult?.testName }}</p>
-  <p>
-    Your score is <strong>{{ testingResult?.score * 100 }}</strong> points!
-  </p>
-  <div *ngFor="let questionId of questionIds; last as last">
-    <mat-card class="card">
-      <mat-card-header>
-        <p>{{ getQuestion(questionId)?.questionText }}</p>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list>
-          <div
-            mat-subhead
-            *ngIf="getQuestion(questionId)?.hintText"
-            class="hint"
-          >
-            {{ getQuestion(questionId)?.hintText }}
-          </div>
-          <div>
-            <mat-list-item
-              *ngFor="
-                let answer of getQuestion(questionId)?.answers;
-                let i = index;
-                last as last
-              "
-              [ngClass]="{
-                correct: answer.isCorrect,
-                incorrect: !answer.isCorrect && isAnswerSelected(answer?.id)
-              }"
-            >
-              <div>
-                <p>{{ answer.answerText }}</p>
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-list-item>
-          </div>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-    <mat-divider *ngIf="!last"></mat-divider>
+  <div class="body">
+    <p>
+      Your score is <strong>{{ testingResult?.score * 100 }}</strong> points!
+    </p>
+    <div class="time-div">
+      <div class="time quiz-duration">
+        <mat-icon color="accent">alarm</mat-icon>
+        <span>{{ testingResult?.duration }}</span>
+      </div>
+    </div>
   </div>
+  <button (click)="goToQuizPage()" mat-raised-button class="mat-raised-button">
+    TAKE QUIZ AGAIN
+  </button>
 </div>

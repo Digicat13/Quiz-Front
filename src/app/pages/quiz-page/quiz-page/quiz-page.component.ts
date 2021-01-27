@@ -12,6 +12,8 @@ import * as moment from 'moment';
 import { TestingResultService } from 'src/app/services/testingResult.service';
 import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
 
 @Component({
   selector: 'app-quiz-page',
@@ -45,7 +47,8 @@ export class QuizPageComponent implements OnInit {
     private testingService: TestingService,
     private testingResultService: TestingResultService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
@@ -72,7 +75,7 @@ export class QuizPageComponent implements OnInit {
   }
 
   getTest(testId: string): void {
-    this.testService.getTest(testId).subscribe(
+    this.testService.getQuiz(testId).subscribe(
       (test: ITest) => {
         this.test = test;
         this.InitTestForm();
@@ -101,9 +104,7 @@ export class QuizPageComponent implements OnInit {
           testId: question.testId,
           questionText: question.questionText,
           hintText: question.hintText,
-          correctAnswersCount: question.answers.filter(
-            (answer: IAnswer) => answer.isCorrect === true
-          ).length,
+          correctAnswersCount: question.correctAnswersCount,
           answers: this.CreateTestAnswers(question.answers),
         })
       );
@@ -148,9 +149,12 @@ export class QuizPageComponent implements OnInit {
     if (!this.testing?.intervieweeName) {
       this.testing.intervieweeName = interviewee;
     }
-
-    this.currentQuestionIndex = 0;
-    this.testingStartDateTime = moment().toDate();
+    if (this.testing?.numberOfRuns === 0) {
+      this.openMessageDialog('You dont have any attempts');
+    } else {
+      this.currentQuestionIndex = 0;
+      this.testingStartDateTime = moment().toDate();
+    }
   }
 
   getTestingResult(quizDurationSeconds: number): ITestingResult {
@@ -177,5 +181,11 @@ export class QuizPageComponent implements OnInit {
 
   endQuiz(): void {
     this.onEndQuiz.next();
+  }
+
+  openMessageDialog(message: string): void {
+    const dialogRef = this.dialog.open(MessageDialogComponent);
+    dialogRef.componentInstance.message = message;
+    dialogRef.afterClosed().subscribe();
   }
 }
