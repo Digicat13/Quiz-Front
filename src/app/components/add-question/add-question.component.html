@@ -1,86 +1,91 @@
-<form #questionForm="ngForm">
-  <div
-    *ngFor="let question of questions; let i = index"
-    class="question-form"
-    [class.error-border]="noCorrectAnswerError.get(i)"
-  >
-    <div name="{{ 'qForm' + i }}">
-      <div class="card-header">
-        <p>{{ i + 1 + "." }}</p>
-        <button mat-icon-button type="button">
-          <mat-icon (click)="onDeleteQuestion(question)" color="warn"
-            >cancel</mat-icon
+<form [formGroup]="testForm">
+  <div formArrayName="questions">
+    <div
+      *ngFor="let questionForm of questionsArray.controls; let i = index"
+      class="question-form"
+      [class.error-border]="
+        noCorrectAnswerError.get(i) || (questionForm.invalid && submitted)
+      "
+    >
+      <div [formGroup]="questionForm">
+        <div class="card-header">
+          <p>{{ i + 1 + "." }}</p>
+          <button mat-icon-button type="button">
+            <mat-icon (click)="onDeleteQuestion(i)" color="warn"
+              >cancel</mat-icon
+            >
+          </button>
+        </div>
+        <mat-form-field>
+          <mat-label>Question*</mat-label>
+          <input matInput formControlName="questionText" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Hint</mat-label>
+          <input matInput formControlName="hintText" />
+        </mat-form-field>
+
+        <div class="answers" formArrayName="answers">
+          <div
+            *ngFor="let answer of getAnswersArray(i).controls; let z = index"
+            class="answer-form"
           >
+            <mat-card>
+              <div [formGroup]="answer">
+                <div class="card-header">
+                  <p>{{ z + 1 + "." }}</p>
+                  <button mat-icon-button class="delete-button" type="button">
+                    <mat-icon (click)="onDeleteAnswer(i, z)" color="warn"
+                      >cancel</mat-icon
+                    >
+                  </button>
+                </div>
+                <mat-form-field>
+                  <mat-label>Answer*</mat-label>
+                  <input formControlName="answerText" matInput />
+                </mat-form-field>
+                <mat-checkbox
+                  (change)="clearAnswerError()"
+                  formControlName="isCorrect"
+                  >Is correct</mat-checkbox
+                >
+              </div>
+            </mat-card>
+            <div
+              *ngIf="
+                testForm.controls.questions.controls[i].controls.answers
+                  .controls[z].controls.answerText.errors?.required && submitted
+              "
+              class="error-div"
+            >
+              <p>Answer is required</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="
+            testForm.controls.questions.controls[i].controls.questionText.errors
+              ?.required && submitted
+          "
+          class="error-div"
+        >
+          <p>Question is required</p>
+        </div>
+        <div *ngIf="noCorrectAnswerError.get(i) === true" class="error-div">
+          <p>Select at least 1 correct answer</p>
+        </div>
+        <button
+          (click)="onAddAnswer(i)"
+          mat-raised-button
+          color="primary"
+          type="button"
+        >
+          <span>Add answer</span>
         </button>
       </div>
-      <mat-form-field>
-        <mat-label>Question</mat-label>
-        <input
-          matInput
-          name="{{ 'qText' + i }}"
-          [(ngModel)]="question.questionText"
-          required
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Hint</mat-label>
-        <input
-          matInput
-          name="{{ 'qHint' + i }}"
-          [(ngModel)]="question.hintText"
-        />
-      </mat-form-field>
-
-      <div class="answers">
-        <div
-          *ngFor="let answer of question.answers; let z = index"
-          class="answer-form"
-        >
-          <mat-card>
-            <div>
-              <div class="card-header">
-                <p>{{ z + 1 + "." }}</p>
-                <button mat-icon-button class="delete-button" type="button">
-                  <mat-icon
-                    (click)="onDeleteAnswer(question, answer)"
-                    color="warn"
-                    >cancel</mat-icon
-                  >
-                </button>
-              </div>
-              <mat-form-field>
-                <mat-label>Answer</mat-label>
-                <input
-                  matInput
-                  name="{{ 'ansText' + i + ':' + z }}"
-                  [(ngModel)]="answer.answerText"
-                  required
-                />
-              </mat-form-field>
-              <mat-checkbox
-                (change)="clearAnswerError()"
-                name="{{ 'ansCorrect' + i + ':' + z }}"
-                [(ngModel)]="answer.isCorrect"
-                >Is correct</mat-checkbox
-              >
-            </div>
-          </mat-card>
-        </div>
-      </div>
-      <div *ngIf="noCorrectAnswerError.get(i) === true" class="error-div">
-        <p>Select at least 1 correct answer</p>
-      </div>
-      <button
-        (click)="onAddAnswer(question)"
-        mat-raised-button
-        color="primary"
-        type="button"
-      >
-        <span>Add answer</span>
-      </button>
     </div>
   </div>
-
   <div class="bottom-buttons">
     <button
       type="button"
@@ -90,9 +95,9 @@
     >
       <span>Add question</span>
     </button>
-    <button 
+    <button
       type="submit"
-      (click)="onSubmit(questionForm)"
+      (click)="onSubmit()"
       mat-raised-button
       color="primary"
     >

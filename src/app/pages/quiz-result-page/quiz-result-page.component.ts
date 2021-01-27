@@ -57,7 +57,6 @@ export class QuizResultPageComponent implements OnInit {
             }
           }
         );
-        console.log(this.questions);
       });
   }
 }

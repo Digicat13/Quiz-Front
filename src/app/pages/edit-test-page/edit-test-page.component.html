@@ -3,8 +3,8 @@
     <ng-template matStepLabel>Fill out quiz properties</ng-template>
     <div>
       <app-create-test
-        [testId]="testId"
-        (testPropertiesSubmit)="onTestPropertiesSubmit($event, stepper)"
+        [testForm]="testForm"
+        (testPropertiesSubmit)="onTestPropertiesSubmit(stepper)"
       ></app-create-test>
       <button [routerLink]="['home']" mat-raised-button>Cancel</button>
     </div>
@@ -13,10 +13,10 @@
     <ng-template matStepLabel>Add some questions</ng-template>
     <div>
       <app-add-question
-        [testId]="testId"
+        [testForm]="testForm"
         (questionDelete)="onQuestionDelete($event)"
         (answerDelete)="onAnswerDelete($event)"
-        (questionsSubmit)="onQuestionsSubmit($event, stepper)"
+        (questionsSubmit)="onQuestionsSubmit(stepper)"
       ></app-add-question>
       <button
         mat-raised-button
@@ -39,7 +39,7 @@
       >
         Back
       </button>
-      <button (click)="onSubmit(test)" mat-raised-button color="primary">
+      <button (click)="onSubmit()" mat-raised-button color="primary">
         Submit
       </button>
       <button [routerLink]="['home']" mat-raised-button>Cancel</button>
