@@ -15,6 +15,7 @@ import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
+import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
 
 @Component({
   selector: 'app-edit-test-page',
@@ -100,7 +101,7 @@ export class EditTestPageComponent implements OnInit {
   }
 
   getAnswersArray(answers: IAnswer[]): FormArray {
-    const array = new FormArray([]);
+    const array = new FormArray([], [correctAnswersCountValidator()]);
     answers.forEach((answer: IAnswer) => {
       array.push(
         this.fb.group({

@@ -1,12 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
 import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
@@ -19,7 +14,6 @@ export class AddQuestionComponent {
   @Output() questionDelete = new EventEmitter<string>();
   @Output() answerDelete = new EventEmitter<string>();
   @Input() testForm: FormGroup;
-  noCorrectAnswerError: Map<number, boolean> = new Map();
   submitted = false;
 
   constructor(public dialog: MatDialog, private fb: FormBuilder) {}
@@ -46,13 +40,16 @@ export class AddQuestionComponent {
         id: [],
         questionText: [, [Validators.required]],
         hintText: [],
-        answers: this.fb.array([
-          this.fb.group({
-            id: [],
-            isCorrect: false,
-            answerText: [, [Validators.required]],
-          }),
-        ]),
+        answers: this.fb.array(
+          [
+            this.fb.group({
+              id: [],
+              isCorrect: false,
+              answerText: [, [Validators.required]],
+            }),
+          ],
+          [correctAnswersCountValidator()]
+        ),
       })
     );
   }
@@ -76,10 +73,10 @@ export class AddQuestionComponent {
       return;
     }
 
-    if (this.testForm.get('id').value) {
+    if (this.testForm.get('id')?.value) {
       const answerId: string = this.getAnswersArray(questionIndex).controls[
         index
-      ].get('id').value;
+      ].get('id')?.value;
       if (answerId) {
         this.answerDelete.emit(answerId);
       }
@@ -109,42 +106,13 @@ export class AddQuestionComponent {
 
   onSubmit(): void {
     this.submitted = true;
-    this.validateAnswers();
-    if (this.noCorrectAnswerError.size > 0) {
-      this.openDialog(
-        '',
-        'You need to have at least one correct answer in each question'
-      );
-      return;
-    }
 
     if (this.testForm.invalid) {
+      this.openDialog('', 'Please fill questions properly');
       return;
     }
 
     this.questionsSubmit.emit();
-  }
-
-  clearAnswerError(): void {
-    this.noCorrectAnswerError = new Map();
-  }
-
-  validateAnswers(): void {
-    this.noCorrectAnswerError = new Map();
-    this.questionsArray.controls.forEach(
-      (questionControl: AbstractControl, qIndex: number) => {
-        let isValid = false;
-        (questionControl.get('answers') as FormArray).controls.forEach(
-          (answerControl: AbstractControl) => {
-            if (answerControl.get('isCorrect').value === true) {
-              isValid = true;
-            }
-          }
-        );
-        if (!isValid) {
-          this.noCorrectAnswerError.set(qIndex, true);
-        }
-      }
-    );
+    this.submitted = false;
   }
 }

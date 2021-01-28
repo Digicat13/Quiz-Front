@@ -3,9 +3,7 @@
     <div
       *ngFor="let questionForm of questionsArray.controls; let i = index"
       class="question-form"
-      [class.error-border]="
-        noCorrectAnswerError.get(i) || (questionForm.invalid && submitted)
-      "
+      [class.error-border]="questionForm.invalid && submitted"
     >
       <div [formGroup]="questionForm">
         <div class="card-header">
@@ -44,9 +42,7 @@
                   <mat-label>Answer*</mat-label>
                   <input formControlName="answerText" matInput />
                 </mat-form-field>
-                <mat-checkbox
-                  (change)="clearAnswerError()"
-                  formControlName="isCorrect"
+                <mat-checkbox formControlName="isCorrect"
                   >Is correct</mat-checkbox
                 >
               </div>
@@ -72,7 +68,13 @@
         >
           <p>Question is required</p>
         </div>
-        <div *ngIf="noCorrectAnswerError.get(i) === true" class="error-div">
+        <div
+          *ngIf="
+            testForm.controls.questions.controls[i].controls.answers?.errors
+              ?.error === 'No correct answers' && submitted
+          "
+          class="error-div"
+        >
           <p>Select at least 1 correct answer</p>
         </div>
         <button
