@@ -55,23 +55,16 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    await this.getTesting(this.testingId);
-    this.getTest(this.testing?.testId);
-  }
-
-  async getTesting(testingId: string): Promise<void> {
-    await this.testingService
-      .getTesting(testingId)
-      .toPromise()
-      .then(
-        (testing: ITesting) => {
-          this.testing = testing;
-        },
-        (error) => {
-          console.log('Failed to retrieve test');
-        }
-      );
+  ngOnInit(): void {
+    this.testingService.getTesting(this.testingId).subscribe(
+      (testing: ITesting) => {
+        this.testing = testing;
+        this.getTest(this.testing?.testId);
+      },
+      (error) => {
+        console.log('Failed to retrieve testing');
+      }
+    );
   }
 
   getTest(testId: string): void {
