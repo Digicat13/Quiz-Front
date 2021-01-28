@@ -14,6 +14,7 @@ import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quiz-page',
@@ -56,27 +57,23 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.testingService.getTesting(this.testingId).subscribe(
-      (testing: ITesting) => {
-        this.testing = testing;
-        this.getTest(this.testing?.testId);
-      },
-      (error) => {
-        console.log('Failed to retrieve testing');
-      }
-    );
-  }
-
-  getTest(testId: string): void {
-    this.testService.getQuiz(testId).subscribe(
-      (test: ITest) => {
-        this.test = test;
-        this.InitTestForm();
-      },
-      (error) => {
-        console.log('Failed to retrieve test');
-      }
-    );
+    this.testingService
+      .getTesting(this.testingId)
+      .pipe(
+        mergeMap((testing: ITesting) => {
+          this.testing = testing;
+          return this.testService.getQuiz(testing?.testId);
+        })
+      )
+      .subscribe(
+        (test: ITest) => {
+          this.test = test;
+          this.InitTestForm();
+        },
+        (error) => {
+          console.log('Failed to retrieve test');
+        }
+      );
   }
 
   InitTestForm(): void {
