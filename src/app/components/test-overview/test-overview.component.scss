@@ -9,9 +9,24 @@ $margin-left: 15px;
 }
 
 mat-checkbox {
+  margin: 0 0.5em;
   font-size: smaller;
 }
 
 .main-wrapper {
   margin: $margin-left;
+}
+
+.answer-text {
+  margin: 0;
+  display: flex;
+  overflow-wrap: anywhere;
+}
+
+.answer-checkbox {
+  display: flex;
+}
+
+.answer {
+  display: flex;
 }
