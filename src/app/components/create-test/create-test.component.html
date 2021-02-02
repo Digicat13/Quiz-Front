@@ -1,11 +1,11 @@
-<form [formGroup]="createTestForm">
+<form [formGroup]="testForm">
   <div class="form">
     <mat-form-field>
-      <mat-label>Quiz name</mat-label>
+      <mat-label>Quiz name*</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Description</mat-label>
+      <mat-label>Description*</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
     <mat-radio-group formControlName="timeOption" class="time-radio">
@@ -48,33 +48,36 @@
       </mat-form-field>
     </div>
     <div class="error-div">
+      <div *ngIf="testForm?.controls?.name?.errors?.required && submitted">
+        <p>Name is required.</p>
+      </div>
       <div
-        *ngIf="
-          createTestForm?.controls?.testTimeLimit?.get('hours')?.errors?.pattern
-        "
+        *ngIf="testForm?.controls?.description?.errors?.required && submitted"
+      >
+        <p>Description is required.</p>
+      </div>
+      <div
+        *ngIf="testForm?.controls?.testTimeLimit?.get('hours')?.errors?.pattern"
       >
         <p>Hours must be in range from 0 to 9.</p>
       </div>
       <div
         *ngIf="
-          createTestForm?.controls?.testTimeLimit?.get('minutes')?.errors
-            ?.pattern
+          testForm?.controls?.testTimeLimit?.get('minutes')?.errors?.pattern
         "
       >
         <p>Minutes must be in range from 0 to 59.</p>
       </div>
       <div
         *ngIf="
-          createTestForm?.controls?.questionTimeLimit?.get('minutes')?.errors
-            ?.pattern
+          testForm?.controls?.questionTimeLimit?.get('minutes')?.errors?.pattern
         "
       >
         <p>Minutes must be in range from 0 to 99.</p>
       </div>
       <div
         *ngIf="
-          createTestForm?.controls?.questionTimeLimit?.get('seconds')?.errors
-            ?.pattern
+          testForm?.controls?.questionTimeLimit?.get('seconds')?.errors?.pattern
         "
       >
         <p>Seconds must be in range from 0 to 59.</p>

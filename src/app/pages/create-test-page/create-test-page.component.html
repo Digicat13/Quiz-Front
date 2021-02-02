@@ -3,7 +3,8 @@
     <ng-template matStepLabel>Fill out quiz properties</ng-template>
     <div>
       <app-create-test
-        (testPropertiesSubmit)="onTestPropertiesSubmit($event, stepper)"
+        [testForm]="testForm"
+        (testPropertiesSubmit)="onTestPropertiesSubmit(stepper)"
       ></app-create-test>
     </div>
   </mat-step>
@@ -11,7 +12,8 @@
     <ng-template matStepLabel>Add some questions</ng-template>
     <div>
       <app-add-question
-        (questionsSubmit)="onQuestionsSubmit($event, stepper)"
+        [testForm]="testForm"
+        (questionsSubmit)="onQuestionsSubmit(stepper)"
       ></app-add-question>
       <button
         mat-raised-button
@@ -33,7 +35,7 @@
       >
         Back
       </button>
-      <button (click)="onSubmit(test)" mat-raised-button color="primary">
+      <button (click)="onSubmit()" mat-raised-button color="primary">
         Submit
       </button>
     </div>

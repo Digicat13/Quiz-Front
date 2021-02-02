@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { IAnswer } from 'src/app/models/answer';
-import { IQuestion } from 'src/app/models/question';
-import { ITest } from 'src/app/models/test';
-import { TestService } from 'src/app/services/test.service';
+import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
 import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
@@ -12,32 +9,22 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
   templateUrl: './add-question.component.html',
   styleUrls: ['./add-question.component.scss'],
 })
-export class AddQuestionComponent implements OnInit {
-  @Output() questionsSubmit = new EventEmitter<IQuestion[]>();
+export class AddQuestionComponent {
+  @Output() questionsSubmit = new EventEmitter();
   @Output() questionDelete = new EventEmitter<string>();
   @Output() answerDelete = new EventEmitter<string>();
-  @Input() testId: string;
-  questions: IQuestion[] = [
-    {
-      questionText: '',
-      hintText: '',
-      answers: [{ answerText: '', isCorrect: false }],
-    },
-  ];
-  noCorrectAnswerError: Map<number, boolean> = new Map();
+  @Input() testForm: FormGroup;
+  submitted = false;
 
-  constructor(public dialog: MatDialog, private testService: TestService) {}
+  constructor(public dialog: MatDialog, private fb: FormBuilder) {}
 
-  async ngOnInit(): Promise<void> {
-    if (this.testId) {
-      await this.getTest(this.testId).then((test: ITest) => {
-        this.questions = test.questions;
-      });
-    }
+  get questionsArray(): FormArray {
+    return this.testForm.controls.questions as FormArray;
   }
 
-  getTest(testId: string): Promise<ITest> {
-    return this.testService.getTest(testId).toPromise();
+  getAnswersArray(questionIndex: number): FormArray {
+    return (this.questionsArray.controls[questionIndex] as FormGroup).controls
+      .answers as FormArray;
   }
 
   openDialog(header: string, message: string): void {
@@ -48,86 +35,84 @@ export class AddQuestionComponent implements OnInit {
   }
 
   onAddQuestion(): void {
-    this.questions.push({
-      questionText: '',
-      hintText: '',
-      answers: [{ answerText: '', isCorrect: false }],
-    });
+    this.questionsArray.push(
+      this.fb.group({
+        id: [],
+        questionText: [, [Validators.required]],
+        hintText: [],
+        answers: this.fb.array(
+          [
+            this.fb.group({
+              id: [],
+              isCorrect: false,
+              answerText: [, [Validators.required]],
+            }),
+          ],
+          [correctAnswersCountValidator()]
+        ),
+      })
+    );
   }
 
-  onAddAnswer(question: IQuestion): void {
-    question.answers.push({ answerText: '', isCorrect: false });
+  onAddAnswer(questionIndex: number): void {
+    this.getAnswersArray(questionIndex).push(
+      this.fb.group({
+        id: [],
+        isCorrect: false,
+        answerText: [, [Validators.required]],
+      })
+    );
   }
 
-  onDeleteAnswer(question: IQuestion, answer: IAnswer): void {
-    if (question.answers.length === 1) {
+  onDeleteAnswer(questionIndex: number, index: number): void {
+    if (this.getAnswersArray(questionIndex).length === 1) {
       this.openDialog(
         'Cant perfom this action',
         'You need to have at least one answer'
       );
       return;
     }
-    const answerIndex = question.answers.indexOf(answer);
-    if (answerIndex !== -1) {
-      question.answers.splice(answerIndex, 1);
-      this.answerDelete.emit(answer?.id);
-    } else {
-      alert('Failed to delete answer');
+
+    if (this.testForm.get('id')?.value) {
+      const answerId: string = this.getAnswersArray(questionIndex).controls[
+        index
+      ].get('id')?.value;
+      if (answerId) {
+        this.answerDelete.emit(answerId);
+      }
     }
+
+    this.getAnswersArray(questionIndex).removeAt(index);
   }
 
-  onDeleteQuestion(question: IQuestion): void {
-    if (this.questions.length === 1) {
+  onDeleteQuestion(index: number): void {
+    if (this.questionsArray.length === 1) {
       this.openDialog(
         'Cant perfom this action',
         'You need to have at least one question'
       );
       return;
     }
-    const questionIndex = this.questions.indexOf(question);
-    if (questionIndex !== -1) {
-      this.questions.splice(questionIndex, 1);
-      this.questionDelete.emit(question?.id);
-    } else {
-      alert('Failed to delete question');
+    if (this.testForm.get('id')?.value) {
+      const questionId: string = this.questionsArray.controls[index]?.get('id')
+        ?.value;
+      if (questionId) {
+        this.questionDelete.emit(questionId);
+      }
     }
+
+    this.questionsArray.removeAt(index);
   }
 
-  onSubmit(form: NgForm): void {
-    if (form.invalid) {
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.testForm.invalid) {
+      this.openDialog('', 'Please fill questions properly');
       return;
     }
 
-    this.validateAnswers();
-    if (this.noCorrectAnswerError.size > 0) {
-      return;
-    }
-
-    this.questions.forEach((q: IQuestion) => {
-      if (q?.hintText?.trim() === '') {
-        delete q.hintText;
-      }
-    });
-
-    this.questionsSubmit.emit(this.questions);
-  }
-
-  clearAnswerError(): void {
-    this.noCorrectAnswerError = new Map();
-  }
-
-  validateAnswers(): void {
-    this.noCorrectAnswerError = new Map();
-    this.questions.forEach((q: IQuestion, qIndex: number) => {
-      let correct = false;
-      q.answers.forEach((answer: IAnswer) => {
-        if (answer.isCorrect) {
-          correct = true;
-        }
-      });
-      if (!correct) {
-        this.noCorrectAnswerError.set(qIndex, true);
-      }
-    });
+    this.questionsSubmit.emit();
+    this.submitted = false;
   }
 }
