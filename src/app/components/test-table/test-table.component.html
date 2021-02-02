@@ -1,15 +1,4 @@
 <section class="cards">
-  <div class="header">
-    <div>
-      <mat-form-field>
-        <mat-label> Sort by </mat-label>
-        <mat-select [formControl]="sortSelect">
-          <mat-option value="name"> Name </mat-option>
-          <mat-option value="date"> Date </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
   <mat-card *ngFor="let test of tests" class="card">
     <mat-card-header>
       <mat-card-title>{{ test.name }}</mat-card-title>

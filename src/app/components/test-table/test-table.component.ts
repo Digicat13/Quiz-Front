@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ITest } from 'src/app/models/test';
@@ -14,7 +13,6 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
 })
 export class TestTableComponent implements OnInit {
   tests: Array<ITest> = [];
-  sortSelect = new FormControl('name');
 
   constructor(
     private testService: TestService,
