@@ -44,6 +44,8 @@ export class CreateTestingComponent {
       );
       testing.allowedStartDate.setHours(time.hours());
       testing.allowedStartDate.setMinutes(time.minutes());
+      const offset = moment(testing.allowedStartDate).add(2, 'hours');
+      testing.allowedStartDate = offset.toDate();
     }
     if (this.form.get('allowedEndDate').value) {
       testing.allowedEndDate = this.form.get('allowedEndDate').value;
@@ -53,6 +55,8 @@ export class CreateTestingComponent {
       );
       testing.allowedEndDate.setHours(time.hours());
       testing.allowedEndDate.setMinutes(time.minutes());
+      const offset = moment(testing.allowedEndDate).add(2, 'hours');
+      testing.allowedEndDate = offset.toDate();
     }
     if (this.form.get('numberOfRuns').value) {
       testing.numberOfRuns = this.form.get('numberOfRuns').value;

@@ -67,7 +67,7 @@ const MaterialComponents = [
   MatProgressSpinnerModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatListModule,
+  MatListModule
 ];
 
 @NgModule({
