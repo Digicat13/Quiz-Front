@@ -1,0 +1,17 @@
+<div class="main">
+  <p class="test-name">{{ testingResult?.testName }}</p>
+  <div class="body">
+    <p>
+      Your score is <strong>{{ testingResult?.score * 100 }}</strong> points!
+    </p>
+    <div class="time-div">
+      <div class="time quiz-duration">
+        <mat-icon color="accent">alarm</mat-icon>
+        <span>{{ testingResult?.duration }}</span>
+      </div>
+    </div>
+  </div>
+  <button (click)="goToQuizPage()" mat-raised-button class="mat-raised-button">
+    TAKE QUIZ AGAIN
+  </button>
+</div>

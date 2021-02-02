@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -43,6 +45,11 @@ import { CreateTestingPageComponent } from './pages/create-testing-page/create-t
 import { CreateTestingComponent } from './components/create-testing/create-testing.component';
 import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing-page.component';
 import { TestingComponent } from './components/testing/testing.component';
+import { TestInfoComponent } from './pages/quiz-page/test-info/test-info.component';
+import { QuizPageComponent } from './pages/quiz-page/quiz-page/quiz-page.component';
+import { TestQuestionComponent } from './pages/quiz-page/test-question/test-question.component';
+import { QuizHeaderComponent } from './pages/quiz-page/quiz-header/quiz-header.component';
+import { QuizResultPageComponent } from './pages/quiz-result-page/quiz-result-page.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -60,6 +67,7 @@ const MaterialComponents = [
   MatProgressSpinnerModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatListModule,
 ];
 
 @NgModule({
@@ -83,8 +91,14 @@ const MaterialComponents = [
     CreateTestingComponent,
     ViewTestingPageComponent,
     TestingComponent,
+    TestInfoComponent,
+    QuizPageComponent,
+    TestQuestionComponent,
+    QuizHeaderComponent,
+    QuizResultPageComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

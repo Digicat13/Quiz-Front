@@ -1,0 +1,15 @@
+@import "../../../../styles.variables.scss";
+
+.control-buttons {
+  margin: 3vw 3vh;
+  button:hover {
+    color: inherit;
+    background-color: $amber;
+  }
+  .buttons-wrapper {
+    display: flex;
+  }
+  button {
+    margin-left: auto;
+  }
+}

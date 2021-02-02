@@ -1,10 +1,10 @@
 <nav class="mat-elevation-z6">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <a routerLink="home-page" class="mat-raised-button">
+      <a *ngIf="user" routerLink="home-page" class="mat-raised-button">
         <span class="mat-button-wrapper">Quizzes</span>
       </a>
-      <a routerLink="create-test" class="mat-raised-button">
+      <a *ngIf="user" routerLink="create-test" class="mat-raised-button">
         <span class="mat-button-wrapper">Create quiz</span>
       </a>
       <div *ngIf="user" class="left-menu-wrapper">

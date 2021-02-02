@@ -1,0 +1,36 @@
+@import "../../../../styles.variables.scss";
+
+:host ::ng-deep .mat-list-text {
+  padding: 0;
+}
+
+mat-card-header {
+  font-weight: 500;
+}
+
+.card {
+  padding: 2vh 3vw;
+  margin: 3vw 3vh;
+  border: 1px solid $form-border;
+}
+
+mat-selection-list {
+  outline: none;
+}
+
+.hint {
+  padding: 0 5px;
+}
+
+.item {
+  .item-radio {
+    p {
+      padding: 0 8px;
+    }
+  }
+  .item-multiple {
+    p {
+      padding: 0 16px;
+    }
+  }
+}
