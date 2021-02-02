@@ -136,23 +136,15 @@ export class QuizPageComponent implements OnInit {
   }
 
   startQuiz(interviewee: string): void {
-    if (this.testing?.numberOfRuns === 0) {
-      this.openMessageDialog('You dont have any attempts');
-      return;
-    }
-    if (moment(this.testing?.allowedStartDate) > moment()) {
-      this.openMessageDialog('The quiz is not available yet');
-      return;
-    }
-    if (moment(this.testing?.allowedEndDate) < moment()) {
-      this.openMessageDialog('The quiz link is expired');
-      return;
-    }
     if (!this.testing?.intervieweeName) {
       this.testing.intervieweeName = interviewee;
     }
-    this.currentQuestionIndex = 0;
-    this.testingStartDateTime = moment().toDate();
+    if (this.testing?.numberOfRuns === 0) {
+      this.openMessageDialog('You dont have any attempts');
+    } else {
+      this.currentQuestionIndex = 0;
+      this.testingStartDateTime = moment().toDate();
+    }
   }
 
   getTestingResult(quizDurationSeconds: number): ITestingResult {

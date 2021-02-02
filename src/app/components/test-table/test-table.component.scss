@@ -1,5 +1,10 @@
 @import "../../../styles.variables.scss";
 
+.header{
+  background-color: $primary-background;
+  border-bottom: 1px solid $form-border;
+}
+
 .cards {
   width: 100%;
   .card {
