@@ -9,8 +9,17 @@ import { environment } from 'src/environments/environment';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  get(controller: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${controller}`);
+  get(
+    controller: string,
+    pageNumber?: number,
+    pageSize?: number
+  ): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${controller}?` +
+        (pageNumber ? `pageNumber=${pageNumber}` : '') +
+        (pageSize ? `&pageSize=${pageSize}` : ''),
+      { observe: 'response' }
+    );
   }
 
   getById(controller: string, id: string): Observable<any> {
