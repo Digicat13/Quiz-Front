@@ -1,3 +1,8 @@
+<app-sorting-chip-list
+  [text]="'Sort by:'"
+  [properties]="sortingProperties"
+  (selectProperty)="onPropertySelect($event)"
+></app-sorting-chip-list>
 <app-test-table
   [tests]="tests"
   (deleteQuestion)="getTests(tests.currentPage, tests.pageSize)"

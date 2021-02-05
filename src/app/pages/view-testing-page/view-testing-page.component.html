@@ -1,3 +1,10 @@
+<div *ngIf="testings.length > 1">
+  <app-sorting-chip-list
+    [text]="'Sort by:'"
+    [properties]="sortingProperties"
+    (selectProperty)="onPropertySelect($event)"
+  ></app-sorting-chip-list>
+</div>
 <div *ngFor="let testing of testings">
   <div *ngIf="testing !== undefined">
     <app-testing [testing]="testing"></app-testing>

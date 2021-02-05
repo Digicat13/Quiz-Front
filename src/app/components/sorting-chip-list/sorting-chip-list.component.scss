@@ -1,0 +1,40 @@
+@import "../../../styles.variables.scss";
+$margin: 15px;
+
+.body {
+  display: flex;
+  margin-top: $margin;
+  margin-left: $margin;
+}
+
+.text {
+  margin-right: 15px;
+}
+
+mat-chip {
+  min-height: 38px;
+  -webkit-user-select: none;
+}
+
+mat-chip-list {
+  display: flex;
+}
+
+.sorting-arrows {
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  mat-icon {
+    color: #a9a9a9;
+    font-size: 20px;
+    height: auto;
+    width: auto;
+  }
+  .active-arrow {
+    color: white;
+  }
+}
+
+.mat-chip.mat-standard-chip::after {
+  background: none;
+}

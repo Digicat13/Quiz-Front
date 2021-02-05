@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { SortingProperty } from 'src/app/components/sorting-chip-list/sorting-chip-list.component';
 import { PagedList } from 'src/app/models/PagedList';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
@@ -17,6 +18,10 @@ export class HomePageComponent implements OnInit {
     pageSizeOptions: PagedList.pageSizeOptions,
     currentPage: 1,
   };
+  sortingProperties: SortingProperty[] = [
+    { key: 'Name', value: 'Name' },
+    { key: 'Date', value: 'CreationDate' },
+  ];
 
   constructor(private testService: TestService) {}
 
@@ -27,9 +32,13 @@ export class HomePageComponent implements OnInit {
     );
   }
 
-  getTests(pageNumber: number, pageSize: number): void {
+  getTests(
+    pageNumber: number,
+    pageSize: number,
+    orderBy?: SortingProperty
+  ): void {
     this.testService
-      .getAll(pageNumber, pageSize)
+      .getAll(pageNumber, pageSize, orderBy)
       .subscribe((data: PagedList<ITest>) => {
         this.tests = data;
         this.setPaginatorProperties(data);
@@ -45,5 +54,13 @@ export class HomePageComponent implements OnInit {
   paginatorChanges(pageEvent: PageEvent, matPaginator: MatPaginator): void {
     this.tests.pageEvent = pageEvent;
     this.getTests(this.tests.currentPage, this.tests.pageSize);
+  }
+
+  onPropertySelect(selectedProperty: SortingProperty): void {
+    this.getTests(
+      this.tests.currentPage,
+      this.tests.pageSize,
+      selectedProperty
+    );
   }
 }
