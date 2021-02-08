@@ -14,20 +14,24 @@
         mat-raised-button
         color="primary"
       >
-        CREATE TESTING
+        {{ "test-table.create-testing" | translate | uppercase }}
       </button>
       <a [routerLink]="['test', test.id]" class="mat-raised-button">
-        <span class="mat-button-wrapper">VIEW</span>
+        <span class="mat-button-wrapper">{{
+          "test-table.view" | translate | uppercase
+        }}</span>
       </a>
       <a [routerLink]="['test/edit', test.id]" class="mat-raised-button">
-        <span class="mat-button-wrapper">EDIT</span>
+        <span class="mat-button-wrapper">{{
+          "test-table.edit" | translate | uppercase
+        }}</span>
       </a>
       <button
         mat-raised-button
         (click)="onDeleteTest(test.id)"
         class="delete-button"
       >
-        DELETE
+        {{ "test-table.delete" | translate | uppercase }}
       </button>
     </mat-card-actions>
   </mat-card>

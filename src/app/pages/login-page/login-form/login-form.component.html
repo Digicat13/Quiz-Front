@@ -1,12 +1,18 @@
 <div class="wrapper">
   <div class="main">
     <div class="sign-form">
-      <div><p>Sign in to Quizzer</p></div>
+      <div>
+        <p>{{ "pages.login-page.login-form.header" | translate }}</p>
+      </div>
       <div *ngIf="error" class="error-div">
         <p *ngIf="error?.status !== 401; else default">
-          Wrong username or password
+          {{ "pages.login-page.login-form.error-credentials" | translate }}
         </p>
-        <ng-template #default><p>Failed to login</p></ng-template>
+        <ng-template #default
+          ><p>
+            {{ "pages.login-page.login-form.error-default" | translate }}
+          </p></ng-template
+        >
         <button mat-icon-button (click)="closeError()" color="warn">
           <mat-icon>close</mat-icon>
         </button>
@@ -17,14 +23,20 @@
         class="mat-elevation-z1"
       >
         <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
+          <mat-label>{{
+            "pages.login-page.login-form.username" | translate
+          }}</mat-label>
           <input matInput formControlName="username" />
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
+          <mat-label>{{
+            "pages.login-page.login-form.password" | translate
+          }}</mat-label>
           <input matInput type="password" formControlName="password" />
         </mat-form-field>
-        <button mat-raised-button type="submit" color="accent">Sign in</button>
+        <button mat-raised-button type="submit" color="accent">
+          {{ "pages.login-page.login-form.signin-btn" | translate }}
+        </button>
       </form>
     </div>
   </div>

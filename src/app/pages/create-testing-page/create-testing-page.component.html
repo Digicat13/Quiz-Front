@@ -1,10 +1,8 @@
 <div class="heading">
   <p>
-    Create Testing for
+    {{ "pages.create-testing-page.testing-for" | translate }}
     <strong>{{ testName }}</strong>
-    Quiz
+    {{ "pages.create-testing-page.quiz" | translate }}
   </p>
 </div>
-<app-create-testing
-  (testingSubmit)="onSubmit($event)"
-></app-create-testing>
+<app-create-testing (testingSubmit)="onSubmit($event)"></app-create-testing>

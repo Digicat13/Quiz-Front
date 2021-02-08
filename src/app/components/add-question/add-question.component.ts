@@ -66,10 +66,7 @@ export class AddQuestionComponent {
 
   onDeleteAnswer(questionIndex: number, index: number): void {
     if (this.getAnswersArray(questionIndex).length === 1) {
-      this.openDialog(
-        'Cant perfom this action',
-        'You need to have at least one answer'
-      );
+      this.openDialog('cant-perfom-action', 'at-least-one-answer');
       return;
     }
 
@@ -87,10 +84,7 @@ export class AddQuestionComponent {
 
   onDeleteQuestion(index: number): void {
     if (this.questionsArray.length === 1) {
-      this.openDialog(
-        'Cant perfom this action',
-        'You need to have at least one question'
-      );
+      this.openDialog('cant-perfom-action', 'at-least-one-question');
       return;
     }
     if (this.testForm.get('id')?.value) {
@@ -108,7 +102,7 @@ export class AddQuestionComponent {
     this.submitted = true;
 
     if (this.testForm.invalid) {
-      this.openDialog('', 'Please fill questions properly');
+      this.openDialog('', 'fill-questions-properly');
       return;
     }
 

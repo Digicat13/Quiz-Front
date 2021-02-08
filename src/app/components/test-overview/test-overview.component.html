@@ -1,14 +1,25 @@
 <div class="main-wrapper">
-  <p><strong>Quiz name: </strong>{{ test?.name }}</p>
-  <p><strong>Description: </strong>{{ test?.description }}</p>
+  <p>
+    <strong>{{ "test-overview.quiz-name" | translate }}: </strong
+    >{{ test?.name }}
+  </p>
+  <p>
+    <strong>{{ "test-overview.description" | translate }}: </strong
+    >{{ test?.description }}
+  </p>
   <p *ngIf="test?.testTimeLimit">
-    <strong>Time limit: </strong>{{ test?.testTimeLimit?.hours() + "h" }}
-    {{ test?.testTimeLimit?.minutes() + "m" }}
+    <strong>{{ "test-overview.time-limit" | translate }}: </strong
+    >{{ test?.testTimeLimit?.hours() }} +
+    {{ "test-overview.hours-short" | translate }}
+    {{ test?.testTimeLimit?.minutes() }} +
+    {{ "test-overview.minutes-short" | translate }}
   </p>
   <p *ngIf="test?.questionTimeLimit">
-    <strong>Question time limit: </strong
-    >{{ test?.questionTimeLimit?.minute() + "m" }}
-    {{ test?.questionTimeLimit?.seconds() + "s" }}
+    <strong>{{ "test-overview.question-time-limit" | translate }}: </strong
+    >{{ test?.questionTimeLimit?.minute() }} +
+    {{ "test-overview.minutes-short" | translate }}
+    {{ test?.questionTimeLimit?.seconds() }} +
+    {{ "test-overview.seconds-short" | translate }}
   </p>
   <div *ngFor="let question of test?.questions; let i = index">
     <div class="question-card">

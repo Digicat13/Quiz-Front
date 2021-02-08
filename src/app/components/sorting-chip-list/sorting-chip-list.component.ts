@@ -14,7 +14,7 @@ export interface SortingProperty {
 })
 export class SortingChipListComponent implements OnInit {
   @Input() properties: Array<SortingProperty> = [];
-  @Input() text: string;
+  @Input() text = 'sort-by';
   @Output() selectProperty = new EventEmitter<SortingProperty>();
 
   chipListProperties: Array<SortingProperty> = [];

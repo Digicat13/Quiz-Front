@@ -24,8 +24,8 @@ export class TestTableComponent {
 
   openConfirmDialog(testId: string): MatDialogRef<ConfirmDialogComponent, any> {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
-    const header = 'Are you sure?';
-    const action = 'Delete';
+    const header = 'are-you-sure';
+    const action = 'delete';
     dialogRef.componentInstance.header = header;
     dialogRef.componentInstance.buttonAction = action;
     dialogRef.componentInstance.testId = testId;
@@ -46,14 +46,14 @@ export class TestTableComponent {
           this.testService.deleteTest(id).subscribe(
             (result: boolean) => {
               if (result === true) {
-                this.openMessageDialog('Successfully deleted');
+                this.openMessageDialog('successfully-deleted');
                 this.deleteQuestion.next(id);
               } else {
-                this.openMessageDialog('Couldn`t delete this test');
+                this.openMessageDialog('error-delete-test');
               }
             },
             (error) => {
-              this.openMessageDialog('Couldn`t delete this test');
+              this.openMessageDialog('error-delete-test');
             }
           );
         }

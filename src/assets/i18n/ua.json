@@ -1,0 +1,176 @@
+{
+  "add-question": {
+    "add-answer": "Додати відповідь",
+    "add-question": "Додати питання",
+    "answer": "Відповідь",
+    "correct-checkbox": "Правильна",
+    "error": {
+      "answer-required": "Відповідь обов'язкова",
+      "one-correct-answer": "Оберіть хоча б одну правильну відповідь",
+      "question-required": "Питання обов'язкове"
+    },
+    "hint": "Підказка",
+    "next": "Далі",
+    "question": "Питання"
+  },
+  "constants": {
+    "sorting": {
+      "date": "Дата створення",
+      "end-date": "Кінцева дата",
+      "interviewee": "Опитуваний",
+      "name": "Назва",
+      "start-date": "Дата початку"
+    }
+  },
+  "create-test": {
+    "description": "Опис",
+    "error": {
+      "description-required": "Опис обов'язковий",
+      "hours-range-0-9": "Години повинні бути в діапазоні від 0 до 9",
+      "minutes-range-0-59": "Хвилини повинні бути в діапазоні від 0 до 59",
+      "minutes-range-0-99": "Хвилини повинні бути в діапазоні від 0 до 99",
+      "name-required": "Назва обов'язкова",
+      "seconds-range-0-59": "Секунди повинні бути в діапазоні від 0 to 59"
+    },
+    "hours-short": "год",
+    "minutes-short": "хв",
+    "next": "Далі",
+    "no-time-limit": "Без часового ліміту",
+    "question-time-limit": "Часовий ліміт на питання",
+    "quiz-name": "Назва тесту",
+    "quiz-time-limit": "Часовий ліміт на тест",
+    "seconds-short": "с"
+  },
+  "create-testing": {
+    "cancel": "Відмінити",
+    "choose-end-date": "Оберіть дату закінчення",
+    "choose-end-time": "Оберіть час закінчення",
+    "choose-start-date": "Оберіть дату початку",
+    "choose-start-time": "Оберіть час початку",
+    "create": "Створити",
+    "interviewee-name": "Ім'я опитуваного",
+    "number-of-attempts": "Кількість спроб"
+  },
+  "dialogs": {
+    "confirm-dialog": {
+      "are-you-sure": "Ви впевнені?",
+      "cancel": "Відмінити",
+      "delete": "Видалити"
+    },
+    "message-dialog": {
+      "at-least-one-answer": "Потрібно мати хоча б одну правильну відповідь",
+      "at-least-one-question": "Потрібно мати хоча б одне питання",
+      "cant-perfom-action": "Неможливо виконати дію",
+      "dont-have-any-attempts": "У вас не залишилось спроб",
+      "error-delete-test": "Не вдалось видалити тест",
+      "failed-create-quiz": "Не вдалось створити тест",
+      "failed-create-testing": "Не вдалось створити посилання",
+      "failed-edit-quiz": "Не вдалось відредагувати тест",
+      "fill-questions-properly": "Питання заповнені направильно",
+      "ok": "Ок",
+      "quiz-link-expired": "Посилання більше недоступне",
+      "quiz-not-available-yet": "Посилання ще недоступне",
+      "successfully-created": "Успішно створено!",
+      "successfully-deleted": "Успішно видалено",
+      "successfully-edited": "Успішно відредаговано!"
+    }
+  },
+  "navbar": {
+    "create": "Створити тест",
+    "links": "Посилання",
+    "menu": {
+      "logout": "Вийти",
+      "language": "Мова",
+      "langs": {
+        "en": "Англійська",
+        "ua": "Українська"
+      }
+    },
+    "quizzes": "Тести",
+    "signin": "Увійти"
+  },
+  "pages": {
+    "create-test-page": {
+      "add-questions": "Додайте питання",
+      "back": "Назад",
+      "fill-quiz-properties": "Заповніть інформацію про тест",
+      "quiz-overview": "Огляд тесту",
+      "submit": "Відправити"
+    },
+    "create-testing-page": {
+      "quiz": "Тест",
+      "testing-for": "Сторити посилання для"
+    },
+    "edit-test-page": {
+      "add-questions": "Додайте питання",
+      "back": "Назад",
+      "cancel": "Відмінити",
+      "fill-quiz-properties": "Заповніть інформацію про тест",
+      "quiz-overview": "Огляд тесту",
+      "submit": "Відправити"
+    },
+    "login-page": {
+      "login-form": {
+        "error-credentials": "Неправильний логін або пароль",
+        "error-default": "Не вдалось увійти",
+        "header": "Увійти в Quizzer",
+        "password": "Пароль",
+        "signin-btn": "Увійти",
+        "username": "Логін"
+      }
+    },
+    "quiz-page": {
+      "quiz-header": {
+        "time-left": "Часу залишилось"
+      },
+      "quiz-page": {
+        "next": "Далі",
+        "submit": "Відправити"
+      },
+      "test-info": {
+        "end-date": "Кінцева дата",
+        "enter-name": "Введіть ім'я",
+        "enter-name-before-start": "Введіть ім'я перед початком тесту",
+        "interviewee": "Опитуваний",
+        "left-number-attempts": "Кількість спроб",
+        "question-time-limit": "часовий ліміт на питання",
+        "quiz-has": "Цей тест має",
+        "start-date": "Дата початку",
+        "start-quiz": "Розпочати тест",
+        "time-limit": "часовий ліміт"
+      }
+    },
+    "quiz-result-page": {
+      "points": "балів",
+      "take-quiz-again": "Пройти тест знову",
+      "your-score": "Ваш результат"
+    }
+  },
+  "sorting-chip-list": {
+    "sort-by": "Сортувати за"
+  },
+  "test-overview": {
+    "description": "Опис",
+    "hours-short": "год",
+    "minutes-short": "хв",
+    "question-time-limit": "Часовий ліміт на питання",
+    "quiz-name": "Назва тесту",
+    "seconds-short": "с",
+    "time-limit": "Часовий ліміт"
+  },
+  "test-table": {
+    "create-testing": "Створити посилання",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "view": "Огляд"
+  },
+  "testing": {
+    "end-date": "Кінцева дата",
+    "interviewee": "Опитуваний",
+    "number-of-attempts": "Кількість спроб",
+    "quiz": "Тест",
+    "quiz-url": "Посилання",
+    "start-date": "Дата початку",
+    "unlimited": "Необмежено"
+  }
+}

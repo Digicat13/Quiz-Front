@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormBuilder,
   FormGroup,
   Validators,
@@ -40,12 +39,15 @@ export class CreateTestPageComponent {
       this.fb.group({
         questionText: [, [Validators.required]],
         hintText: [],
-        answers: this.fb.array([
-          this.fb.group({
-            isCorrect: false,
-            answerText: [, [Validators.required]],
-          }),
-        ], [correctAnswersCountValidator()]),
+        answers: this.fb.array(
+          [
+            this.fb.group({
+              isCorrect: false,
+              answerText: [, [Validators.required]],
+            }),
+          ],
+          [correctAnswersCountValidator()]
+        ),
       }),
     ]),
   });
@@ -93,11 +95,11 @@ export class CreateTestPageComponent {
   onSubmit(): void {
     this.testService.createTest(this.test).subscribe(
       () => {
-        this.openMessageDialog('Successfully created!');
+        this.openMessageDialog('successfully-created');
         this.router.navigate(['/home-page']);
       },
       (error) => {
-        this.openMessageDialog('Failed to create quiz.');
+        this.openMessageDialog('failed-create-quiz');
       }
     );
   }

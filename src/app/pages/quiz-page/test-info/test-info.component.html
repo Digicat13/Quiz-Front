@@ -4,33 +4,51 @@
   </mat-card-header>
   <mat-card-content>
     <p *ngIf="testing?.intervieweeName">
-      Interviewee: {{ testing?.intervieweeName }}
+      {{ "pages.quiz-page.test-info.interviewee" | translate }}:
+      {{ testing?.intervieweeName }}
     </p>
     <mat-form-field *ngIf="!testing?.intervieweeName">
-      <mat-label>Enter your name</mat-label>
+      <mat-label>
+        {{ "pages.quiz-page.test-info.enter-name" | translate }}</mat-label
+      >
       <input [formControl]="intervieweeInput" matInput />
     </mat-form-field>
     <div class="error-div">
       <div *ngIf="submitted && intervieweeInput?.errors?.required">
-        <p>Enter your name before starting quiz</p>
+        <p>
+          {{ "pages.quiz-page.test-info.enter-name-before-start" | translate }}
+        </p>
       </div>
     </div>
-    <p>Left number of attempts: {{ numberOfRuns() }}</p>
-    <p *ngIf="testing?.allowedStartDate">
-      Start date: {{ allowedStartDate() }}
+    <p>
+      {{ "pages.quiz-page.test-info.left-number-attempts" | translate }}:
+      {{ numberOfRuns() }}
     </p>
-    <p *ngIf="testing?.allowedEndDate">End date: {{ allowedEndDate() }}</p>
+    <p *ngIf="testing?.allowedStartDate">
+      {{ "pages.quiz-page.test-info.start-date" | translate }}:
+      {{ allowedStartDate() }}
+    </p>
+    <p *ngIf="testing?.allowedEndDate">
+      {{ "pages.quiz-page.test-info.end-date" | translate }}:
+      {{ allowedEndDate() }}
+    </p>
     <p *ngIf="test?.testTimeLimit">
-      This quiz has <strong>time limit</strong>: {{ testTimeLimit() }}
+      {{ "pages.quiz-page.test-info.quiz-has" | translate }}
+      <strong> {{ "pages.quiz-page.test-info.time-limit" | translate }}</strong
+      >: {{ testTimeLimit() }}
     </p>
     <p *ngIf="test?.questionTimeLimit">
-      This quiz has <strong>question time limit</strong>:
+      {{ "pages.quiz-page.test-info.quiz-has" | translate }}
+      <strong>{{
+        "pages.quiz-page.test-info.question-time-limit" | translate
+      }}</strong
+      >:
       {{ questionTimeLimit() }}
     </p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="onPressStart()">
-      START QUIZ
+      {{ "pages.quiz-page.test-info.start-quiz" | translate | uppercase }}
     </button>
   </mat-card-actions>
 </mat-card>

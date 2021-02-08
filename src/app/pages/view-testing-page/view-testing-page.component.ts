@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SortingProperty } from 'src/app/components/sorting-chip-list/sorting-chip-list.component';
+import { testingProperties } from 'src/app/constants/sorting/testing-properties';
 import { PagedList } from 'src/app/models/PagedList';
 import { ITesting } from 'src/app/models/testing';
 import { TestingService } from 'src/app/services/testing.service';
@@ -20,12 +21,7 @@ export class ViewTestingPageComponent implements OnInit {
     pageSizeOptions: PagedList.pageSizeOptions,
     currentPage: 1,
   };
-  sortingProperties: SortingProperty[] = [
-    { key: 'Name', value: 'Test.Name' },
-    { key: 'Start date', value: 'AllowedStartDate' },
-    { key: 'End date', value: 'AllowedEndDate' },
-    { key: 'Interviewee', value: 'IntervieweeName' },
-  ];
+  sortingProperties: SortingProperty[] = testingProperties;
 
   constructor(
     private activatedRoute: ActivatedRoute,
