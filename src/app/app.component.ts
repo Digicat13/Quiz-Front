@@ -22,7 +22,16 @@ export class AppComponent implements AfterViewChecked {
     private cdr: ChangeDetectorRef,
     translateService: TranslateService
   ) {
-    translateService.use(environment.defaultLanguage);
+    const language = JSON.parse(localStorage.getItem('currentLanguage'));
+    if (language) {
+      translateService.use(language);
+    } else {
+      localStorage.setItem(
+        'currentLanguage',
+        JSON.stringify(environment.defaultLanguage)
+      );
+      translateService.use(environment.defaultLanguage);
+    }
 
     this.authenticatinService.currentUser.subscribe(
       (user: IUser) => (this.currentUser = user)

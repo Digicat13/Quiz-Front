@@ -28,6 +28,7 @@ export class NavBarComponent {
   }
 
   changeLanguage(lang: string): void {
+    localStorage.setItem('currentLanguage', JSON.stringify(lang));
     this.translateService.use(lang);
   }
 }
