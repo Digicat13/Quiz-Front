@@ -7,7 +7,8 @@
     "error": {
       "answer-required": "Answer is required",
       "one-correct-answer": "Select at least 1 correct answer",
-      "question-required": "Question is required"
+      "question-required": "Question is required",
+      "not-enough-answers": "You need to have more answers for this question"
     },
     "hint": "Hint",
     "next": "Next",

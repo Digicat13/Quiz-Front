@@ -77,6 +77,15 @@
         >
           <p>{{ "add-question.error.one-correct-answer" | translate }}</p>
         </div>
+        <div
+          *ngIf="
+            testForm.controls.questions.controls[i].controls.answers?.errors
+              ?.error === 'Not enough answers' && submitted
+          "
+          class="error-div"
+        >
+          <p>{{ "add-question.error.not-enough-answers" | translate }}</p>
+        </div>
         <button
           (click)="onAddAnswer(i)"
           mat-raised-button
