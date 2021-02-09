@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
@@ -11,18 +10,17 @@ import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog
   templateUrl: './test-table.component.html',
   styleUrls: ['./test-table.component.scss'],
 })
-export class TestTableComponent implements OnInit {
-  tests: Array<ITest> = [];
-
-  constructor(
-    private testService: TestService,
-    private router: Router,
-    public dialog: MatDialog
-  ) {}
-
-  ngOnInit(): void {
-    this.getTests();
+export class TestTableComponent {
+  private testArray = [];
+  @Output() deleteQuestion = new EventEmitter<string>();
+  @Input() set tests(tests: Array<ITest>) {
+    this.testArray = tests;
   }
+  get tests(): Array<ITest> {
+    return this.testArray;
+  }
+
+  constructor(private testService: TestService, public dialog: MatDialog) {}
 
   openConfirmDialog(testId: string): MatDialogRef<ConfirmDialogComponent, any> {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
@@ -49,7 +47,7 @@ export class TestTableComponent implements OnInit {
             (result: boolean) => {
               if (result === true) {
                 this.openMessageDialog('Successfully deleted');
-                this.getTests();
+                this.deleteQuestion.next(id);
               } else {
                 this.openMessageDialog('Couldn`t delete this test');
               }
@@ -60,11 +58,5 @@ export class TestTableComponent implements OnInit {
           );
         }
       });
-  }
-
-  getTests(): void {
-    this.testService.getAll().subscribe((data: ITest[]) => {
-      this.tests = data;
-    });
   }
 }
