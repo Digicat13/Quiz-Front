@@ -50,6 +50,10 @@ const routes: Routes = [
     component: QuizPageComponent,
   },
   {
+    path: 'quiz/:id/:interviewee',
+    component: QuizPageComponent,
+  },
+  {
     path: 'result/:id',
     component: QuizResultPageComponent,
   },

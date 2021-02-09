@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <button (click)="goToQuizPage()" mat-raised-button class="mat-raised-button">
+  <button *ngIf="attemptsAvailable" (click)="goToQuizPage()" mat-raised-button class="mat-raised-button">
     {{ "pages.quiz-result-page.take-quiz-again" | translate }}
   </button>
 </div>
