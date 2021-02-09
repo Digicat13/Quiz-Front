@@ -72,7 +72,8 @@
       "quiz-not-available-yet": "The quiz is not available yet",
       "successfully-created": "Successfully created!",
       "successfully-deleted": "Successfully deleted",
-      "successfully-edited": "Successfully edited!"
+      "successfully-edited": "Successfully edited!",
+      "error-occurred": "An error occured"
     }
   },
   "navbar": {
@@ -83,7 +84,7 @@
       "language": "Language",
       "langs": {
         "en": "English",
-        "ua": "Ukrainian"
+        "ua": "Українська"
       }
     },
     "quizzes": "Quizzes",
@@ -137,7 +138,10 @@
         "quiz-has": "This quiz has",
         "start-date": "Start date",
         "start-quiz": "Start quiz",
-        "time-limit": "time limit"
+        "time-limit": "time limit",
+        "hours-short": "h",
+        "minutes-short": "m",
+        "seconds-short": "s"
       }
     },
     "quiz-result-page": {

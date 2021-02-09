@@ -9,17 +9,17 @@
   </p>
   <p *ngIf="test?.testTimeLimit">
     <strong>{{ "test-overview.time-limit" | translate }}: </strong
-    >{{ test?.testTimeLimit?.hours() }} +
-    {{ "test-overview.hours-short" | translate }}
-    {{ test?.testTimeLimit?.minutes() }} +
-    {{ "test-overview.minutes-short" | translate }}
+    >{{ test?.testTimeLimit?.hours()
+    }}{{ "test-overview.hours-short" | translate }}
+    {{ test?.testTimeLimit?.minutes()
+    }}{{ "test-overview.minutes-short" | translate }}
   </p>
   <p *ngIf="test?.questionTimeLimit">
     <strong>{{ "test-overview.question-time-limit" | translate }}: </strong
-    >{{ test?.questionTimeLimit?.minute() }} +
-    {{ "test-overview.minutes-short" | translate }}
-    {{ test?.questionTimeLimit?.seconds() }} +
-    {{ "test-overview.seconds-short" | translate }}
+    >{{ test?.questionTimeLimit?.minute()
+    }}{{ "test-overview.minutes-short" | translate }}
+    {{ test?.questionTimeLimit?.seconds()
+    }}{{ "test-overview.seconds-short" | translate }}
   </p>
   <div *ngFor="let question of test?.questions; let i = index">
     <div class="question-card">

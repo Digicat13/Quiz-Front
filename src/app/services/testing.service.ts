@@ -46,4 +46,8 @@ export class TestingService {
   getTestingUrl(testingId: string): string {
     return `${environment.clientUrl}/quiz/${testingId}`;
   }
+
+  reduceTestingAttempts(testing: ITesting): Observable<ITesting> {
+    return this.testingControllerService.put(testing);
+  }
 }

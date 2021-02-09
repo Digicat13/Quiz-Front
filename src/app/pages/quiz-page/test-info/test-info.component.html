@@ -35,15 +35,20 @@
     <p *ngIf="test?.testTimeLimit">
       {{ "pages.quiz-page.test-info.quiz-has" | translate }}
       <strong> {{ "pages.quiz-page.test-info.time-limit" | translate }}</strong
-      >: {{ testTimeLimit() }}
+      >: {{ this.test?.testTimeLimit?.hours() }}
+      {{ "pages.quiz-page.test-info.hours-short" | translate }}
+      {{ this.test?.testTimeLimit?.minutes() }}
+      {{ "pages.quiz-page.test-info.minutes-short" | translate }}
     </p>
     <p *ngIf="test?.questionTimeLimit">
       {{ "pages.quiz-page.test-info.quiz-has" | translate }}
       <strong>{{
         "pages.quiz-page.test-info.question-time-limit" | translate
       }}</strong
-      >:
-      {{ questionTimeLimit() }}
+      >: {{ this.test?.questionTimeLimit?.minutes()
+      }}{{ "pages.quiz-page.test-info.minutes-short" | translate }}
+      {{ this.test?.questionTimeLimit?.seconds()
+      }}{{ "pages.quiz-page.test-info.seconds-short" | translate }}
     </p>
   </mat-card-content>
   <mat-card-actions>

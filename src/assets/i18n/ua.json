@@ -72,7 +72,8 @@
       "quiz-not-available-yet": "Посилання ще недоступне",
       "successfully-created": "Успішно створено!",
       "successfully-deleted": "Успішно видалено",
-      "successfully-edited": "Успішно відредаговано!"
+      "successfully-edited": "Успішно відредаговано!",
+      "error-occurred": "Сталась помилка"
     }
   },
   "navbar": {
@@ -82,7 +83,7 @@
       "logout": "Вийти",
       "language": "Мова",
       "langs": {
-        "en": "Англійська",
+        "en": "English",
         "ua": "Українська"
       }
     },
@@ -137,7 +138,10 @@
         "quiz-has": "Цей тест має",
         "start-date": "Дата початку",
         "start-quiz": "Розпочати тест",
-        "time-limit": "часовий ліміт"
+        "time-limit": "часовий ліміт",
+        "hours-short": "год",
+        "minutes-short": "хв",
+        "seconds-short": "с"
       }
     },
     "quiz-result-page": {

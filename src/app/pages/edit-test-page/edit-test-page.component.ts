@@ -169,7 +169,7 @@ export class EditTestPageComponent implements OnInit {
         this.openMessageDialog('successfully-edited');
       },
       (error) => {
-        this.openMessageDialog('failed-edit-quiz!');
+        this.openMessageDialog('failed-edit-quiz');
       }
     );
 
@@ -212,6 +212,7 @@ export class EditTestPageComponent implements OnInit {
         return;
       }
     }
+    test.id = this.test.id;
     test.name = this.name.value;
     test.description = this.description.value;
     test.questions = new Array<IQuestion>();
