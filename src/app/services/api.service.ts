@@ -12,12 +12,14 @@ export class ApiService {
   get(
     controller: string,
     pageNumber?: number,
-    pageSize?: number
+    pageSize?: number,
+    orderBy?: string
   ): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${controller}?` +
         (pageNumber ? `pageNumber=${pageNumber}` : '') +
-        (pageSize ? `&pageSize=${pageSize}` : ''),
+        (pageSize ? `&pageSize=${pageSize}` : '') +
+        (orderBy ? `&orderBy=${orderBy}` : ''),
       { observe: 'response' }
     );
   }

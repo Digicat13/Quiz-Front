@@ -10,8 +10,8 @@ export class TestingControllerService {
 
   constructor(private apiService: ApiService) {}
 
-  get(pageNumber?: number, pageSize?: number): Observable<any> {
-    return this.apiService.get(this.controller, pageNumber, pageSize);
+  get(pageNumber?: number, pageSize?: number, orderBy?: string): Observable<any> {
+    return this.apiService.get(this.controller, pageNumber, pageSize, orderBy);
   }
 
   getById(id: string): Observable<any> {

@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -51,6 +52,7 @@ import { QuizPageComponent } from './pages/quiz-page/quiz-page/quiz-page.compone
 import { TestQuestionComponent } from './pages/quiz-page/test-question/test-question.component';
 import { QuizHeaderComponent } from './pages/quiz-page/quiz-header/quiz-header.component';
 import { QuizResultPageComponent } from './pages/quiz-result-page/quiz-result-page.component';
+import { SortingChipListComponent } from './components/sorting-chip-list/sorting-chip-list.component';
 
 const MaterialComponents = [
   MatCardModule,
@@ -70,6 +72,7 @@ const MaterialComponents = [
   MatNativeDateModule,
   MatListModule,
   MatPaginatorModule,
+  MatChipsModule,
 ];
 
 @NgModule({
@@ -98,6 +101,7 @@ const MaterialComponents = [
     TestQuestionComponent,
     QuizHeaderComponent,
     QuizResultPageComponent,
+    SortingChipListComponent,
   ],
   imports: [
     CommonModule,
