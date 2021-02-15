@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 import { SortingProperty } from 'src/app/components/sorting-chip-list/sorting-chip-list.component';
 import { testProperties } from 'src/app/constants/sorting/test-properties';
 import { PagedList } from 'src/app/models/PagedList';
 import { ITest } from 'src/app/models/test';
-import { TestService } from 'src/app/services/test.service';
+import { TestActions } from 'src/app/store/actions/test.actions';
+import { selectTests } from 'src/app/store/selectors/test.selectors';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-home-page',
@@ -20,7 +24,7 @@ export class HomePageComponent implements OnInit {
     currentPage: 1,
   };
   sortingProperties: SortingProperty[] = testProperties;
-  constructor(private testService: TestService) {}
+  constructor(private store: Store<IAppState>) {}
 
   ngOnInit(): void {
     this.getTests(
@@ -34,11 +38,22 @@ export class HomePageComponent implements OnInit {
     pageSize: number,
     orderBy?: SortingProperty
   ): void {
-    this.testService
-      .getAll(pageNumber, pageSize, orderBy)
-      .subscribe((data: PagedList<ITest>) => {
-        this.tests = data;
-        this.setPaginatorProperties(data);
+    this.store.dispatch(
+      TestActions.GetTests({
+        pageNumber,
+        pageSize,
+        orderBy,
+      })
+    );
+
+    this.store
+      .pipe(
+        select(selectTests),
+        filter((val) => val !== null)
+      )
+      .subscribe((tests: PagedList<ITest>) => {
+        this.tests = tests;
+        this.setPaginatorProperties(this.tests);
       });
   }
 
@@ -49,7 +64,16 @@ export class HomePageComponent implements OnInit {
   }
 
   paginatorChanges(pageEvent: PageEvent, matPaginator: MatPaginator): void {
-    this.tests.pageEvent = pageEvent;
+    const data = new PagedList(
+      this.tests,
+      this.tests.totalCount,
+      this.tests.currentPage,
+      this.tests.pageSize,
+      this.tests.totalPages
+    );
+    data.pageEvent = pageEvent;
+    this.store.dispatch(TestActions.GetTestsSuccess({ tests: data }));
+
     this.getTests(this.tests.currentPage, this.tests.pageSize);
   }
 

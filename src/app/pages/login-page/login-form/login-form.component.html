@@ -5,7 +5,7 @@
         <p>{{ "pages.login-page.login-form.header" | translate }}</p>
       </div>
       <div *ngIf="error" class="error-div">
-        <p *ngIf="error?.status !== 401; else default">
+        <p *ngIf="error?.status == 401; else default">
           {{ "pages.login-page.login-form.error-credentials" | translate }}
         </p>
         <ng-template #default

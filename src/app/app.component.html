@@ -3,3 +3,4 @@
 <div *ngIf="isLoading">
   <app-loader></app-loader>
 </div>
+<p *ngFor="let test of tests$ | async">{{ test.name }}</p>

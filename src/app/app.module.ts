@@ -64,6 +64,10 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MissingTranslationService } from './services/missingTranslation.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/reducers/app.reducers';
+import { TestEffects } from './store/effects/test.effects';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -138,6 +142,8 @@ const MaterialComponents = [
         useClass: MissingTranslationService,
       },
     }),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([TestEffects]),
   ],
   providers: [
     {
