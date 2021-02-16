@@ -100,7 +100,6 @@
       "submit": "Submit"
     },
     "create-testing-page": {
-      "quiz": "Quiz",
       "testing-for": "Create testing for"
     },
     "edit-test-page": {
@@ -130,19 +129,18 @@
         "submit": "Submit"
       },
       "test-info": {
-        "end-date": "End date",
+        "end-date": "End date: {{allowedEndDate}}",
         "enter-name": "Enter your name",
         "enter-name-before-start": "Enter your name before starting quiz",
-        "interviewee": "Interviewee",
-        "left-number-attempts": "Left number of attempts",
-        "question-time-limit": "question time limit",
+        "interviewee": "Interviewee: {{intervieweeName}}",
+        "left-number-attempts": "Left number of attempts: {{numberOfRuns}}",
+        "question-time-limit-strong": "question time limit",
         "quiz-has": "This quiz has",
-        "start-date": "Start date",
+        "start-date": "Start date: {{allowedStartDate}}",
         "start-quiz": "Start quiz",
-        "time-limit": "time limit",
-        "hours-short": "h",
-        "minutes-short": "m",
-        "seconds-short": "s"
+        "time-limit-strong": "time limit",
+        "hours-minutes": "{{hours}}h {{minutes}}m",
+        "minutes-seconds": "{{minutes}}m {{seconds}}s"
       }
     },
     "quiz-result-page": {
@@ -155,13 +153,12 @@
     "sort-by": "Sort by"
   },
   "test-overview": {
-    "description": "Description",
-    "hours-short": "h",
-    "minutes-short": "m",
-    "question-time-limit": "Question time limit",
-    "quiz-name": "Quiz name",
-    "seconds-short": "s",
-    "time-limit": "Time limit"
+    "description-strong": "Description",
+    "question-time-limit-strong": "Question time limit",
+    "quiz-name-strong": "Quiz name",
+    "time-limit-strong": "Time limit",
+    "hours-minutes": "{{hours}}h {{minutes}}m",
+    "minutes-seconds": "{{minutes}}m {{seconds}}s"
   },
   "test-table": {
     "create-testing": "Create testing",
@@ -170,12 +167,12 @@
     "view": "View"
   },
   "testing": {
-    "end-date": "End date",
-    "interviewee": "Interviewee",
-    "number-of-attempts": "Number of left attempts",
-    "quiz": "Quiz",
-    "quiz-url": "Quiz Url",
-    "start-date": "Start date",
+    "end-date-strong": "End date",
+    "interviewee-strong": "Interviewee",
+    "number-of-attempts-strong": "Number of left attempts",
+    "quiz": "Quiz: {{testName}}",
+    "quiz-url-strong": "Quiz Url",
+    "start-date-strong": "Start date",
     "unlimited": "Unlimited"
   }
 }
