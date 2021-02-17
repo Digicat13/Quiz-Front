@@ -41,11 +41,9 @@ export class SortingChipListComponent implements OnInit {
       if (prop !== selected) {
         clone.selected = false;
         clone.ascending = false;
-        console.log('not equel');
       } else {
         clone.selected = true;
         clone.ascending = !prop.ascending;
-        console.log('equel');
       }
       data.push(clone);
     });

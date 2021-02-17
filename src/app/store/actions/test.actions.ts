@@ -6,9 +6,7 @@ import { ITest } from 'src/app/models/test';
 export enum ETestActions {
   GetTest = '[Test] Get Test',
   GetTests = '[Test] Get Tests',
-  GetTestsFailure = '[Test] Get Tests Failure',
   GetTestsSuccess = '[Test] Get Tests Success',
-  GetTestFailure = '[Test] Get Test Failure',
   GetTestSuccess = '[Test] Get Test Success',
 }
 
@@ -28,7 +26,7 @@ export class TestActions {
   );
 
   static GetTestSuccess = createAction(
-    ETestActions.GetTest,
+    ETestActions.GetTestSuccess,
     props<{ test: ITest }>()
   );
 
@@ -36,11 +34,6 @@ export class TestActions {
     ETestActions.GetTestsSuccess,
     props<{ tests: PagedList<ITest> }>()
   );
-
-  // static SetTests = createAction(
-  //   ETestActions.SetTests,
-  //   props<{tests: Paged}>
-  // )
 
   constructor() {}
 }

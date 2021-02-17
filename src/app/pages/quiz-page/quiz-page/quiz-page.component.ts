@@ -14,7 +14,14 @@ import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
-import { mergeMap } from 'rxjs/operators';
+import { filter, mergeMap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import {
+  selectQuiz,
+  selectTesting,
+} from 'src/app/store/selectors/quiz.selectors';
+import { EQuizActions, QuizActions } from 'src/app/store/actions/quiz.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-quiz-page',
@@ -49,7 +56,8 @@ export class QuizPageComponent implements OnInit {
     private testingResultService: TestingResultService,
     private fb: FormBuilder,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store<IAppState>
   ) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
@@ -57,23 +65,46 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.testingService
-      .getTesting(this.testingId)
+    this.store.dispatch(
+      QuizActions.GetQuizByTestingId({ testingId: this.testingId })
+    );
+
+    this.store
       .pipe(
-        mergeMap((testing: ITesting) => {
-          this.testing = testing;
-          return this.testService.getQuiz(testing?.testId);
-        })
+        select(selectTesting),
+        filter((val) => val !== null)
       )
-      .subscribe(
-        (test: ITest) => {
-          this.test = test;
-          this.InitTestForm();
-        },
-        (error) => {
-          console.log('Failed to retrieve test');
-        }
-      );
+      .subscribe((testing: ITesting) => {
+        this.testing = testing;
+      });
+
+    this.store
+      .pipe(
+        select(selectQuiz),
+        filter((val) => val !== null)
+      )
+      .subscribe((test: ITest) => {
+        this.test = test;
+        this.InitTestForm();
+      });
+
+    // this.testingService
+    //   .getTesting(this.testingId)
+    //   .pipe(
+    //     mergeMap((testing: ITesting) => {
+    //       this.testing = testing;
+    //       return this.testService.getQuiz(testing?.testId);
+    //     })
+    //   )
+    //   .subscribe(
+    //     (test: ITest) => {
+    //       this.test = test;
+    //       this.InitTestForm();
+    //     },
+    //     (error) => {
+    //       console.log('Failed to retrieve test');
+    //     }
+    //   );
   }
 
   InitTestForm(): void {

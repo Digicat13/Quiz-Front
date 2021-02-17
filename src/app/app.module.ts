@@ -68,6 +68,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { appReducers } from './store/reducers/app.reducers';
 import { TestEffects } from './store/effects/test.effects';
+import { QuizEffects } from './store/effects/quiz.effects';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -143,7 +144,7 @@ const MaterialComponents = [
       },
     }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([TestEffects]),
+    EffectsModule.forRoot([TestEffects, QuizEffects]),
   ],
   providers: [
     {
