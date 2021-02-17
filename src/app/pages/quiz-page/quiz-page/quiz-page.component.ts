@@ -16,11 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
 import { filter, mergeMap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import {
-  selectQuiz,
-  selectTesting,
-} from 'src/app/store/selectors/quiz.selectors';
-import { EQuizActions, QuizActions } from 'src/app/store/actions/quiz.actions';
+import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
+import { QuizActions } from 'src/app/store/actions/quiz.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
@@ -32,12 +29,12 @@ export class QuizPageComponent implements OnInit {
   testingId: string;
   testing: ITesting;
   test: ITest;
-  currentQuestionIndex: number;
-  answeredQuestions: IQuestion[] = new Array<IQuestion>();
-  currentQuestionSelectedAnswers: IAnswer[] = new Array<IAnswer>();
+  currentQuestionIndex: number = undefined;
+  // answeredQuestions: IQuestion[] = new Array<IQuestion>();
+  // currentQuestionSelectedAnswers: IAnswer[] = new Array<IAnswer>();
   testingResult: ITestingResult = {};
   testingStartDateTime: Date;
-  testingAnswers: ITestingResultAnswer[] = new Array<ITestingResultAnswer>();
+  // testingAnswers: ITestingResultAnswer[] = new Array<ITestingResultAnswer>();
   onNextQuestion: Subject<void> = new Subject<void>();
   onEndQuiz: Subject<void> = new Subject<void>();
   testForm: FormGroup = this.fb.group({
@@ -65,28 +62,21 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(
-      QuizActions.GetQuizByTestingId({ testingId: this.testingId })
-    );
-
+    let isQuizStarted;
     this.store
-      .pipe(
-        select(selectTesting),
-        filter((val) => val !== null)
-      )
-      .subscribe((testing: ITesting) => {
-        this.testing = testing;
+      .select(QuizSelectors.selectIsStarted)
+      .subscribe((isStarted: boolean) => {
+        isQuizStarted = isStarted;
+        console.log(isStarted);
       });
 
-    this.store
-      .pipe(
-        select(selectQuiz),
-        filter((val) => val !== null)
-      )
-      .subscribe((test: ITest) => {
-        this.test = test;
-        this.InitTestForm();
-      });
+    if (isQuizStarted) {
+      console.log('continue');
+      this.continueQuiz();
+    } else {
+      console.log('start');
+      this.getQuizFromServer();
+    }
 
     // this.testingService
     //   .getTesting(this.testingId)
@@ -105,6 +95,69 @@ export class QuizPageComponent implements OnInit {
     //       console.log('Failed to retrieve test');
     //     }
     //   );
+  }
+
+  // startQuiz1(): void {}
+
+  continueQuiz(): void {
+    this.getQuizFromStore();
+
+    this.store
+      .pipe(
+        select(QuizSelectors.selectDate),
+        filter((val) => val !== null)
+      )
+      .subscribe((date: Date) => {
+        this.testingStartDateTime = date;
+      });
+
+    this.store
+      .pipe(
+        select(QuizSelectors.selectCurrentQuestionIndex),
+        filter((val) => val !== null)
+      )
+      .subscribe((questionIndex: number) => {
+        this.currentQuestionIndex = questionIndex;
+      });
+
+    // this.store.dispatch(
+    //   QuizActions.GetTestingSuccess({ testing: this.testing })
+    // );
+    // this.store.dispatch(
+    //   QuizActions.ChangeQuizDate({ date: this.testingStartDateTime })
+    // );
+    // this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: true }));
+  }
+
+  getQuizFromStore(): void {
+    this.store
+      .pipe(
+        select(QuizSelectors.selectTesting),
+        filter((val) => val !== null)
+      )
+      .subscribe((testing: ITesting) => {
+        this.testing = testing;
+      });
+
+    this.store
+      .pipe(
+        select(QuizSelectors.selectQuiz),
+        filter((val) => val !== null)
+      )
+      .subscribe((test: ITest) => {
+        this.test = test;
+        this.InitTestForm();
+      });
+
+    let data$ = this.store.select(QuizSelectors.selectTesting);
+    console.log(data$);
+  }
+
+  getQuizFromServer(): void {
+    this.store.dispatch(
+      QuizActions.GetQuizByTestingId({ testingId: this.testingId })
+    );
+    this.getQuizFromStore();
   }
 
   InitTestForm(): void {
@@ -149,6 +202,13 @@ export class QuizPageComponent implements OnInit {
   nextQuestion(): void {
     if (this.currentQuestionIndex !== this.test?.questions?.length - 1) {
       this.currentQuestionIndex++;
+
+      // индекс вопроса
+      this.store.dispatch(
+        QuizActions.ChangeCurrentQuestionIndex({
+          questionIndex: this.currentQuestionIndex,
+        })
+      );
     }
 
     this.onNextQuestion.next();
@@ -187,6 +247,18 @@ export class QuizPageComponent implements OnInit {
         this.testing = result;
         this.currentQuestionIndex = 0;
         this.testingStartDateTime = moment().toDate();
+
+        // set store properties
+        this.store.dispatch(
+          QuizActions.GetTestingSuccess({ testing: this.testing })
+        );
+        this.store.dispatch(
+          QuizActions.ChangeQuizDate({ date: this.testingStartDateTime })
+        );
+        this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: true }));
+
+        let data$ = this.store.select(QuizSelectors.selectTesting);
+        console.log(data$);
       },
       (error) => {
         this.openMessageDialog('error-occurred');

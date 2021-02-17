@@ -8,6 +8,11 @@ export enum EQuizActions {
   GetQuizSuccess = '[Quiz] Get Quiz Success',
   GetTesting = '[Quiz] Get Testing',
   GetTestingSuccess = '[Quiz] Get Testing Success',
+  ChangeCurrentQuestionIndex = '[Quiz] Change Current Question Index',
+  ChangeQuizStatus = '[Quiz] Change Quiz Status',
+  ChangeQuizDate = '[Quiz] Change Quiz Date',
+  ChangeQuizDuration = '[Quiz] Change Quiz Duration',
+  ChangeTimeout = '[Quiz] Change Timeout',
 }
 
 export class QuizActions {
@@ -34,6 +39,31 @@ export class QuizActions {
   static GetTestingSuccess = createAction(
     EQuizActions.GetTestingSuccess,
     props<{ testing: ITesting }>()
+  );
+
+  static ChangeCurrentQuestionIndex = createAction(
+    EQuizActions.ChangeCurrentQuestionIndex,
+    props<{ questionIndex: number }>()
+  );
+
+  static ChangeQuizStatus = createAction(
+    EQuizActions.ChangeQuizStatus,
+    props<{ isStarted: boolean }>()
+  );
+
+  static ChangeQuizDate = createAction(
+    EQuizActions.ChangeQuizDate,
+    props<{ date: Date }>()
+  );
+
+  static ChangeQuizDuration = createAction(
+    EQuizActions.ChangeQuizDuration,
+    props<{ quizDuration: number }>()
+  );
+
+  static ChangeTimeout = createAction(
+    EQuizActions.ChangeTimeout,
+    props<{ timeout: number }>()
   );
 
   constructor() {}

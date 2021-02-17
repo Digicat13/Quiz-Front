@@ -6,9 +6,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { Observable, Subscription } from 'rxjs';
+import { QuizActions } from 'src/app/store/actions/quiz.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-quiz-header[testName]',
@@ -19,7 +22,7 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   @Input() testName: string;
   @Input() testTimeLimit: Moment;
   @Input() questionTimeLimit: Moment;
-  @Input() timeout;
+  @Input() timeout: number;
   @Input() questionIndex: number;
   @Input() questionsCount: number;
   @Input() endQuizEvent: Observable<void>;
@@ -34,7 +37,7 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   private nextQuestionSubscription: Subscription;
   private endQuizSubscription: Subscription;
 
-  constructor() {}
+  constructor(private store: Store<IAppState>) {}
 
   ngOnInit(): void {
     if (this.questionTimeLimit || this.testTimeLimit) {
@@ -115,6 +118,14 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
       this.quizDuration++;
       if (this.timeout > 0) {
         this.timeout = this.timeout - 1000;
+
+        //set timeout and duration into store
+        this.store.dispatch(
+          QuizActions.ChangeTimeout({ timeout: this.timeout })
+        );
+        this.store.dispatch(
+          QuizActions.ChangeQuizDuration({ quizDuration: this.quizDuration })
+        );
       }
     }, 1000);
   }
