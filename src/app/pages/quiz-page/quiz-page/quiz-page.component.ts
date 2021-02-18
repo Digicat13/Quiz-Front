@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
@@ -14,7 +13,7 @@ import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
-import { filter, mergeMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
 import { QuizActions } from 'src/app/store/actions/quiz.actions';
@@ -32,11 +31,10 @@ export class QuizPageComponent implements OnInit {
   testing: ITesting;
   test: ITest;
   currentQuestionIndex: number = undefined;
-  // answeredQuestions: IQuestion[] = new Array<IQuestion>();
-  // currentQuestionSelectedAnswers: IAnswer[] = new Array<IAnswer>();
+
   testingResult: ITestingResult = {};
   testingStartDateTime: Date;
-  // testingAnswers: ITestingResultAnswer[] = new Array<ITestingResultAnswer>();
+
   onNextQuestion: Subject<void> = new Subject<void>();
   onEndQuiz: Subject<void> = new Subject<void>();
   testForm: FormGroup = this.fb.group({
@@ -50,7 +48,6 @@ export class QuizPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private testService: TestService,
     private testingService: TestingService,
     private testingResultService: TestingResultService,
     private fb: FormBuilder,
@@ -69,38 +66,15 @@ export class QuizPageComponent implements OnInit {
       .select(QuizSelectors.selectIsStarted)
       .subscribe((isStarted: boolean) => {
         isQuizStarted = isStarted;
-        console.log(isStarted);
       });
 
     if (isQuizStarted) {
-      console.log('continue');
       this.continueQuiz();
     } else {
-      console.log('start');
       this.store.dispatch(QuizActions.ClearQuizState());
       this.getQuizFromServer();
     }
-
-    // this.testingService
-    //   .getTesting(this.testingId)
-    //   .pipe(
-    //     mergeMap((testing: ITesting) => {
-    //       this.testing = testing;
-    //       return this.testService.getQuiz(testing?.testId);
-    //     })
-    //   )
-    //   .subscribe(
-    //     (test: ITest) => {
-    //       this.test = test;
-    //       this.InitTestForm();
-    //     },
-    //     (error) => {
-    //       console.log('Failed to retrieve test');
-    //     }
-    //   );
   }
-
-  // startQuiz1(): void {}
 
   continueQuiz(): void {
     this.store
@@ -110,7 +84,6 @@ export class QuizPageComponent implements OnInit {
       )
       .subscribe((testing: ITesting) => {
         this.testing = lodash.cloneDeep(testing);
-        // this.testing = testing;
       });
 
     this.store
@@ -119,9 +92,6 @@ export class QuizPageComponent implements OnInit {
         filter((val) => val !== null)
       )
       .subscribe((test: ITest) => {
-        this.test = test;
-        console.log(test);
-
         this.test = lodash.cloneDeep(test);
         if (this.test.questionTimeLimit) {
           this.test.questionTimeLimit = moment(
@@ -158,16 +128,7 @@ export class QuizPageComponent implements OnInit {
       )
       .subscribe((testFormValue: any) => {
         this.setTestForm(testFormValue);
-        console.log(this.testForm);
       });
-
-    // this.store.dispatch(
-    //   QuizActions.GetTestingSuccess({ testing: this.testing })
-    // );
-    // this.store.dispatch(
-    //   QuizActions.ChangeQuizDate({ date: this.testingStartDateTime })
-    // );
-    // this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: true }));
   }
 
   getQuizFromStore(): void {
@@ -178,7 +139,6 @@ export class QuizPageComponent implements OnInit {
       )
       .subscribe((testing: ITesting) => {
         this.testing = lodash.cloneDeep(testing);
-        // this.testing = testing;
       });
 
     this.store
@@ -187,9 +147,6 @@ export class QuizPageComponent implements OnInit {
         filter((val) => val !== null)
       )
       .subscribe((test: ITest) => {
-        this.test = test;
-        console.log(test);
-
         this.test = lodash.cloneDeep(test);
         if (this.test.questionTimeLimit) {
           this.test.questionTimeLimit = moment(
@@ -201,9 +158,6 @@ export class QuizPageComponent implements OnInit {
         }
         this.InitTestForm();
       });
-
-    let data$ = this.store.select(QuizSelectors.selectTesting);
-    console.log(data$);
   }
 
   getQuizFromServer(): void {
@@ -214,8 +168,6 @@ export class QuizPageComponent implements OnInit {
   }
 
   setTestForm(testFormValue: any): void {
-    console.log(testFormValue);
-
     this.testForm.setValue({
       id: testFormValue.id,
       name: testFormValue.name,
@@ -240,24 +192,7 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
-  // setTestAnswers(answers: any): void {
-  //   const array = new FormArray([]);
-  //   answers.forEach((answer: IAnswer) => {
-  //     array.push(
-  //       this.fb.group({
-  //         id: answer.id,
-  //         selected: answer.selected,
-  //         answerText: [answer.answerText, []],
-  //       })
-  //     );
-  //   });
-  //   return array;
-
-  // }
-
   InitTestForm(): void {
-    console.log(this.test);
-
     this.testForm.setValue({
       id: this.test.id,
       name: this.test.name,
@@ -280,9 +215,6 @@ export class QuizPageComponent implements OnInit {
         })
       );
     });
-
-    console.log(this.testForm);
-    console.log(this.testForm.value);
 
     this.store.dispatch(
       QuizActions.ChangeTestForm({ testFormValue: this.testForm.value })
@@ -307,7 +239,6 @@ export class QuizPageComponent implements OnInit {
     if (this.currentQuestionIndex !== this.test?.questions?.length - 1) {
       this.currentQuestionIndex++;
 
-      // индекс вопроса
       this.store.dispatch(
         QuizActions.ChangeCurrentQuestionIndex({
           questionIndex: this.currentQuestionIndex,
@@ -320,7 +251,6 @@ export class QuizPageComponent implements OnInit {
 
   onSubmit(quizDurationSeconds: number): void {
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
-    console.log(testingResult);
 
     this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: false }));
 
@@ -356,9 +286,6 @@ export class QuizPageComponent implements OnInit {
         this.currentQuestionIndex = 0;
         this.testingStartDateTime = moment().toDate();
 
-        console.log(this.testingStartDateTime);
-
-        // set store properties
         this.store.dispatch(
           QuizActions.GetTestingSuccess({ testing: this.testing })
         );
@@ -376,9 +303,6 @@ export class QuizPageComponent implements OnInit {
           const timeout = this.getMiliseconds(this.test.testTimeLimit);
           this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
         }
-
-        let data$ = this.store.select(QuizSelectors.selectTesting);
-        console.log(data$);
       },
       (error) => {
         this.openMessageDialog('error-occurred');
@@ -419,7 +343,6 @@ export class QuizPageComponent implements OnInit {
   }
 
   getMiliseconds(timespan: Moment): number {
-    // const timespan = moment(time);
     const hMiliseconds = timespan.hours() * 60 * 60 * 1000;
     const mMiliseconds = timespan.minutes() * 60 * 1000;
     const sMiliseconds = timespan.seconds() * 1000;

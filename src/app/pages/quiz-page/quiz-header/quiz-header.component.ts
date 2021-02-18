@@ -12,7 +12,6 @@ import { Moment } from 'moment';
 import { Observable, Subscription } from 'rxjs';
 import { QuizActions } from 'src/app/store/actions/quiz.actions';
 import { IAppState } from 'src/app/store/state/app.state';
-import * as lodash from 'lodash-es';
 import { FormGroup } from '@angular/forms';
 import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
 
@@ -25,7 +24,6 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   @Input() testName: string;
   @Input() testTimeLimit: Moment;
   @Input() questionTimeLimit: Moment;
-  @Input() timeout: number;
   @Input() questionIndex: number;
   @Input() questionsCount: number;
   @Input() endQuizEvent: Observable<void>;
@@ -34,10 +32,11 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   @Output() questionTimeLimitEnds = new EventEmitter();
   @Output() testTimeLimitEnds = new EventEmitter<number>();
   @Output() getQuizDuration = new EventEmitter<number>();
-  timeLimitTimeout: NodeJS.Timeout;
-  quizStopwatch: NodeJS.Timeout;
+  private timeLimitTimeout: NodeJS.Timeout;
+  private quizStopwatch: NodeJS.Timeout;
   public isTimeLimited = false;
-  quizDuration = 0;
+  private quizDuration = 0;
+  private timeout: number;
   private nextQuestionSubscription: Subscription;
   private endQuizSubscription: Subscription;
 
@@ -48,14 +47,12 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
       .select(QuizSelectors.selectTimeout)
       .subscribe((timeout: number) => {
         this.timeout = timeout;
-        console.log(timeout);
       });
 
     this.store
       .select(QuizSelectors.selectQuizDuration)
       .subscribe((duration: number) => {
         this.quizDuration = duration;
-        console.log(duration);
       });
 
     if (this.questionTimeLimit || this.testTimeLimit) {
@@ -74,10 +71,8 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
     this.startQuizStopwatch();
     if (this.questionTimeLimit) {
       this.startTimerInit(this.timeout);
-      // this.startTimer(this.questionTimeLimit);
     } else if (this.testTimeLimit) {
       this.startTimerInit(this.timeout);
-      // this.startTimer(this.testTimeLimit);
     }
   }
 
@@ -120,8 +115,6 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
     const timeout = this.getMiliseconds(time);
     this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
 
-    // this.timeout = timeout;
-    // const timeout = this.timeout;
     this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
   }
 
@@ -129,21 +122,11 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
     this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
   }
 
-  // startTimer(time: number): void {
-  //   const timeout = this.getMiliseconds(time);
-  //   // this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
-
-  //   // this.timeout = timeout;
-  //   // const timeout = this.timeout;
-  //   this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
-  // }
-
   stopTimer(): void {
     clearTimeout(this.timeLimitTimeout);
   }
 
   getMiliseconds(timespan: Moment): number {
-    // const timespan = moment(time);
     const hMiliseconds = timespan.hours() * 60 * 60 * 1000;
     const mMiliseconds = timespan.minutes() * 60 * 1000;
     const sMiliseconds = timespan.seconds() * 1000;
@@ -156,12 +139,6 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
       if (this.timeout > 0) {
         this.timeout = this.timeout - 1000;
       }
-      console.log('sec');
-
-      console.log(this.testForm);
-
-      // const clone = lodash.cloneDeep(this.timeout);
-      // set timeout and duration into store
 
       this.store.dispatch(QuizActions.ChangeTimeout({ timeout: this.timeout }));
       this.store.dispatch(

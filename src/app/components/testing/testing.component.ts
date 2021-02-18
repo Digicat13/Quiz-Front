@@ -43,8 +43,8 @@ export class TestingComponent implements OnInit {
     return this.testing?.intervieweeName ?? '-';
   }
 
-  numberOfRuns(): string {
-    return this.testing?.numberOfRuns?.toString();
+  numberOfRuns(): number {
+    return this.testing?.numberOfRuns;
   }
 
   allowedStartDate(): string {

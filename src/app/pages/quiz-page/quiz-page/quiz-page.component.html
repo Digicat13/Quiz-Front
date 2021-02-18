@@ -12,7 +12,6 @@
       [testTimeLimit]="test?.testTimeLimit"
       [questionIndex]="currentQuestionIndex"
       [questionsCount]="test?.questions?.length"
-      [timeout]="timeLimitTimeout"
       (testTimeLimitEnds)="onSubmit($event)"
       (questionTimeLimitEnds)="nextQuestion()"
       (getQuizDuration)="onSubmit($event)"

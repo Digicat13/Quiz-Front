@@ -5,5 +5,5 @@ import { testReducer } from './test.reducers';
 
 export const appReducers: ActionReducerMap<IAppState, any> = {
   testState: testReducer,
-  quizState: quizReducer
+  quizState: quizReducer,
 };

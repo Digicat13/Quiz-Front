@@ -14,7 +14,7 @@ import { ViewTestingPageComponent } from './pages/view-testing-page/view-testing
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', component: LoginPageComponent },
-  { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
+  { path: 'home-page', redirectTo: '' },
   {
     path: 'create-test',
     component: CreateTestPageComponent,

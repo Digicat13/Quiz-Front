@@ -9,18 +9,6 @@ import { TestActions } from '../actions/test.actions';
 
 @Injectable()
 export class TestEffects {
-  getTest$ = createEffect((): any =>
-    this.actions$.pipe(
-      ofType(TestActions.GetTest),
-      mergeMap((action) =>
-        this.testService.getTest(action.payload.testId).pipe(
-          map((test: ITest) => TestActions.GetTestSuccess({ test })),
-          catchError((error) => EMPTY)
-        )
-      )
-    )
-  );
-
   getTests$ = createEffect((): any =>
     this.actions$.pipe(
       ofType(TestActions.GetTests),

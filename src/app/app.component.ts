@@ -1,9 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ITest } from './models/test';
 import { IUser } from './models/user';
 import { AuthenticationService } from './services/authentication.service';
 import { LoadingService } from './services/loading.service';
@@ -17,7 +15,6 @@ export class AppComponent implements AfterViewChecked {
   title = 'Quizzer';
   currentUser: IUser;
   isLoading: boolean;
-  tests$: Observable<ITest[]>;
 
   constructor(
     private authenticatinService: AuthenticationService,

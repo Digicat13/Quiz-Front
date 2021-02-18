@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import lodash from 'lodash';
+import lodash from 'lodash-es';
 
 export interface SortingProperty {
   key?: string;
