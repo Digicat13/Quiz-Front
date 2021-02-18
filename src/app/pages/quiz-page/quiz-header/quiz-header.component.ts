@@ -12,6 +12,9 @@ import { Moment } from 'moment';
 import { Observable, Subscription } from 'rxjs';
 import { QuizActions } from 'src/app/store/actions/quiz.actions';
 import { IAppState } from 'src/app/store/state/app.state';
+import * as lodash from 'lodash-es';
+import { FormGroup } from '@angular/forms';
+import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
 
 @Component({
   selector: 'app-quiz-header[testName]',
@@ -27,6 +30,7 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   @Input() questionsCount: number;
   @Input() endQuizEvent: Observable<void>;
   @Input() nextQuestionEvent: Observable<void>;
+  @Input() testForm: FormGroup;
   @Output() questionTimeLimitEnds = new EventEmitter();
   @Output() testTimeLimitEnds = new EventEmitter<number>();
   @Output() getQuizDuration = new EventEmitter<number>();
@@ -40,6 +44,20 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   constructor(private store: Store<IAppState>) {}
 
   ngOnInit(): void {
+    this.store
+      .select(QuizSelectors.selectTimeout)
+      .subscribe((timeout: number) => {
+        this.timeout = timeout;
+        console.log(timeout);
+      });
+
+    this.store
+      .select(QuizSelectors.selectQuizDuration)
+      .subscribe((duration: number) => {
+        this.quizDuration = duration;
+        console.log(duration);
+      });
+
     if (this.questionTimeLimit || this.testTimeLimit) {
       this.isTimeLimited = true;
     }
@@ -55,9 +73,11 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
 
     this.startQuizStopwatch();
     if (this.questionTimeLimit) {
-      this.startTimer(this.questionTimeLimit);
+      this.startTimerInit(this.timeout);
+      // this.startTimer(this.questionTimeLimit);
     } else if (this.testTimeLimit) {
-      this.startTimer(this.testTimeLimit);
+      this.startTimerInit(this.timeout);
+      // this.startTimer(this.testTimeLimit);
     }
   }
 
@@ -98,15 +118,32 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
 
   startTimer(time: Moment): void {
     const timeout = this.getMiliseconds(time);
-    this.timeout = timeout;
+    this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+
+    // this.timeout = timeout;
+    // const timeout = this.timeout;
     this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
   }
+
+  startTimerInit(timeout: number): void {
+    this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
+  }
+
+  // startTimer(time: number): void {
+  //   const timeout = this.getMiliseconds(time);
+  //   // this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+
+  //   // this.timeout = timeout;
+  //   // const timeout = this.timeout;
+  //   this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
+  // }
 
   stopTimer(): void {
     clearTimeout(this.timeLimitTimeout);
   }
 
   getMiliseconds(timespan: Moment): number {
+    // const timespan = moment(time);
     const hMiliseconds = timespan.hours() * 60 * 60 * 1000;
     const mMiliseconds = timespan.minutes() * 60 * 1000;
     const sMiliseconds = timespan.seconds() * 1000;
@@ -118,15 +155,21 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
       this.quizDuration++;
       if (this.timeout > 0) {
         this.timeout = this.timeout - 1000;
-
-        //set timeout and duration into store
-        this.store.dispatch(
-          QuizActions.ChangeTimeout({ timeout: this.timeout })
-        );
-        this.store.dispatch(
-          QuizActions.ChangeQuizDuration({ quizDuration: this.quizDuration })
-        );
       }
+      console.log('sec');
+
+      console.log(this.testForm);
+
+      // const clone = lodash.cloneDeep(this.timeout);
+      // set timeout and duration into store
+
+      this.store.dispatch(QuizActions.ChangeTimeout({ timeout: this.timeout }));
+      this.store.dispatch(
+        QuizActions.ChangeQuizDuration({ quizDuration: this.quizDuration })
+      );
+      this.store.dispatch(
+        QuizActions.ChangeTestForm({ testFormValue: this.testForm.value })
+      );
     }, 1000);
   }
 

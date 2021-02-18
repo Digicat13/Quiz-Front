@@ -18,6 +18,7 @@
       (getQuizDuration)="onSubmit($event)"
       [nextQuestionEvent]="onNextQuestion.asObservable()"
       [endQuizEvent]="onEndQuiz.asObservable()"
+      [testForm]="testForm"
     ></app-quiz-header>
   </div>
   <div *ngIf="test?.questions && currentQuestionIndex !== undefined">

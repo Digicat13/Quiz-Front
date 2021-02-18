@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
 
@@ -9,6 +10,7 @@ export interface IQuizState {
   testingStartDateTime: Date;
   quizDuration: number;
   timeout: number;
+  testFormValue: any;
 }
 
 export const initialQuizState = {
@@ -18,5 +20,6 @@ export const initialQuizState = {
   currentQuestionIndex: 0,
   testingStartDateTime: null,
   quizDuration: 0,
-  timeout: 0
+  timeout: 0,
+  testFormValue: {},
 };

@@ -51,4 +51,11 @@ export class QuizSelectors {
       return quizState.timeout;
     }
   );
+
+  static selectTestForm = createSelector(
+    (state: IAppState) => state.quizState,
+    (quizState: IQuizState) => {
+      return quizState.testFormValue;
+    }
+  );
 }

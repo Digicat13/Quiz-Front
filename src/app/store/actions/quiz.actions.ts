@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { createAction, props } from '@ngrx/store';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
@@ -13,6 +14,8 @@ export enum EQuizActions {
   ChangeQuizDate = '[Quiz] Change Quiz Date',
   ChangeQuizDuration = '[Quiz] Change Quiz Duration',
   ChangeTimeout = '[Quiz] Change Timeout',
+  ChangeTestForm = '[Quiz] Change TestForm',
+  ClearQuizState = '[Quiz] Clear QuizState',
 }
 
 export class QuizActions {
@@ -53,7 +56,7 @@ export class QuizActions {
 
   static ChangeQuizDate = createAction(
     EQuizActions.ChangeQuizDate,
-    props<{ date: Date }>()
+    props<{ testingStartDateTime: Date }>()
   );
 
   static ChangeQuizDuration = createAction(
@@ -66,5 +69,11 @@ export class QuizActions {
     props<{ timeout: number }>()
   );
 
+  static ChangeTestForm = createAction(
+    EQuizActions.ChangeTestForm,
+    props<{ testFormValue: any }>()
+  );
+
+  static ClearQuizState = createAction(EQuizActions.ClearQuizState);
   constructor() {}
 }

@@ -19,6 +19,8 @@ import { select, Store } from '@ngrx/store';
 import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
 import { QuizActions } from 'src/app/store/actions/quiz.actions';
 import { IAppState } from 'src/app/store/state/app.state';
+import * as lodash from 'lodash-es';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-quiz-page',
@@ -75,6 +77,7 @@ export class QuizPageComponent implements OnInit {
       this.continueQuiz();
     } else {
       console.log('start');
+      this.store.dispatch(QuizActions.ClearQuizState());
       this.getQuizFromServer();
     }
 
@@ -100,7 +103,35 @@ export class QuizPageComponent implements OnInit {
   // startQuiz1(): void {}
 
   continueQuiz(): void {
-    this.getQuizFromStore();
+    this.store
+      .pipe(
+        select(QuizSelectors.selectTesting),
+        filter((val) => val !== null)
+      )
+      .subscribe((testing: ITesting) => {
+        this.testing = lodash.cloneDeep(testing);
+        // this.testing = testing;
+      });
+
+    this.store
+      .pipe(
+        select(QuizSelectors.selectQuiz),
+        filter((val) => val !== null)
+      )
+      .subscribe((test: ITest) => {
+        this.test = test;
+        console.log(test);
+
+        this.test = lodash.cloneDeep(test);
+        if (this.test.questionTimeLimit) {
+          this.test.questionTimeLimit = moment(
+            this.test.questionTimeLimit,
+            'HH:mm:ss'
+          );
+        } else if (this.test.testTimeLimit) {
+          this.test.testTimeLimit = moment(this.test.testTimeLimit, 'HH:mm:ss');
+        }
+      });
 
     this.store
       .pipe(
@@ -120,6 +151,16 @@ export class QuizPageComponent implements OnInit {
         this.currentQuestionIndex = questionIndex;
       });
 
+    this.store
+      .pipe(
+        select(QuizSelectors.selectTestForm),
+        filter((val) => val !== null)
+      )
+      .subscribe((testFormValue: any) => {
+        this.setTestForm(testFormValue);
+        console.log(this.testForm);
+      });
+
     // this.store.dispatch(
     //   QuizActions.GetTestingSuccess({ testing: this.testing })
     // );
@@ -136,7 +177,8 @@ export class QuizPageComponent implements OnInit {
         filter((val) => val !== null)
       )
       .subscribe((testing: ITesting) => {
-        this.testing = testing;
+        this.testing = lodash.cloneDeep(testing);
+        // this.testing = testing;
       });
 
     this.store
@@ -146,6 +188,17 @@ export class QuizPageComponent implements OnInit {
       )
       .subscribe((test: ITest) => {
         this.test = test;
+        console.log(test);
+
+        this.test = lodash.cloneDeep(test);
+        if (this.test.questionTimeLimit) {
+          this.test.questionTimeLimit = moment(
+            this.test.questionTimeLimit,
+            'HH:mm:ss'
+          );
+        } else if (this.test.testTimeLimit) {
+          this.test.testTimeLimit = moment(this.test.testTimeLimit, 'HH:mm:ss');
+        }
         this.InitTestForm();
       });
 
@@ -160,7 +213,51 @@ export class QuizPageComponent implements OnInit {
     this.getQuizFromStore();
   }
 
+  setTestForm(testFormValue: any): void {
+    console.log(testFormValue);
+
+    this.testForm.setValue({
+      id: testFormValue.id,
+      name: testFormValue.name,
+      description: testFormValue.description,
+      testTimeLimit: testFormValue.testTimeLimit,
+      questionTimeLimit: testFormValue.questionTimeLimit,
+      questions: [],
+    });
+
+    const control = this.testForm.controls.questions as FormArray;
+    testFormValue.questions.forEach((question: IQuestion) => {
+      control.push(
+        this.fb.group({
+          id: question.id,
+          testId: question.testId,
+          questionText: question.questionText,
+          hintText: question.hintText,
+          correctAnswersCount: question.correctAnswersCount,
+          answers: this.CreateTestAnswers(question.answers),
+        })
+      );
+    });
+  }
+
+  // setTestAnswers(answers: any): void {
+  //   const array = new FormArray([]);
+  //   answers.forEach((answer: IAnswer) => {
+  //     array.push(
+  //       this.fb.group({
+  //         id: answer.id,
+  //         selected: answer.selected,
+  //         answerText: [answer.answerText, []],
+  //       })
+  //     );
+  //   });
+  //   return array;
+
+  // }
+
   InitTestForm(): void {
+    console.log(this.test);
+
     this.testForm.setValue({
       id: this.test.id,
       name: this.test.name,
@@ -183,15 +280,22 @@ export class QuizPageComponent implements OnInit {
         })
       );
     });
+
+    console.log(this.testForm);
+    console.log(this.testForm.value);
+
+    this.store.dispatch(
+      QuizActions.ChangeTestForm({ testFormValue: this.testForm.value })
+    );
   }
 
-  CreateTestAnswers(answers: IAnswer[]): FormArray {
+  CreateTestAnswers(answers: any): FormArray {
     const array = new FormArray([]);
-    answers.forEach((answer: IAnswer) => {
+    answers.forEach((answer: any) => {
       array.push(
         this.fb.group({
           id: answer.id,
-          selected: false,
+          selected: answer.selected ?? false,
           answerText: [answer.answerText, []],
         })
       );
@@ -216,6 +320,10 @@ export class QuizPageComponent implements OnInit {
 
   onSubmit(quizDurationSeconds: number): void {
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
+    console.log(testingResult);
+
+    this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: false }));
+
     this.testingResultService.createTestingResult(testingResult).subscribe(
       (result) => {
         this.router.navigate(['/result', result.id]);
@@ -248,14 +356,26 @@ export class QuizPageComponent implements OnInit {
         this.currentQuestionIndex = 0;
         this.testingStartDateTime = moment().toDate();
 
+        console.log(this.testingStartDateTime);
+
         // set store properties
         this.store.dispatch(
           QuizActions.GetTestingSuccess({ testing: this.testing })
         );
         this.store.dispatch(
-          QuizActions.ChangeQuizDate({ date: this.testingStartDateTime })
+          QuizActions.ChangeQuizDate({
+            testingStartDateTime: this.testingStartDateTime,
+          })
         );
         this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: true }));
+
+        if (this.test.questionTimeLimit) {
+          const timeout = this.getMiliseconds(this.test.questionTimeLimit);
+          this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+        } else if (this.test.testTimeLimit) {
+          const timeout = this.getMiliseconds(this.test.testTimeLimit);
+          this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+        }
 
         let data$ = this.store.select(QuizSelectors.selectTesting);
         console.log(data$);
@@ -296,5 +416,13 @@ export class QuizPageComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent);
     dialogRef.componentInstance.message = message;
     dialogRef.afterClosed().subscribe();
+  }
+
+  getMiliseconds(timespan: Moment): number {
+    // const timespan = moment(time);
+    const hMiliseconds = timespan.hours() * 60 * 60 * 1000;
+    const mMiliseconds = timespan.minutes() * 60 * 1000;
+    const sMiliseconds = timespan.seconds() * 1000;
+    return hMiliseconds + mMiliseconds + sMiliseconds;
   }
 }

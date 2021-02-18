@@ -18,18 +18,25 @@ export const quizReducer = createReducer(
   })),
   on(QuizActions.ChangeQuizStatus, (state, action) => ({
     ...state,
-    started: action.isStarted,
+    isStarted: action.isStarted,
   })),
   on(QuizActions.ChangeQuizDate, (state, action) => ({
     ...state,
-    testingStartDateTime: action.date,
+    testingStartDateTime: action.testingStartDateTime,
   })),
   on(QuizActions.ChangeQuizDuration, (state, action) => ({
     ...state,
-    testingStartDateTime: action.quizDuration,
+    quizDuration: action.quizDuration,
   })),
   on(QuizActions.ChangeTimeout, (state, action) => ({
     ...state,
-    testingStartDateTime: action.timeout,
+    timeout: action.timeout,
+  })),
+  on(QuizActions.ChangeTestForm, (state, action) => ({
+    ...state,
+    testFormValue: action.testFormValue,
+  })),
+  on(QuizActions.ClearQuizState, () => ({
+    ...initialQuizState,
   }))
 );

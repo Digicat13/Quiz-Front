@@ -46,6 +46,16 @@ export class TestInfoComponent implements OnInit {
     return this.testing?.numberOfRuns?.toString() ?? 'Unlimited';
   }
 
+  // questionLimitMinutes(): number {
+  //   const time = moment(this.test?.questionTimeLimit);
+  //   return time.minutes();
+  //   // return this.test?.questionTimeLimit.minutes();
+  // }
+
+  // questionLimitSeconds(): number {
+  //   return this.test?.questionTimeLimit.seconds();
+  // }
+
   allowedStartDate(): string {
     if (this.testing?.allowedStartDate) {
       const date = moment(this.testing?.allowedStartDate);
