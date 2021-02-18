@@ -100,7 +100,6 @@
       "submit": "Відправити"
     },
     "create-testing-page": {
-      "quiz": "Тест",
       "testing-for": "Сторити посилання для"
     },
     "edit-test-page": {
@@ -130,19 +129,18 @@
         "submit": "Відправити"
       },
       "test-info": {
-        "end-date": "Кінцева дата",
+        "end-date": "Кінцева дата: {{allowedEndDate}}",
         "enter-name": "Введіть ім'я",
         "enter-name-before-start": "Введіть ім'я перед початком тесту",
-        "interviewee": "Опитуваний",
-        "left-number-attempts": "Кількість спроб",
-        "question-time-limit": "часовий ліміт на питання",
+        "interviewee": "Опитуваний: {{intervieweeName}}",
+        "left-number-attempts": "Кількість спроб: {{numberOfRuns}}",
+        "question-time-limit-strong": "часовий ліміт на питання",
         "quiz-has": "Цей тест має",
-        "start-date": "Дата початку",
+        "start-date": "Дата початку: {{allowedStartDate}}",
         "start-quiz": "Розпочати тест",
-        "time-limit": "часовий ліміт",
-        "hours-short": "год",
-        "minutes-short": "хв",
-        "seconds-short": "с"
+        "time-limit-strong": "часовий ліміт",
+        "hours-minutes": "{{hours}}год {{minutes}}хв",
+        "minutes-seconds": "{{minutes}}хв {{seconds}}с"
       }
     },
     "quiz-result-page": {
@@ -155,13 +153,12 @@
     "sort-by": "Сортувати за"
   },
   "test-overview": {
-    "description": "Опис",
-    "hours-short": "год",
-    "minutes-short": "хв",
-    "question-time-limit": "Часовий ліміт на питання",
-    "quiz-name": "Назва тесту",
-    "seconds-short": "с",
-    "time-limit": "Часовий ліміт"
+    "description-strong": "Опис",
+    "question-time-limit-strong": "Часовий ліміт на питання",
+    "quiz-name-strong": "Назва тесту",
+    "time-limit-strong": "Часовий ліміт",
+    "hours-minutes": "{{hours}}год {{minutes}}хв",
+    "minutes-seconds": "{{minutes}}хв {{seconds}}с"
   },
   "test-table": {
     "create-testing": "Створити посилання",
@@ -170,12 +167,12 @@
     "view": "Огляд"
   },
   "testing": {
-    "end-date": "Кінцева дата",
-    "interviewee": "Опитуваний",
-    "number-of-attempts": "Кількість спроб",
-    "quiz": "Тест",
-    "quiz-url": "Посилання",
-    "start-date": "Дата початку",
+    "end-date-strong": "Кінцева дата",
+    "interviewee-strong": "Опитуваний",
+    "number-of-attempts-strong": "Кількість спроб",
+    "quiz": "Тест: {{testName}}",
+    "quiz-url-strong": "Посилання",
+    "start-date-strong": "Дата початку",
     "unlimited": "Необмежено"
   }
 }
