@@ -13,7 +13,9 @@
     </div>
     <div class="time-div">
       <div class="time">
-        <span *ngIf="isTimeLimited">Time left: </span>
+        <span *ngIf="isTimeLimited"
+          >{{ "pages.quiz-page.quiz-header.time-left" | translate }}:
+        </span>
         <mat-icon *ngIf="isTimeLimited" color="accent">alarm</mat-icon>
         <span *ngIf="isTimeLimited">{{ timeLeft() }}</span>
       </div>

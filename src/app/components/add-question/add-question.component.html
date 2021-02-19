@@ -15,11 +15,11 @@
           </button>
         </div>
         <mat-form-field>
-          <mat-label>Question*</mat-label>
+          <mat-label>{{ "add-question.question" | translate }}</mat-label>
           <input matInput formControlName="questionText" />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Hint</mat-label>
+          <mat-label>{{ "add-question.hint" | translate }}</mat-label>
           <input matInput formControlName="hintText" />
         </mat-form-field>
 
@@ -39,12 +39,12 @@
                   </button>
                 </div>
                 <mat-form-field>
-                  <mat-label>Answer*</mat-label>
+                  <mat-label>{{ "add-question.answer" | translate }}</mat-label>
                   <input formControlName="answerText" matInput />
                 </mat-form-field>
-                <mat-checkbox formControlName="isCorrect"
-                  >Is correct</mat-checkbox
-                >
+                <mat-checkbox formControlName="isCorrect">{{
+                  "add-question.correct-checkbox" | translate
+                }}</mat-checkbox>
               </div>
             </mat-card>
             <div
@@ -54,7 +54,7 @@
               "
               class="error-div"
             >
-              <p>Answer is required</p>
+              <p>{{ "add-question.error.answer-required" | translate }}</p>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
           "
           class="error-div"
         >
-          <p>Question is required</p>
+          <p>{{ "add-question.error.question-required" | translate }}</p>
         </div>
         <div
           *ngIf="
@@ -75,7 +75,16 @@
           "
           class="error-div"
         >
-          <p>Select at least 1 correct answer</p>
+          <p>{{ "add-question.error.one-correct-answer" | translate }}</p>
+        </div>
+        <div
+          *ngIf="
+            testForm.controls.questions.controls[i].controls.answers?.errors
+              ?.error === 'Not enough answers' && submitted
+          "
+          class="error-div"
+        >
+          <p>{{ "add-question.error.not-enough-answers" | translate }}</p>
         </div>
         <button
           (click)="onAddAnswer(i)"
@@ -83,7 +92,7 @@
           color="primary"
           type="button"
         >
-          <span>Add answer</span>
+          <span>{{ "add-question.add-answer" | translate }}</span>
         </button>
       </div>
     </div>
@@ -95,7 +104,7 @@
       mat-raised-button
       color="primary"
     >
-      <span>Add question</span>
+      <span>{{ "add-question.add-question" | translate }}</span>
     </button>
     <button
       type="submit"
@@ -103,7 +112,7 @@
       mat-raised-button
       color="primary"
     >
-      <span>Next</span>
+      <span>{{ "add-question.next" | translate }}</span>
     </button>
   </div>
 </form>

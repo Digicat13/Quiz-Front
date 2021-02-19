@@ -1,5 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 import { IUser } from './models/user';
 import { AuthenticationService } from './services/authentication.service';
 import { LoadingService } from './services/loading.service';
@@ -17,8 +19,20 @@ export class AppComponent implements AfterViewChecked {
   constructor(
     private authenticatinService: AuthenticationService,
     private loadingService: LoadingService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    translateService: TranslateService
   ) {
+    const language = JSON.parse(localStorage.getItem('currentLanguage'));
+    if (language) {
+      translateService.use(language);
+    } else {
+      localStorage.setItem(
+        'currentLanguage',
+        JSON.stringify(environment.defaultLanguage)
+      );
+      translateService.use(environment.defaultLanguage);
+    }
+
     this.authenticatinService.currentUser.subscribe(
       (user: IUser) => (this.currentUser = user)
     );

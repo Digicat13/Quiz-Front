@@ -16,6 +16,7 @@ export class TestInfoComponent implements OnInit {
   @Input() test: ITest;
   @Output() pressStart = new EventEmitter();
   submitted = false;
+  interviewee: string;
 
   intervieweeInput = new FormControl(null);
 
@@ -29,6 +30,12 @@ export class TestInfoComponent implements OnInit {
     if (!this.testing?.intervieweeName) {
       this.setIntervieweeValidators();
     }
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      const interviewee = params.get('interviewee');
+      if (interviewee && !this.testing?.intervieweeName) {
+        this.testing.intervieweeName = interviewee;
+      }
+    });
   }
 
   setIntervieweeValidators(): void {
@@ -53,26 +60,6 @@ export class TestInfoComponent implements OnInit {
       return date.format('D/MM/YYYY, h:mm:ss a');
     }
     return '-';
-  }
-
-  testTimeLimit(): string {
-    return (
-      this.test?.testTimeLimit?.hours() +
-      'h' +
-      ' ' +
-      this.test?.testTimeLimit?.minutes() +
-      'm'
-    );
-  }
-
-  questionTimeLimit(): string {
-    return (
-      this.test?.questionTimeLimit?.minutes() +
-      'm' +
-      ' ' +
-      this.test?.questionTimeLimit?.seconds() +
-      's'
-    );
   }
 
   onPressStart(): void {

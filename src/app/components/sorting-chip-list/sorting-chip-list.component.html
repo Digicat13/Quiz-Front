@@ -1,0 +1,27 @@
+<div class="body">
+  <p class="text" *ngIf="text">
+    {{ "sorting-chip-list." + text | translate }}:
+  </p>
+  <mat-chip-list [selectable]="true">
+    <div></div>
+    <div *ngFor="let prop of chipListProperties" class="div-chip">
+      <mat-chip [selected]="prop.selected" (click)="onChipSelect(prop)"
+        >{{ "constants.sorting." + prop.key | translate }}
+        <span class="sorting-arrows">
+          <mat-icon
+            class="arrow-ascending"
+            [class.active-arrow]="prop.selected && prop.ascending"
+          >
+            expand_less
+          </mat-icon>
+          <mat-icon
+            class="arrow-descending"
+            [class.active-arrow]="prop.selected && !prop.ascending"
+          >
+            expand_more
+          </mat-icon>
+        </span>
+      </mat-chip>
+    </div>
+  </mat-chip-list>
+</div>

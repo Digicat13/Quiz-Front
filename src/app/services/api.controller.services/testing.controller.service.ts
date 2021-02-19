@@ -7,11 +7,16 @@ import { ApiService } from '../api.service';
 })
 export class TestingControllerService {
   private controller = 'testing';
+  private reduceAttemptMethod = 'attempt';
 
   constructor(private apiService: ApiService) {}
 
-  get(): Observable<any> {
-    return this.apiService.get(this.controller);
+  get(
+    pageNumber?: number,
+    pageSize?: number,
+    orderBy?: string
+  ): Observable<any> {
+    return this.apiService.get(this.controller, pageNumber, pageSize, orderBy);
   }
 
   getById(id: string): Observable<any> {
@@ -20,5 +25,9 @@ export class TestingControllerService {
 
   post(model: any): Observable<any> {
     return this.apiService.post(this.controller, model);
+  }
+
+  put(model: any): Observable<any> {
+    return this.apiService.put(this.controller, model);
   }
 }

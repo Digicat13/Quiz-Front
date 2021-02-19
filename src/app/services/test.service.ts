@@ -1,7 +1,10 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SortingProperty } from '../components/sorting-chip-list/sorting-chip-list.component';
+import { PagedList } from '../models/PagedList';
 import { ITest } from '../models/test';
 import { AnswerControllerService } from './api.controller.services/answer.controller.service';
 import { QuestionControllerService } from './api.controller.services/question.controller.service';
@@ -17,21 +20,36 @@ export class TestService {
     private questionControllerService: QuestionControllerService
   ) {}
 
-  getAll(): Observable<ITest[]> {
-    return this.testControllerService.get().pipe(
-      map((data: ITest[]) => {
-        const tests = data;
-        tests.forEach((test: ITest) => {
-          if (test.questionTimeLimit !== null) {
-            test.questionTimeLimit = moment(test.questionTimeLimit, 'HH:mm:ss');
-          }
-          if (test.testTimeLimit !== null) {
-            test.testTimeLimit = moment(test.testTimeLimit, 'HH:mm:ss');
-          }
-        });
-        return tests;
-      })
-    );
+  getAll(
+    pageNumber: number,
+    pageSize: number,
+    orderBy?: SortingProperty
+  ): Observable<PagedList<ITest>> {
+    return this.testControllerService
+      .get(
+        pageNumber,
+        pageSize,
+        `${orderBy?.value}${orderBy?.ascending ? '+' : '-'}`
+      )
+      .pipe(
+        map((data: HttpResponse<ITest[]>) => {
+          const paginationHeader = data.headers.get('X-Pagination');
+          const tests = data.body;
+          tests.forEach((test: ITest) => {
+            if (test.questionTimeLimit !== null) {
+              test.questionTimeLimit = moment(
+                test.questionTimeLimit,
+                'HH:mm:ss'
+              );
+            }
+            if (test.testTimeLimit !== null) {
+              test.testTimeLimit = moment(test.testTimeLimit, 'HH:mm:ss');
+            }
+          });
+          const pl = new PagedList<ITest>([]);
+          return pl.fromString(tests, paginationHeader);
+        })
+      );
   }
 
   createTest(test: ITest): Observable<ITest> {

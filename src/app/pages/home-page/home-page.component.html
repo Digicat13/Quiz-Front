@@ -1,1 +1,19 @@
-<app-test-table></app-test-table>
+<app-sorting-chip-list
+  [properties]="sortingProperties"
+  (selectProperty)="onPropertySelect($event)"
+></app-sorting-chip-list>
+<app-test-table
+  [tests]="tests"
+  (deleteQuestion)="getTests(tests.currentPage, tests.pageSize)"
+></app-test-table>
+<div>
+  <mat-paginator
+    #paginator
+    [length]="paginatorProperties.totalCount"
+    [pageSize]="paginatorProperties.pageSize"
+    [pageSizeOptions]="paginatorProperties.pageSizeOptions"
+    [showFirstLastButtons]="true"
+    (page)="paginatorChanges($event, paginator)"
+  >
+  </mat-paginator>
+</div>

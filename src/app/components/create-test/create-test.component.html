@@ -1,21 +1,23 @@
 <form [formGroup]="testForm">
   <div class="form">
     <mat-form-field>
-      <mat-label>Quiz name*</mat-label>
+      <mat-label>{{ "create-test.quiz-name" | translate }}</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Description*</mat-label>
+      <mat-label>{{ "create-test.description" | translate }}</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
     <mat-radio-group formControlName="timeOption" class="time-radio">
-      <mat-radio-button checked>No time limit</mat-radio-button>
-      <mat-radio-button #radTestTime value="testTime"
-        >Quiz time limit</mat-radio-button
-      >
-      <mat-radio-button #radQuestionTime value="questionTime"
-        >Question time limit</mat-radio-button
-      >
+      <mat-radio-button checked>{{
+        "create-test.no-time-limit" | translate
+      }}</mat-radio-button>
+      <mat-radio-button #radTestTime value="testTime">{{
+        "create-test.quiz-time-limit" | translate
+      }}</mat-radio-button>
+      <mat-radio-button #radQuestionTime value="questionTime">{{
+        "create-test.question-time-limit" | translate
+      }}</mat-radio-button>
     </mat-radio-group>
     <div
       class="time-field"
@@ -24,12 +26,12 @@
     >
       <mat-form-field>
         <input formControlName="hours" matInput type="number" />
-        <span matSuffix>h</span>
+        <span matSuffix>{{ "create-test.hours-short" | translate }}</span>
       </mat-form-field>
       <span>:</span>
       <mat-form-field>
         <input formControlName="minutes" matInput type="number" />
-        <span matSuffix>m</span>
+        <span matSuffix>{{ "create-test.minutes-short" | translate }}</span>
       </mat-form-field>
     </div>
     <div
@@ -39,52 +41,52 @@
     >
       <mat-form-field>
         <input formControlName="minutes" matInput type="number" />
-        <span matSuffix>m</span>
+        <span matSuffix>{{ "create-test.minutes-short" | translate }}</span>
       </mat-form-field>
       <span>:</span>
       <mat-form-field>
         <input formControlName="seconds" matInput type="number" />
-        <span matSuffix>s</span>
+        <span matSuffix>{{ "create-test.seconds-short" | translate }}</span>
       </mat-form-field>
     </div>
     <div class="error-div">
       <div *ngIf="testForm?.controls?.name?.errors?.required && submitted">
-        <p>Name is required.</p>
+        <p>{{ "create-test.error.name-required" | translate }}</p>
       </div>
       <div
         *ngIf="testForm?.controls?.description?.errors?.required && submitted"
       >
-        <p>Description is required.</p>
+        <p>{{ "create-test.error.description-required" | translate }}.</p>
       </div>
       <div
         *ngIf="testForm?.controls?.testTimeLimit?.get('hours')?.errors?.pattern"
       >
-        <p>Hours must be in range from 0 to 9.</p>
+        <p>{{ "create-test.error.hours-range-0-9" | translate }}</p>
       </div>
       <div
         *ngIf="
           testForm?.controls?.testTimeLimit?.get('minutes')?.errors?.pattern
         "
       >
-        <p>Minutes must be in range from 0 to 59.</p>
+        <p>{{ "create-test.error.minutes-range-0-59" | translate }}</p>
       </div>
       <div
         *ngIf="
           testForm?.controls?.questionTimeLimit?.get('minutes')?.errors?.pattern
         "
       >
-        <p>Minutes must be in range from 0 to 99.</p>
+        <p>{{ "create-test.error.minutes-range-0-99" | translate }}</p>
       </div>
       <div
         *ngIf="
           testForm?.controls?.questionTimeLimit?.get('seconds')?.errors?.pattern
         "
       >
-        <p>Seconds must be in range from 0 to 59.</p>
+        <p>{{ "create-test.error.seconds-range-0-59" | translate }}</p>
       </div>
     </div>
   </div>
 </form>
 <button type="submit" (click)="onSubmit()" mat-raised-button color="primary">
-  <span>Next</span>
+  <span>{{ "create-test.next" | translate }}</span>
 </button>

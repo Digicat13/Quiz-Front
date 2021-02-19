@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormBuilder,
   FormGroup,
   Validators,
@@ -16,6 +15,7 @@ import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
+import { minAnswersCountValidator } from 'src/app/validators/min-answers-count.validator';
 
 @Component({
   selector: 'app-create-test-page',
@@ -40,12 +40,15 @@ export class CreateTestPageComponent {
       this.fb.group({
         questionText: [, [Validators.required]],
         hintText: [],
-        answers: this.fb.array([
-          this.fb.group({
-            isCorrect: false,
-            answerText: [, [Validators.required]],
-          }),
-        ], [correctAnswersCountValidator()]),
+        answers: this.fb.array(
+          [
+            this.fb.group({
+              isCorrect: false,
+              answerText: [, [Validators.required]],
+            }),
+          ],
+          [correctAnswersCountValidator(), minAnswersCountValidator()]
+        ),
       }),
     ]),
   });
@@ -93,11 +96,11 @@ export class CreateTestPageComponent {
   onSubmit(): void {
     this.testService.createTest(this.test).subscribe(
       () => {
-        this.openMessageDialog('Successfully created!');
+        this.openMessageDialog('successfully-created');
         this.router.navigate(['/home-page']);
       },
       (error) => {
-        this.openMessageDialog('Failed to create quiz.');
+        this.openMessageDialog('failed-create-quiz');
       }
     );
   }

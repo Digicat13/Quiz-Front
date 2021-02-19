@@ -1,6 +1,10 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SortingProperty } from '../components/sorting-chip-list/sorting-chip-list.component';
+import { PagedList } from '../models/PagedList';
 import { ITesting } from '../models/testing';
 import { TestingControllerService } from './api.controller.services/testing.controller.service';
 
@@ -10,8 +14,25 @@ import { TestingControllerService } from './api.controller.services/testing.cont
 export class TestingService {
   constructor(private testingControllerService: TestingControllerService) {}
 
-  getAll(): Observable<ITesting[]> {
-    return this.testingControllerService.get();
+  getAll(
+    pageNumber: number,
+    pageSize: number,
+    orderBy?: SortingProperty
+  ): Observable<PagedList<ITesting>> {
+    return this.testingControllerService
+      .get(
+        pageNumber,
+        pageSize,
+        `${orderBy?.value}${orderBy?.ascending ? '+' : '-'}`
+      )
+      .pipe(
+        map((data: HttpResponse<ITesting[]>) => {
+          const paginationHeader = data.headers.get('X-Pagination');
+          const testings = data.body;
+          const pl = new PagedList<ITesting>([]);
+          return pl.fromString(testings, paginationHeader);
+        })
+      );
   }
 
   getTesting(id: string): Observable<ITesting> {
@@ -24,5 +45,9 @@ export class TestingService {
 
   getTestingUrl(testingId: string): string {
     return `${environment.clientUrl}/quiz/${testingId}`;
+  }
+
+  reduceTestingAttempts(testing: ITesting): Observable<ITesting> {
+    return this.testingControllerService.put(testing);
   }
 }

@@ -1,5 +1,22 @@
+<div *ngIf="testings.length > 1">
+  <app-sorting-chip-list
+    [properties]="sortingProperties"
+    (selectProperty)="onPropertySelect($event)"
+  ></app-sorting-chip-list>
+</div>
 <div *ngFor="let testing of testings">
-  <div *ngIf="testing!==undefined">
+  <div *ngIf="testing !== undefined">
     <app-testing [testing]="testing"></app-testing>
   </div>
+</div>
+<div *ngIf="testings.length > 1">
+  <mat-paginator
+    #paginator
+    [length]="paginatorProperties.totalCount"
+    [pageSize]="paginatorProperties.pageSize"
+    [pageSizeOptions]="paginatorProperties.pageSizeOptions"
+    [showFirstLastButtons]="true"
+    (page)="paginatorChanges($event, paginator)"
+  >
+  </mat-paginator>
 </div>
