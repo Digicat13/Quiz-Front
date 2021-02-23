@@ -16,6 +16,7 @@ import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
+import { minAnswersCountValidator } from 'src/app/validators/min-answers-count.validator';
 
 @Component({
   selector: 'app-edit-test-page',
@@ -101,7 +102,7 @@ export class EditTestPageComponent implements OnInit {
   }
 
   getAnswersArray(answers: IAnswer[]): FormArray {
-    const array = new FormArray([], [correctAnswersCountValidator()]);
+    const array = new FormArray([], [correctAnswersCountValidator(), minAnswersCountValidator()]);
     answers.forEach((answer: IAnswer) => {
       array.push(
         this.fb.group({
@@ -169,7 +170,7 @@ export class EditTestPageComponent implements OnInit {
         this.openMessageDialog('successfully-edited');
       },
       (error) => {
-        this.openMessageDialog('failed-edit-quiz!');
+        this.openMessageDialog('failed-edit-quiz');
       }
     );
 
@@ -212,6 +213,7 @@ export class EditTestPageComponent implements OnInit {
         return;
       }
     }
+    test.id = this.test.id;
     test.name = this.name.value;
     test.description = this.description.value;
     test.questions = new Array<IQuestion>();

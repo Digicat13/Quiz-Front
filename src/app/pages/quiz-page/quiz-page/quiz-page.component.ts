@@ -151,8 +151,16 @@ export class QuizPageComponent implements OnInit {
     if (!this.testing?.intervieweeName) {
       this.testing.intervieweeName = interviewee;
     }
-    this.currentQuestionIndex = 0;
-    this.testingStartDateTime = moment().toDate();
+    this.testingService.reduceTestingAttempts(this.testing).subscribe(
+      (result: ITesting) => {
+        this.testing = result;
+        this.currentQuestionIndex = 0;
+        this.testingStartDateTime = moment().toDate();
+      },
+      (error) => {
+        this.openMessageDialog('error-occurred');
+      }
+    );
   }
 
   getTestingResult(quizDurationSeconds: number): ITestingResult {

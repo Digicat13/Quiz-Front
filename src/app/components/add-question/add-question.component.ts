@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
+import { minAnswersCountValidator } from 'src/app/validators/min-answers-count.validator';
 import { MessageDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
@@ -48,7 +49,7 @@ export class AddQuestionComponent {
               answerText: [, [Validators.required]],
             }),
           ],
-          [correctAnswersCountValidator()]
+          [correctAnswersCountValidator(), minAnswersCountValidator()]
         ),
       })
     );

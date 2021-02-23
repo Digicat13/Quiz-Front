@@ -14,20 +14,23 @@
       <a *ngIf="user" routerLink="testing" class="mat-raised-button">
         <span class="mat-button-wrapper">{{ "navbar.links" | translate }}</span>
       </a>
-      <div *ngIf="user" class="left-menu-wrapper">
-        <div>
-          <span>
-            {{ user.username }}
-          </span>
-          <button
-            mat-mini-fab
-            [matMenuTriggerFor]="menu"
-            color="primary"
-            class="menu-btn"
-          >
-            <mat-icon>menu</mat-icon>
-          </button>
+      <div class="left-menu-wrapper">
+        <span *ngIf="user">
+          {{ user.username }}
+        </span>
+        <div *ngIf="!user">
+          <a routerLink="login-page" class="mat-button">{{
+            "navbar.signin" | translate
+          }}</a>
         </div>
+        <button
+          mat-mini-fab
+          [matMenuTriggerFor]="menu"
+          color="primary"
+          class="menu-btn"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item [matMenuTriggerFor]="languages">
             <span>{{ "navbar.menu.language" | translate }}:</span>
@@ -35,7 +38,7 @@
               {{ "navbar.menu.langs." + currentLanguage | translate }}</span
             >
           </button>
-          <button mat-menu-item (click)="logout()">
+          <button *ngIf="user" mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>{{ "navbar.menu.logout" | translate }}</span>
           </button>
@@ -48,11 +51,6 @@
             </button>
           </div>
         </mat-menu>
-      </div>
-      <div *ngIf="!user" class="left-menu-wrapper">
-        <a routerLink="login-page" class="mat-button">{{
-          "navbar.signin" | translate
-        }}</a>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

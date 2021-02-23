@@ -7,7 +7,8 @@
     "error": {
       "answer-required": "Answer is required",
       "one-correct-answer": "Select at least 1 correct answer",
-      "question-required": "Question is required"
+      "question-required": "Question is required",
+      "not-enough-answers": "You need to have more answers for this question"
     },
     "hint": "Hint",
     "next": "Next",
@@ -72,7 +73,8 @@
       "quiz-not-available-yet": "The quiz is not available yet",
       "successfully-created": "Successfully created!",
       "successfully-deleted": "Successfully deleted",
-      "successfully-edited": "Successfully edited!"
+      "successfully-edited": "Successfully edited!",
+      "error-occurred": "An error occured"
     }
   },
   "navbar": {
@@ -83,7 +85,7 @@
       "language": "Language",
       "langs": {
         "en": "English",
-        "ua": "Ukrainian"
+        "ua": "Українська"
       }
     },
     "quizzes": "Quizzes",

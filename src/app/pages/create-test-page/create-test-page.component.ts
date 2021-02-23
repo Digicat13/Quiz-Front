@@ -15,6 +15,7 @@ import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 import { correctAnswersCountValidator } from 'src/app/validators/correct-answers-count.validator';
+import { minAnswersCountValidator } from 'src/app/validators/min-answers-count.validator';
 
 @Component({
   selector: 'app-create-test-page',
@@ -46,7 +47,7 @@ export class CreateTestPageComponent {
               answerText: [, [Validators.required]],
             }),
           ],
-          [correctAnswersCountValidator()]
+          [correctAnswersCountValidator(), minAnswersCountValidator()]
         ),
       }),
     ]),

@@ -7,7 +7,8 @@
     "error": {
       "answer-required": "Відповідь обов'язкова",
       "one-correct-answer": "Оберіть хоча б одну правильну відповідь",
-      "question-required": "Питання обов'язкове"
+      "question-required": "Питання обов'язкове",
+      "not-enough-answers": "Для цього питання потрібно додати більше відповідей"
     },
     "hint": "Підказка",
     "next": "Далі",
@@ -72,7 +73,8 @@
       "quiz-not-available-yet": "Посилання ще недоступне",
       "successfully-created": "Успішно створено!",
       "successfully-deleted": "Успішно видалено",
-      "successfully-edited": "Успішно відредаговано!"
+      "successfully-edited": "Успішно відредаговано!",
+      "error-occurred": "Сталась помилка"
     }
   },
   "navbar": {
@@ -82,7 +84,7 @@
       "logout": "Вийти",
       "language": "Мова",
       "langs": {
-        "en": "Англійська",
+        "en": "English",
         "ua": "Українська"
       }
     },
