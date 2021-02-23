@@ -1,6 +1,8 @@
 <mat-horizontal-stepper linear #stepper>
   <mat-step>
-    <ng-template matStepLabel>Fill out quiz properties</ng-template>
+    <ng-template matStepLabel>{{
+      "pages.create-test-page.fill-quiz-properties" | translate
+    }}</ng-template>
     <div>
       <app-create-test
         [testForm]="testForm"
@@ -9,7 +11,9 @@
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Add some questions</ng-template>
+    <ng-template matStepLabel>{{
+      "pages.create-test-page.add-questions" | translate
+    }}</ng-template>
     <div>
       <app-add-question
         [testForm]="testForm"
@@ -20,12 +24,14 @@
         color="primary"
         (click)="goToTestProperties(stepper)"
       >
-        Back
+        {{ "pages.create-test-page.back" | translate }}
       </button>
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Quiz overview</ng-template>
+    <ng-template matStepLabel>{{
+      "pages.create-test-page.quiz-overview" | translate
+    }}</ng-template>
     <div>
       <app-test-overview [test]="test"></app-test-overview>
       <button
@@ -33,10 +39,10 @@
         color="primary"
         (click)="goToQuestions(stepper)"
       >
-        Back
+        {{ "pages.create-test-page.back" | translate }}
       </button>
       <button (click)="onSubmit()" mat-raised-button color="primary">
-        Submit
+        {{ "pages.create-test-page.submit" | translate }}
       </button>
     </div>
   </mat-step>

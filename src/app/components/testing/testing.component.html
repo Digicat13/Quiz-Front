@@ -1,12 +1,14 @@
 <div class="cards">
   <mat-card class="card">
     <mat-card-header>
-      <mat-card-title> Quiz: {{ testName }}</mat-card-title>
+      <mat-card-title>
+        {{ "testing.quiz" | translate: { testName: testName } }}</mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <div class="quiz-url">
         <p>
-          <strong>Quiz Url: </strong>
+          <strong>{{ "testing.quiz-url-strong" | translate }}: </strong>
           {{ getTestingUrl() }}
         </p>
         <button mat-button (click)="copyUrlToClipboard(inputUrl)">
@@ -14,19 +16,22 @@
         </button>
       </div>
       <p>
-        <strong>Interviewee: </strong>
+        <strong>{{ "testing.interviewee-strong" | translate }}: </strong>
         {{ intervieweeName() }}
       </p>
       <p>
-        <strong>Number of left attempts: </strong>
-        {{ numberOfRuns() }}
+        <strong>{{ "testing.number-of-attempts-strong" | translate }}: </strong>
+        <span *ngIf="testing?.numberOfRuns">{{ numberOfRuns() }}</span>
+        <span *ngIf="!testing?.numberOfRuns">{{
+          "testing.unlimited" | translate
+        }}</span>
       </p>
       <p>
-        <strong>Start date: </strong>
+        <strong>{{ "testing.start-date-strong" | translate }}: </strong>
         {{ allowedStartDate() }}
       </p>
       <p>
-        <strong>End date: </strong>
+        <strong>{{ "testing.end-date-strong" | translate }}: </strong>
         {{ allowedEndDate() }}
       </p>
     </mat-card-content>

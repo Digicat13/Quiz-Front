@@ -49,11 +49,11 @@ export class CreateTestingPageComponent implements OnInit {
     testing.testId = this.testId;
     this.testingService.createTesting(testing).subscribe(
       (result: ITesting) => {
-        this.openMessageDialog(`Successfully created!`);
+        this.openMessageDialog(`successfully-created`);
         this.router.navigate(['/testing', result.id]);
       },
       (error) => {
-        this.openMessageDialog('Failed to create testing');
+        this.openMessageDialog('failed-create-testing');
       }
     );
   }

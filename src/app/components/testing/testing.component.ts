@@ -4,7 +4,6 @@ import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
 import { TestService } from 'src/app/services/test.service';
 import { TestingService } from 'src/app/services/testing.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-testing',
@@ -45,7 +44,7 @@ export class TestingComponent implements OnInit {
   }
 
   numberOfRuns(): string {
-    return this.testing?.numberOfRuns?.toString() ?? 'Unlimited';
+    return this.testing?.numberOfRuns?.toString();
   }
 
   allowedStartDate(): string {

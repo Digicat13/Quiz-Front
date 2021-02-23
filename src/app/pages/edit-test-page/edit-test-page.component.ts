@@ -166,10 +166,10 @@ export class EditTestPageComponent implements OnInit {
   onSubmit(): void {
     this.testService.editTest(this.test).subscribe(
       () => {
-        this.openMessageDialog('Successfully edited!');
+        this.openMessageDialog('successfully-edited');
       },
       (error) => {
-        this.openMessageDialog('Failed to edit quiz!');
+        this.openMessageDialog('failed-edit-quiz!');
       }
     );
 

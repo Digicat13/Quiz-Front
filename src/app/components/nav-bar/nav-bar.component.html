@@ -2,13 +2,17 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <a *ngIf="user" routerLink="home-page" class="mat-raised-button">
-        <span class="mat-button-wrapper">Quizzes</span>
+        <span class="mat-button-wrapper">{{
+          "navbar.quizzes" | translate
+        }}</span>
       </a>
       <a *ngIf="user" routerLink="create-test" class="mat-raised-button">
-        <span class="mat-button-wrapper">Create quiz</span>
+        <span class="mat-button-wrapper">{{
+          "navbar.create" | translate
+        }}</span>
       </a>
       <a *ngIf="user" routerLink="testing" class="mat-raised-button">
-        <span class="mat-button-wrapper">Quiz links</span>
+        <span class="mat-button-wrapper">{{ "navbar.links" | translate }}</span>
       </a>
       <div *ngIf="user" class="left-menu-wrapper">
         <div>
@@ -25,14 +29,30 @@
           </button>
         </div>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="languages">
+            <span>{{ "navbar.menu.language" | translate }}:</span>
+            <span>
+              {{ "navbar.menu.langs." + currentLanguage | translate }}</span
+            >
+          </button>
           <button mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
-            <span>Logout</span>
+            <span>{{ "navbar.menu.logout" | translate }}</span>
           </button>
+        </mat-menu>
+
+        <mat-menu #languages="matMenu">
+          <div *ngFor="let lang of langs">
+            <button mat-menu-item (click)="changeLanguage(lang)">
+              {{ "navbar.menu.langs." + lang | translate }}
+            </button>
+          </div>
         </mat-menu>
       </div>
       <div *ngIf="!user" class="left-menu-wrapper">
-        <a routerLink="login-page" class="mat-button">Sign in</a>
+        <a routerLink="login-page" class="mat-button">{{
+          "navbar.signin" | translate
+        }}</a>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'https://localhost:44336/api',
-  clientUrl: 'http://localhost:4200'
+  clientUrl: 'http://localhost:4200',
+  locales: ['en', 'ua'],
+  defaultLanguage: 'en',
 };
 
 /*

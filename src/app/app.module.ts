@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -53,6 +57,17 @@ import { TestQuestionComponent } from './pages/quiz-page/test-question/test-ques
 import { QuizHeaderComponent } from './pages/quiz-page/quiz-header/quiz-header.component';
 import { QuizResultPageComponent } from './pages/quiz-result-page/quiz-result-page.component';
 import { SortingChipListComponent } from './components/sorting-chip-list/sorting-chip-list.component';
+import {
+  MissingTranslationHandler,
+  TranslateLoader,
+  TranslateModule,
+} from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MissingTranslationService } from './services/missingTranslation.service';
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 const MaterialComponents = [
   MatCardModule,
@@ -112,6 +127,17 @@ const MaterialComponents = [
     MaterialComponents,
     ReactiveFormsModule,
     FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      missingTranslationHandler: {
+        provide: MissingTranslationHandler,
+        useClass: MissingTranslationService,
+      },
+    }),
   ],
   providers: [
     {

@@ -1,0 +1,176 @@
+{
+  "add-question": {
+    "add-answer": "Add answer",
+    "add-question": "Add question",
+    "answer": "Answer",
+    "correct-checkbox": "Is correct",
+    "error": {
+      "answer-required": "Answer is required",
+      "one-correct-answer": "Select at least 1 correct answer",
+      "question-required": "Question is required"
+    },
+    "hint": "Hint",
+    "next": "Next",
+    "question": "Question"
+  },
+  "constants": {
+    "sorting": {
+      "date": "Creation date",
+      "end-date": "End date",
+      "interviewee": "Interviewee",
+      "name": "Name",
+      "start-date": "Start date"
+    }
+  },
+  "create-test": {
+    "description": "Description",
+    "error": {
+      "description-required": "Description is required",
+      "hours-range-0-9": "Hours must be in range from 0 to 9",
+      "minutes-range-0-59": "Minutes must be in range from 0 to 59",
+      "minutes-range-0-99": "Minutes must be in range from 0 to 99",
+      "name-required": "Name is required",
+      "seconds-range-0-59": "Seconds must be in range from 0 to 59"
+    },
+    "hours-short": "h",
+    "minutes-short": "m",
+    "next": "Next",
+    "no-time-limit": "No time limit",
+    "question-time-limit": "Question time limit",
+    "quiz-name": "Quiz name",
+    "quiz-time-limit": "Quiz time limit",
+    "seconds-short": "s"
+  },
+  "create-testing": {
+    "cancel": "Cancel",
+    "choose-end-date": "Choose end date",
+    "choose-end-time": "Choose end time",
+    "choose-start-date": "Choose start date",
+    "choose-start-time": "Choose start time",
+    "create": "Create",
+    "interviewee-name": "Interviewee name",
+    "number-of-attempts": "Number of attempts"
+  },
+  "dialogs": {
+    "confirm-dialog": {
+      "are-you-sure": "Are you sure?",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "message-dialog": {
+      "at-least-one-answer": "You need to have at least one answer",
+      "at-least-one-question": "You need to have at least one question",
+      "cant-perfom-action": "Cant perfom this action",
+      "dont-have-any-attempts": "You dont have any attempts",
+      "error-delete-test": "Couldn`t delete this quiz",
+      "failed-create-quiz": "Failed to create quiz",
+      "failed-create-testing": "Failed to create testing",
+      "failed-edit-quiz": "Failed to edit quiz",
+      "fill-questions-properly": "Please fill questions properly",
+      "ok": "Ok",
+      "quiz-link-expired": "The quiz link is expired",
+      "quiz-not-available-yet": "The quiz is not available yet",
+      "successfully-created": "Successfully created!",
+      "successfully-deleted": "Successfully deleted",
+      "successfully-edited": "Successfully edited!"
+    }
+  },
+  "navbar": {
+    "create": "Create quiz",
+    "links": "Quiz links",
+    "menu": {
+      "logout": "Logout",
+      "language": "Language",
+      "langs": {
+        "en": "English",
+        "ua": "Ukrainian"
+      }
+    },
+    "quizzes": "Quizzes",
+    "signin": "Sign in"
+  },
+  "pages": {
+    "create-test-page": {
+      "add-questions": "Add some questions",
+      "back": "Back",
+      "fill-quiz-properties": "Fill out quiz properties",
+      "quiz-overview": "Quiz overview",
+      "submit": "Submit"
+    },
+    "create-testing-page": {
+      "testing-for": "Create testing for"
+    },
+    "edit-test-page": {
+      "add-questions": "Add some questions",
+      "back": "Back",
+      "cancel": "Cancel",
+      "fill-quiz-properties": "Fill out quiz properties",
+      "quiz-overview": "Quiz overview",
+      "submit": "Submit"
+    },
+    "login-page": {
+      "login-form": {
+        "error-credentials": "Wrong username or password",
+        "error-default": "Failed to login",
+        "header": "Sign in to Quizzer",
+        "password": "Password",
+        "signin-btn": "Sign in",
+        "username": "Username"
+      }
+    },
+    "quiz-page": {
+      "quiz-header": {
+        "time-left": "Time left"
+      },
+      "quiz-page": {
+        "next": "Next",
+        "submit": "Submit"
+      },
+      "test-info": {
+        "end-date": "End date: {{allowedEndDate}}",
+        "enter-name": "Enter your name",
+        "enter-name-before-start": "Enter your name before starting quiz",
+        "interviewee": "Interviewee: {{intervieweeName}}",
+        "left-number-attempts": "Left number of attempts: {{numberOfRuns}}",
+        "question-time-limit-strong": "question time limit",
+        "quiz-has": "This quiz has",
+        "start-date": "Start date: {{allowedStartDate}}",
+        "start-quiz": "Start quiz",
+        "time-limit-strong": "time limit",
+        "hours-minutes": "{{hours}}h {{minutes}}m",
+        "minutes-seconds": "{{minutes}}m {{seconds}}s"
+      }
+    },
+    "quiz-result-page": {
+      "points": "points",
+      "take-quiz-again": "Take quiz again",
+      "your-score": "Your score is"
+    }
+  },
+  "sorting-chip-list": {
+    "sort-by": "Sort by"
+  },
+  "test-overview": {
+    "description-strong": "Description",
+    "question-time-limit-strong": "Question time limit",
+    "quiz-name-strong": "Quiz name",
+    "time-limit-strong": "Time limit",
+    "hours-minutes": "{{hours}}h {{minutes}}m",
+    "minutes-seconds": "{{minutes}}m {{seconds}}s"
+  },
+  "test-table": {
+    "create-testing": "Create testing",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View"
+  },
+  "testing": {
+    "end-date-strong": "End date",
+    "interviewee-strong": "Interviewee",
+    "number-of-attempts-strong": "Number of left attempts",
+    "quiz": "Quiz: {{testName}}",
+    "quiz-url-strong": "Quiz Url",
+    "start-date-strong": "Start date",
+    "unlimited": "Unlimited"
+  }
+}

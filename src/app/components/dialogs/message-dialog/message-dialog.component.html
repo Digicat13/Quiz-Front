@@ -1,8 +1,12 @@
-<h2 *ngIf="header" mat-dialog-title>{{ header }}</h2>
+<h2 *ngIf="header" mat-dialog-title>
+  {{ "dialogs.message-dialog." + header | translate }}
+</h2>
 <mat-dialog-content class="mat-typography">
-  <h3 *ngIf="message">{{ message }}</h3>
-  <p *ngIf="hint">{{ hint }}</p>
+  <h3 *ngIf="message">{{ "dialogs.message-dialog." + message | translate }}</h3>
+  <p *ngIf="hint">{{ "dialogs.message-dialog." + hint | translate }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    {{ "dialogs.message-dialog.ok" | translate }}
+  </button>
 </mat-dialog-actions>

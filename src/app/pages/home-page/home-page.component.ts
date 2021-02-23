@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SortingProperty } from 'src/app/components/sorting-chip-list/sorting-chip-list.component';
+import { testProperties } from 'src/app/constants/sorting/test-properties';
 import { PagedList } from 'src/app/models/PagedList';
 import { ITest } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
@@ -18,11 +19,7 @@ export class HomePageComponent implements OnInit {
     pageSizeOptions: PagedList.pageSizeOptions,
     currentPage: 1,
   };
-  sortingProperties: SortingProperty[] = [
-    { key: 'Name', value: 'Name' },
-    { key: 'Date', value: 'CreationDate' },
-  ];
-
+  sortingProperties: SortingProperty[] = testProperties;
   constructor(private testService: TestService) {}
 
   ngOnInit(): void {
