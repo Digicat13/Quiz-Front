@@ -83,6 +83,7 @@
     "menu": {
       "logout": "Вийти",
       "language": "Мова",
+      "dark-theme" : "Темна тема",
       "langs": {
         "en": "English",
         "ua": "Українська"

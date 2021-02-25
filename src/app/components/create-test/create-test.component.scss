@@ -12,8 +12,12 @@ form {
 .form {
   padding: 15px;
   margin: 15px;
-  border: 2px solid $primary;
+  border: 2px solid $primary-light;
   border-radius: 6px;
+
+  :host-context(.darkMode) & {
+    border: 2px solid $primary-dark;
+  }
 }
 
 button {
@@ -53,7 +57,11 @@ input[type="number"] {
 
 button:hover {
   color: inherit;
-  background-color: $amber;
+  background-color: $accent-light;
+  
+  :host-context(.darkMode) & {
+    background-color: $accent-dark;
+  }
 }
 
 .error-div {

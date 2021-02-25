@@ -3,7 +3,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
-import { TestService } from 'src/app/services/test.service';
 import { TestingService } from 'src/app/services/testing.service';
 import { ITestingResult } from 'src/app/models/testingResult';
 import { ITestingResultAnswer } from 'src/app/models/testingResultAnswer';

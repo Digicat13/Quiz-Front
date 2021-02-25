@@ -10,11 +10,14 @@ $margin-left: 15px;
 }
 
 button {
-    margin-left: $margin-left;
+  margin-left: $margin-left;
+}
+
+button:not(.mat-icon-button):hover {
+  color: inherit;
+  background-color: $accent-light;
+
+  :host-context(.darkMode) & {
+    background-color: $accent-dark;
   }
-  
-  button:not(.mat-icon-button):hover {
-    color: inherit;
-    background-color: $amber;
-  }
-  
+}

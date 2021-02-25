@@ -27,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -101,6 +102,7 @@ const MaterialComponents = [
   MatListModule,
   MatPaginatorModule,
   MatChipsModule,
+  MatSlideToggleModule,
 ];
 
 @NgModule({

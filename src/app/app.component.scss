@@ -1,3 +1,5 @@
+@import "/src/styles.variables.scss";
+
 .loader-div {
   display: flex;
   justify-content: center;
@@ -10,6 +12,17 @@
   height: 100%;
 }
 
+.app-frame,
+.mat-app-background {
+  margin: 0;
+  height: auto;
+  min-height: 100%;
+}
+
 :host ::ng-deep .mat-card-header-text {
   margin: 0px;
+}
+
+:host ::ng-deep .mat-stepper-horizontal {
+  background-color: transparent !important;
 }

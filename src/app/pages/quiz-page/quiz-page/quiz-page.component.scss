@@ -4,7 +4,11 @@
   margin: 3vw 3vh;
   button:hover {
     color: inherit;
-    background-color: $amber;
+    background-color: $accent-light;
+
+    :host-context(.darkMode) & {
+      background-color: $accent-dark;
+    }
   }
   .buttons-wrapper {
     display: flex;
