@@ -3,7 +3,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
-import { TestService } from 'src/app/services/test.service';
 import { TestingService } from 'src/app/services/testing.service';
 import { ITestingResult } from 'src/app/models/testingResult';
 import { ITestingResultAnswer } from 'src/app/models/testingResultAnswer';
@@ -13,13 +12,8 @@ import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
-import { filter } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
-import { QuizActions } from 'src/app/store/actions/quiz.actions';
-import { IAppState } from 'src/app/store/state/app.state';
-import * as lodash from 'lodash-es';
 import { Moment } from 'moment';
+import { StoreQuizService } from 'src/app/services/storeQuiz.service';
 
 @Component({
   selector: 'app-quiz-page',
@@ -53,7 +47,7 @@ export class QuizPageComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
-    private store: Store<IAppState>
+    private storeQuizService: StoreQuizService
   ) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
@@ -62,109 +56,47 @@ export class QuizPageComponent implements OnInit {
 
   ngOnInit(): void {
     let isQuizStarted;
-    this.store
-      .select(QuizSelectors.selectIsStarted)
-      .subscribe((isStarted: boolean) => {
-        isQuizStarted = isStarted;
-      });
-
-    if (isQuizStarted) {
+    isQuizStarted = this.storeQuizService.isStarted;
+    if (isQuizStarted === true) {
       this.continueQuiz();
     } else {
-      this.store.dispatch(QuizActions.ClearQuizState());
-      this.getQuizFromServer();
+      this.initQuiz();
     }
   }
 
+  initQuiz(): void {
+    this.storeQuizService.clearQuizData();
+    this.storeQuizService
+      .getTesting(this.testingId)
+      .subscribe((testing: ITesting) => {
+        this.testing = testing;
+      });
+    this.storeQuizService.getQuiz(this.testingId).subscribe((test: ITest) => {
+      this.test = test;
+      this.setTestForm(this.test);
+    });
+  }
+
   continueQuiz(): void {
-    this.store
-      .pipe(
-        select(QuizSelectors.selectTesting),
-        filter((val) => val !== null)
-      )
+    this.storeQuizService
+      .getTesting(this.testingId)
       .subscribe((testing: ITesting) => {
-        this.testing = lodash.cloneDeep(testing);
+        this.testing = testing;
       });
-
-    this.store
-      .pipe(
-        select(QuizSelectors.selectQuiz),
-        filter((val) => val !== null)
-      )
-      .subscribe((test: ITest) => {
-        this.test = lodash.cloneDeep(test);
-        if (this.test.questionTimeLimit) {
-          this.test.questionTimeLimit = moment(
-            this.test.questionTimeLimit,
-            'HH:mm:ss'
-          );
-        } else if (this.test.testTimeLimit) {
-          this.test.testTimeLimit = moment(this.test.testTimeLimit, 'HH:mm:ss');
-        }
+    this.storeQuizService.getQuiz(this.testingId).subscribe((test: ITest) => {
+      this.test = test;
+    });
+    this.storeQuizService
+      .getCurrentQuestionIndex()
+      .subscribe((index: number) => {
+        this.currentQuestionIndex = index;
       });
-
-    this.store
-      .pipe(
-        select(QuizSelectors.selectDate),
-        filter((val) => val !== null)
-      )
-      .subscribe((date: Date) => {
-        this.testingStartDateTime = date;
-      });
-
-    this.store
-      .pipe(
-        select(QuizSelectors.selectCurrentQuestionIndex),
-        filter((val) => val !== null)
-      )
-      .subscribe((questionIndex: number) => {
-        this.currentQuestionIndex = questionIndex;
-      });
-
-    this.store
-      .pipe(
-        select(QuizSelectors.selectTestForm),
-        filter((val) => val !== null)
-      )
-      .subscribe((testFormValue: any) => {
-        this.setTestForm(testFormValue);
-      });
-  }
-
-  getQuizFromStore(): void {
-    this.store
-      .pipe(
-        select(QuizSelectors.selectTesting),
-        filter((val) => val !== null)
-      )
-      .subscribe((testing: ITesting) => {
-        this.testing = lodash.cloneDeep(testing);
-      });
-
-    this.store
-      .pipe(
-        select(QuizSelectors.selectQuiz),
-        filter((val) => val !== null)
-      )
-      .subscribe((test: ITest) => {
-        this.test = lodash.cloneDeep(test);
-        if (this.test.questionTimeLimit) {
-          this.test.questionTimeLimit = moment(
-            this.test.questionTimeLimit,
-            'HH:mm:ss'
-          );
-        } else if (this.test.testTimeLimit) {
-          this.test.testTimeLimit = moment(this.test.testTimeLimit, 'HH:mm:ss');
-        }
-        this.InitTestForm();
-      });
-  }
-
-  getQuizFromServer(): void {
-    this.store.dispatch(
-      QuizActions.GetQuizByTestingId({ testingId: this.testingId })
-    );
-    this.getQuizFromStore();
+    this.storeQuizService.getFormValue().subscribe((formValue: any) => {
+      this.setTestForm(formValue);
+    });
+    this.storeQuizService.getStartDate().subscribe((date: Date) => {
+      this.testingStartDateTime = date;
+    });
   }
 
   setTestForm(testFormValue: any): void {
@@ -192,35 +124,6 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
-  InitTestForm(): void {
-    this.testForm.setValue({
-      id: this.test.id,
-      name: this.test.name,
-      description: this.test.description,
-      testTimeLimit: this.test.testTimeLimit,
-      questionTimeLimit: this.test.questionTimeLimit,
-      questions: [],
-    });
-
-    const control = this.testForm.controls.questions as FormArray;
-    this.test.questions.forEach((question: IQuestion) => {
-      control.push(
-        this.fb.group({
-          id: question.id,
-          testId: question.testId,
-          questionText: question.questionText,
-          hintText: question.hintText,
-          correctAnswersCount: question.correctAnswersCount,
-          answers: this.CreateTestAnswers(question.answers),
-        })
-      );
-    });
-
-    this.store.dispatch(
-      QuizActions.ChangeTestForm({ testFormValue: this.testForm.value })
-    );
-  }
-
   CreateTestAnswers(answers: any): FormArray {
     const array = new FormArray([]);
     answers.forEach((answer: any) => {
@@ -239,11 +142,7 @@ export class QuizPageComponent implements OnInit {
     if (this.currentQuestionIndex !== this.test?.questions?.length - 1) {
       this.currentQuestionIndex++;
 
-      this.store.dispatch(
-        QuizActions.ChangeCurrentQuestionIndex({
-          questionIndex: this.currentQuestionIndex,
-        })
-      );
+      this.storeQuizService.setCurrentQuestionIndex(this.currentQuestionIndex);
     }
 
     this.onNextQuestion.next();
@@ -251,9 +150,7 @@ export class QuizPageComponent implements OnInit {
 
   onSubmit(quizDurationSeconds: number): void {
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
-
-    this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: false }));
-
+    this.storeQuizService.setIsQuizStarted(false);
     this.testingResultService.createTestingResult(testingResult).subscribe(
       (result) => {
         this.router.navigate(['/result', result.id]);
@@ -285,23 +182,16 @@ export class QuizPageComponent implements OnInit {
         this.testing = result;
         this.currentQuestionIndex = 0;
         this.testingStartDateTime = moment().toDate();
-
-        this.store.dispatch(
-          QuizActions.GetTestingSuccess({ testing: this.testing })
-        );
-        this.store.dispatch(
-          QuizActions.ChangeQuizDate({
-            testingStartDateTime: this.testingStartDateTime,
-          })
-        );
-        this.store.dispatch(QuizActions.ChangeQuizStatus({ isStarted: true }));
+        this.storeQuizService.setIsQuizStarted(true);
+        this.storeQuizService.setStartDate(this.testingStartDateTime);
 
         if (this.test.questionTimeLimit) {
           const timeout = this.getMiliseconds(this.test.questionTimeLimit);
-          this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+          this.storeQuizService.setTimeout(timeout);
         } else if (this.test.testTimeLimit) {
           const timeout = this.getMiliseconds(this.test.testTimeLimit);
-          this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+
+          this.storeQuizService.setTimeout(timeout);
         }
       },
       (error) => {

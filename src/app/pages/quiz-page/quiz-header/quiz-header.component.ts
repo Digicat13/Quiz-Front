@@ -6,14 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { Observable, Subscription } from 'rxjs';
-import { QuizActions } from 'src/app/store/actions/quiz.actions';
-import { IAppState } from 'src/app/store/state/app.state';
 import { FormGroup } from '@angular/forms';
-import { QuizSelectors } from 'src/app/store/selectors/quiz.selectors';
+import { StoreQuizService } from 'src/app/services/storeQuiz.service';
 
 @Component({
   selector: 'app-quiz-header[testName]',
@@ -40,20 +37,15 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   private nextQuestionSubscription: Subscription;
   private endQuizSubscription: Subscription;
 
-  constructor(private store: Store<IAppState>) {}
+  constructor(private storeQuizService: StoreQuizService) {}
 
   ngOnInit(): void {
-    this.store
-      .select(QuizSelectors.selectTimeout)
-      .subscribe((timeout: number) => {
-        this.timeout = timeout;
-      });
-
-    this.store
-      .select(QuizSelectors.selectQuizDuration)
-      .subscribe((duration: number) => {
-        this.quizDuration = duration;
-      });
+    this.storeQuizService.getTimeout().subscribe((timeout: number) => {
+      this.timeout = timeout;
+    });
+    this.storeQuizService.getDuration().subscribe((duration: number) => {
+      this.quizDuration = duration;
+    });
 
     if (this.questionTimeLimit || this.testTimeLimit) {
       this.isTimeLimited = true;
@@ -113,7 +105,7 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
 
   startTimer(time: Moment): void {
     const timeout = this.getMiliseconds(time);
-    this.store.dispatch(QuizActions.ChangeTimeout({ timeout }));
+    this.storeQuizService.setTimeout(timeout);
 
     this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
   }
@@ -140,13 +132,9 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
         this.timeout = this.timeout - 1000;
       }
 
-      this.store.dispatch(QuizActions.ChangeTimeout({ timeout: this.timeout }));
-      this.store.dispatch(
-        QuizActions.ChangeQuizDuration({ quizDuration: this.quizDuration })
-      );
-      this.store.dispatch(
-        QuizActions.ChangeTestForm({ testFormValue: this.testForm.value })
-      );
+      this.storeQuizService.setTimeout(this.timeout);
+      this.storeQuizService.setDuration(this.quizDuration);
+      this.storeQuizService.setTestFormValue(this.testForm.value);
     }, 1000);
   }
 
