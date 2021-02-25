@@ -145,7 +145,7 @@
       }
     },
     "quiz-result-page": {
-      "points": "балів",
+      "points": "зі {{maxPoints}} балів",
       "take-quiz-again": "Пройти тест знову",
       "your-score": "Ваш результат"
     }

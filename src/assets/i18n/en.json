@@ -145,7 +145,7 @@
       }
     },
     "quiz-result-page": {
-      "points": "points",
+      "points": "from {{maxPoints}} points",
       "take-quiz-again": "Take quiz again",
       "your-score": "Your score is"
     }
