@@ -64,10 +64,23 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MissingTranslationService } from './services/missingTranslation.service';
+import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/reducers/app.reducers';
+import { TestEffects } from './store/effects/test.effects';
+import { QuizEffects } from './store/effects/quiz.effects';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+export function localStorageSyncReducer(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return localStorageSync({ keys: ['quizState'], rehydrate: true })(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 const MaterialComponents = [
   MatCardModule,
@@ -138,6 +151,8 @@ const MaterialComponents = [
         useClass: MissingTranslationService,
       },
     }),
+    StoreModule.forRoot(appReducers, { metaReducers }),
+    EffectsModule.forRoot([TestEffects, QuizEffects]),
   ],
   providers: [
     {

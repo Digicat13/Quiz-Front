@@ -102,7 +102,10 @@ export class EditTestPageComponent implements OnInit {
   }
 
   getAnswersArray(answers: IAnswer[]): FormArray {
-    const array = new FormArray([], [correctAnswersCountValidator(), minAnswersCountValidator()]);
+    const array = new FormArray(
+      [],
+      [correctAnswersCountValidator(), minAnswersCountValidator()]
+    );
     answers.forEach((answer: IAnswer) => {
       array.push(
         this.fb.group({
@@ -218,14 +221,12 @@ export class EditTestPageComponent implements OnInit {
     test.description = this.description.value;
     test.questions = new Array<IQuestion>();
     this.testForm.value.questions.forEach((question: IQuestion) => {
-      console.log(question);
       const answers = new Array<IAnswer>();
       question.answers.forEach((answer: IAnswer) => {
         answers.push({
           answerText: answer.answerText,
           isCorrect: answer.isCorrect,
         });
-        console.log(answer);
       });
       test.questions.push(question);
     });

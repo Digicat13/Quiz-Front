@@ -1,5 +1,3 @@
-import { IterableDiffers } from '@angular/core';
-import { fadeInItems } from '@angular/material/menu';
 import { PageEvent } from '@angular/material/paginator';
 
 export class PagedList<T> extends Array<T> {

@@ -9,6 +9,8 @@ import {
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { Observable, Subscription } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { StoreQuizService } from 'src/app/services/storeQuiz.service';
 
 @Component({
   selector: 'app-quiz-header[testName]',
@@ -19,24 +21,32 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
   @Input() testName: string;
   @Input() testTimeLimit: Moment;
   @Input() questionTimeLimit: Moment;
-  @Input() timeout;
   @Input() questionIndex: number;
   @Input() questionsCount: number;
   @Input() endQuizEvent: Observable<void>;
   @Input() nextQuestionEvent: Observable<void>;
+  @Input() testForm: FormGroup;
   @Output() questionTimeLimitEnds = new EventEmitter();
   @Output() testTimeLimitEnds = new EventEmitter<number>();
   @Output() getQuizDuration = new EventEmitter<number>();
-  timeLimitTimeout: NodeJS.Timeout;
-  quizStopwatch: NodeJS.Timeout;
+  private timeLimitTimeout: NodeJS.Timeout;
+  private quizStopwatch: NodeJS.Timeout;
   public isTimeLimited = false;
-  quizDuration = 0;
+  private quizDuration = 0;
+  private timeout: number;
   private nextQuestionSubscription: Subscription;
   private endQuizSubscription: Subscription;
 
-  constructor() {}
+  constructor(private storeQuizService: StoreQuizService) {}
 
   ngOnInit(): void {
+    this.storeQuizService.getTimeout().subscribe((timeout: number) => {
+      this.timeout = timeout;
+    });
+    this.storeQuizService.getDuration().subscribe((duration: number) => {
+      this.quizDuration = duration;
+    });
+
     if (this.questionTimeLimit || this.testTimeLimit) {
       this.isTimeLimited = true;
     }
@@ -52,9 +62,9 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
 
     this.startQuizStopwatch();
     if (this.questionTimeLimit) {
-      this.startTimer(this.questionTimeLimit);
+      this.startTimerInit(this.timeout);
     } else if (this.testTimeLimit) {
-      this.startTimer(this.testTimeLimit);
+      this.startTimerInit(this.timeout);
     }
   }
 
@@ -95,7 +105,12 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
 
   startTimer(time: Moment): void {
     const timeout = this.getMiliseconds(time);
-    this.timeout = timeout;
+    this.storeQuizService.setTimeout(timeout);
+
+    this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
+  }
+
+  startTimerInit(timeout: number): void {
     this.timeLimitTimeout = setTimeout(() => this.onTimerEnd(), timeout);
   }
 
@@ -116,6 +131,10 @@ export class QuizHeaderComponent implements OnInit, OnDestroy {
       if (this.timeout > 0) {
         this.timeout = this.timeout - 1000;
       }
+
+      this.storeQuizService.setTimeout(this.timeout);
+      this.storeQuizService.setDuration(this.quizDuration);
+      this.storeQuizService.setTestFormValue(this.testForm.value);
     }, 1000);
   }
 

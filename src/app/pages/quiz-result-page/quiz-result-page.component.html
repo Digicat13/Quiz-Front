@@ -3,8 +3,8 @@
   <div class="body">
     <p>
       {{ "pages.quiz-result-page.your-score" | translate }}
-      <strong>{{ testingResult?.score * 100 }}</strong>
-      {{ "pages.quiz-result-page.points" | translate }}!
+      <strong>{{ testingResult?.score * 100 | number: "2.0-0" }}</strong>
+      {{ "pages.quiz-result-page.points" | translate: { maxPoints: 100 } }}!
     </p>
     <div class="time-div">
       <div class="time quiz-duration">
@@ -13,7 +13,12 @@
       </div>
     </div>
   </div>
-  <button *ngIf="attemptsAvailable" (click)="goToQuizPage()" mat-raised-button class="mat-raised-button">
+  <button
+    *ngIf="attemptsAvailable"
+    (click)="goToQuizPage()"
+    mat-raised-button
+    class="mat-raised-button"
+  >
     {{ "pages.quiz-result-page.take-quiz-again" | translate }}
   </button>
 </div>

@@ -37,15 +37,17 @@
         <small>{{ question.hintText }}</small>
       </p>
       <p></p>
-      <div *ngFor="let answer of question?.answers; let z = index">
+      <div *ngFor="let answer of question?.answers; let z = index" class="answer"> 
         <span>{{ z + 1 + "). " }}</span>
-        <mat-checkbox
-          [ngModel]="answer['isCorrect']"
-          [checked]="answer.isCorrect"
-          [ngClass]="{ correct: answer.isCorrect }"
-          onclick="return false;"
-          >{{ answer.answerText }}</mat-checkbox
-        >
+        <div class="answer-checkbox">
+          <mat-checkbox
+            [ngModel]="answer['isCorrect']"
+            [checked]="answer.isCorrect"
+            [ngClass]="{ correct: answer.isCorrect }"
+            onclick="return false;"
+          ></mat-checkbox>
+          <p class="answer-text">{{ answer.answerText }}</p>
+        </div>
       </div>
     </div>
   </div>

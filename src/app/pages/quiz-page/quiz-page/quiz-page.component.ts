@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IAnswer } from 'src/app/models/answer';
 import { IQuestion } from 'src/app/models/question';
 import { ITest } from 'src/app/models/test';
 import { ITesting } from 'src/app/models/testing';
-import { TestService } from 'src/app/services/test.service';
 import { TestingService } from 'src/app/services/testing.service';
 import { ITestingResult } from 'src/app/models/testingResult';
 import { ITestingResultAnswer } from 'src/app/models/testingResultAnswer';
@@ -14,7 +12,8 @@ import { Subject } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from 'src/app/components/dialogs/message-dialog/message-dialog.component';
-import { mergeMap } from 'rxjs/operators';
+import { Moment } from 'moment';
+import { StoreQuizService } from 'src/app/services/storeQuiz.service';
 
 @Component({
   selector: 'app-quiz-page',
@@ -25,12 +24,11 @@ export class QuizPageComponent implements OnInit {
   testingId: string;
   testing: ITesting;
   test: ITest;
-  currentQuestionIndex: number;
-  answeredQuestions: IQuestion[] = new Array<IQuestion>();
-  currentQuestionSelectedAnswers: IAnswer[] = new Array<IAnswer>();
+  currentQuestionIndex: number = undefined;
+
   testingResult: ITestingResult = {};
   testingStartDateTime: Date;
-  testingAnswers: ITestingResultAnswer[] = new Array<ITestingResultAnswer>();
+
   onNextQuestion: Subject<void> = new Subject<void>();
   onEndQuiz: Subject<void> = new Subject<void>();
   testForm: FormGroup = this.fb.group({
@@ -44,12 +42,12 @@ export class QuizPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private testService: TestService,
     private testingService: TestingService,
     private testingResultService: TestingResultService,
     private fb: FormBuilder,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private storeQuizService: StoreQuizService
   ) {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.testingId = params.get('id');
@@ -57,37 +55,62 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.testingService
-      .getTesting(this.testingId)
-      .pipe(
-        mergeMap((testing: ITesting) => {
-          this.testing = testing;
-          return this.testService.getQuiz(testing?.testId);
-        })
-      )
-      .subscribe(
-        (test: ITest) => {
-          this.test = test;
-          this.InitTestForm();
-        },
-        (error) => {
-          console.log('Failed to retrieve test');
-        }
-      );
+    let isQuizStarted;
+    isQuizStarted = this.storeQuizService.isStarted;
+    if (isQuizStarted === true) {
+      this.continueQuiz();
+    } else {
+      this.initQuiz();
+    }
   }
 
-  InitTestForm(): void {
+  initQuiz(): void {
+    this.storeQuizService.clearQuizData();
+    this.storeQuizService
+      .getTesting(this.testingId)
+      .subscribe((testing: ITesting) => {
+        this.testing = testing;
+      });
+    this.storeQuizService.getQuiz(this.testingId).subscribe((test: ITest) => {
+      this.test = test;
+      this.setTestForm(this.test);
+    });
+  }
+
+  continueQuiz(): void {
+    this.storeQuizService
+      .getTesting(this.testingId)
+      .subscribe((testing: ITesting) => {
+        this.testing = testing;
+      });
+    this.storeQuizService.getQuiz(this.testingId).subscribe((test: ITest) => {
+      this.test = test;
+    });
+    this.storeQuizService
+      .getCurrentQuestionIndex()
+      .subscribe((index: number) => {
+        this.currentQuestionIndex = index;
+      });
+    this.storeQuizService.getFormValue().subscribe((formValue: any) => {
+      this.setTestForm(formValue);
+    });
+    this.storeQuizService.getStartDate().subscribe((date: Date) => {
+      this.testingStartDateTime = date;
+    });
+  }
+
+  setTestForm(testFormValue: any): void {
     this.testForm.setValue({
-      id: this.test.id,
-      name: this.test.name,
-      description: this.test.description,
-      testTimeLimit: this.test.testTimeLimit,
-      questionTimeLimit: this.test.questionTimeLimit,
+      id: testFormValue.id,
+      name: testFormValue.name,
+      description: testFormValue.description,
+      testTimeLimit: testFormValue.testTimeLimit,
+      questionTimeLimit: testFormValue.questionTimeLimit,
       questions: [],
     });
 
     const control = this.testForm.controls.questions as FormArray;
-    this.test.questions.forEach((question: IQuestion) => {
+    testFormValue.questions.forEach((question: IQuestion) => {
       control.push(
         this.fb.group({
           id: question.id,
@@ -101,13 +124,13 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
-  CreateTestAnswers(answers: IAnswer[]): FormArray {
+  CreateTestAnswers(answers: any): FormArray {
     const array = new FormArray([]);
-    answers.forEach((answer: IAnswer) => {
+    answers.forEach((answer: any) => {
       array.push(
         this.fb.group({
           id: answer.id,
-          selected: false,
+          selected: answer.selected ?? false,
           answerText: [answer.answerText, []],
         })
       );
@@ -118,6 +141,8 @@ export class QuizPageComponent implements OnInit {
   nextQuestion(): void {
     if (this.currentQuestionIndex !== this.test?.questions?.length - 1) {
       this.currentQuestionIndex++;
+
+      this.storeQuizService.setCurrentQuestionIndex(this.currentQuestionIndex);
     }
 
     this.onNextQuestion.next();
@@ -125,6 +150,7 @@ export class QuizPageComponent implements OnInit {
 
   onSubmit(quizDurationSeconds: number): void {
     const testingResult: ITesting = this.getTestingResult(quizDurationSeconds);
+    this.storeQuizService.setIsQuizStarted(false);
     this.testingResultService.createTestingResult(testingResult).subscribe(
       (result) => {
         this.router.navigate(['/result', result.id]);
@@ -156,6 +182,17 @@ export class QuizPageComponent implements OnInit {
         this.testing = result;
         this.currentQuestionIndex = 0;
         this.testingStartDateTime = moment().toDate();
+        this.storeQuizService.setIsQuizStarted(true);
+        this.storeQuizService.setStartDate(this.testingStartDateTime);
+
+        if (this.test.questionTimeLimit) {
+          const timeout = this.getMiliseconds(this.test.questionTimeLimit);
+          this.storeQuizService.setTimeout(timeout);
+        } else if (this.test.testTimeLimit) {
+          const timeout = this.getMiliseconds(this.test.testTimeLimit);
+
+          this.storeQuizService.setTimeout(timeout);
+        }
       },
       (error) => {
         this.openMessageDialog('error-occurred');
@@ -193,5 +230,12 @@ export class QuizPageComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent);
     dialogRef.componentInstance.message = message;
     dialogRef.afterClosed().subscribe();
+  }
+
+  getMiliseconds(timespan: Moment): number {
+    const hMiliseconds = timespan.hours() * 60 * 60 * 1000;
+    const mMiliseconds = timespan.minutes() * 60 * 1000;
+    const sMiliseconds = timespan.seconds() * 1000;
+    return hMiliseconds + mMiliseconds + sMiliseconds;
   }
 }

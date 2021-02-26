@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import lodash from 'lodash-es';
 
 export interface SortingProperty {
   key?: string;
@@ -33,15 +34,21 @@ export class SortingChipListComponent implements OnInit {
   }
 
   onChipSelect(selected: SortingProperty): void {
+    const data = [];
     this.chipListProperties.forEach((prop: SortingProperty) => {
+      const clone = lodash.cloneDeep(prop);
+
       if (prop !== selected) {
-        prop.selected = false;
-        prop.ascending = false;
+        clone.selected = false;
+        clone.ascending = false;
       } else {
-        prop.selected = true;
-        prop.ascending = !prop.ascending;
+        clone.selected = true;
+        clone.ascending = !prop.ascending;
       }
+      data.push(clone);
     });
+
+    this.chipListProperties = data;
     this.selectProperty.emit(selected);
   }
 }

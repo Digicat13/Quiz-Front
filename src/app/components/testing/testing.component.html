@@ -21,8 +21,10 @@
       </p>
       <p>
         <strong>{{ "testing.number-of-attempts-strong" | translate }}: </strong>
-        <span *ngIf="testing?.numberOfRuns">{{ numberOfRuns() }}</span>
-        <span *ngIf="!testing?.numberOfRuns">{{
+        <span *ngIf="testing?.numberOfRuns || testing?.numberOfRuns === 0">{{
+          numberOfRuns()
+        }}</span>
+        <span *ngIf="!testing?.numberOfRuns && testing?.numberOfRuns !== 0">{{
           "testing.unlimited" | translate
         }}</span>
       </p>
