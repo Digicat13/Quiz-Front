@@ -38,6 +38,13 @@
               {{ "navbar.menu.langs." + currentLanguage | translate }}</span
             >
           </button>
+          <div mat-menu-item>
+            <mat-slide-toggle [formControl]="toggleControl" class="mr-8"
+              ><span>{{
+                "navbar.menu.dark-theme" | translate
+              }}</span></mat-slide-toggle
+            >
+          </div>
           <button *ngIf="user" mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>{{ "navbar.menu.logout" | translate }}</span>

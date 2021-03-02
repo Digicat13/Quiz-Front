@@ -12,8 +12,12 @@ form {
 .form {
   padding: $margin;
   margin: $margin;
-  border: 2px solid $primary;
+  border: 2px solid $primary-light;
   border-radius: 6px;
+
+  :host-context(.darkMode) & {
+    border: 2px solid $primary-dark;
+  }
 }
 
 button {
@@ -22,7 +26,11 @@ button {
 
 button:hover {
   color: inherit;
-  background-color: $amber;
+  background-color: $accent-light;
+  
+  :host-context(.darkMode) & {
+    background-color: $accent-dark;
+  }
 }
 
 .datetime-input {

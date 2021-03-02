@@ -5,8 +5,7 @@
   .card {
     padding: 2vh 3vw;
     margin: 3vw 3vh;
-    background-color: $primary-background;
-    border: 1px solid $form-border;
+
     mat-card-actions {
       margin-bottom: 1vh;
       button {
@@ -15,11 +14,15 @@
       button:hover,
       a:hover {
         color: inherit;
-        background-color: $amber;
+        background-color: $accent-light;
+
+        :host-context(.darkMode) & {
+          background-color: $accent-dark;
+        }
       }
-      .delete-button:hover{
+      .delete-button:hover {
         color: white;
-        background-color: $warn; 
+        background-color: $warn !important;
       }
     }
   }

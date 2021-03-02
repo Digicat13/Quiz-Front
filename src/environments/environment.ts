@@ -8,6 +8,7 @@ export const environment = {
   clientUrl: 'http://localhost:4200',
   locales: ['en', 'ua'],
   defaultLanguage: 'en',
+  darkThemeEnabled: false,
 };
 
 /*

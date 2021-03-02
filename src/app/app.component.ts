@@ -1,4 +1,10 @@
-import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
@@ -15,12 +21,14 @@ export class AppComponent implements AfterViewChecked {
   title = 'Quizzer';
   currentUser: IUser;
   isLoading: boolean;
+  @HostBinding('class') className = '';
 
   constructor(
     private authenticatinService: AuthenticationService,
     private loadingService: LoadingService,
     private cdr: ChangeDetectorRef,
-    translateService: TranslateService
+    translateService: TranslateService,
+    private overlay: OverlayContainer
   ) {
     const language = JSON.parse(localStorage.getItem('currentLanguage'));
     if (language) {
@@ -37,6 +45,15 @@ export class AppComponent implements AfterViewChecked {
       (user: IUser) => (this.currentUser = user)
     );
 
+    const darkModeEnabled = JSON.parse(
+      localStorage.getItem('darkThemeEnabled')
+    );
+    if (darkModeEnabled) {
+      this.changeTheme(darkModeEnabled);
+    } else {
+      this.changeTheme(environment.darkThemeEnabled);
+    }
+
     moment.fn.toJSON = function (): any {
       return this.format('HH:mm:ss');
     };
@@ -47,5 +64,17 @@ export class AppComponent implements AfterViewChecked {
       (isLoading: boolean) => (this.isLoading = isLoading)
     );
     this.cdr.detectChanges();
+  }
+
+  changeTheme(darkMode: boolean): void {
+    const darkClassName = 'darkMode';
+    this.className = darkMode ? darkClassName : '';
+    if (darkMode) {
+      this.overlay.getContainerElement().classList.add(darkClassName);
+    } else {
+      this.overlay.getContainerElement().classList.remove(darkClassName);
+    }
+
+    localStorage.setItem('darkThemeEnabled', JSON.stringify(darkMode));
   }
 }

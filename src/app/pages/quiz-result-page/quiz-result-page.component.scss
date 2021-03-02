@@ -27,10 +27,14 @@
 }
 
 .mat-raised-button {
-  background-color: $primary;
   color: white;
 }
+
 .mat-raised-button:hover {
-  background-color: $amber;
+  background-color: $accent-light;
   color: black;
+
+  :host-context(.darkMode) & {
+    background-color: $accent-dark;
+  }
 }
